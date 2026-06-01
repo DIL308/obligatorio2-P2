@@ -3,18 +3,18 @@ package dominio;
 /**
  * Trabajo realizado por 
  * (333503) Daniel López
- * (######) Lautaro Moreno
+ * (372277) Lautaro Moreno
  */
 public class Cliente extends Persona{
     
     private String email;
         
     public Cliente(String nombre, String celular, String email){
-        super(nombre,celular); //ToDo: Ver cómo lo hicimos en clase, creo que pidió evitar el uso de SUPER(). Usar Setters
-        this.email = email;
+        this.setEmail(email);
     }
     
     public Cliente(){
+        this.setEmail("SIN-EMAIL");
     }
 
     public String getEmail() {
@@ -24,14 +24,11 @@ public class Cliente extends Persona{
     public void setEmail(String email) {
         this.email = email;
     }
-        
-        
-        
-        @Override
+            
+    @Override
+    public String toString(){
 
-            public String toString(){
-                
-                return getNombre() + "-" + email;
-}
+        return getNombre() + "-" + email;
+    }
     
 }

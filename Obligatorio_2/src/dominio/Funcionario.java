@@ -3,7 +3,7 @@ package dominio;
 /**
  * Trabajo realizado por 
  * (333503) Daniel López
- * (######) Lautaro Moreno
+ * (372277) Lautaro Moreno
  */
 public class Funcionario extends Persona{
     
@@ -11,17 +11,17 @@ public class Funcionario extends Persona{
     private int anioIngreso;
     
     public Funcionario(String nombre, String celular, int nroFuncionario, int anioIngreso){
-        super (nombre,celular);     //ToDo: IDEM Cliente super() y setters
-        this.nroFuncionario = nroFuncionario;
-        this.anioIngreso = anioIngreso;
+        this.setNroFuncionario(nroFuncionario);
+        this.setAnioIngreso(anioIngreso);
     }
     
     public Funcionario(){
-        
+        this.setNroFuncionario(0);
+        this.setAnioIngreso(0);
     }
     
-       public int getNroFuncionario() {
-        return nroFuncionario;
+    public int getNroFuncionario() {
+     return nroFuncionario;
     }
 
     public void setNroFuncionario(int nroFuncionario) {

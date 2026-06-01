@@ -3,7 +3,9 @@ package dominio;
 /**
  * Trabajo realizado por 
  * (333503) Daniel López
- * (######) Lautaro Moreno
+ * (372277) Lautaro Moreno
+ * 
+ * El precio y zona, deben calcularse en sistema o en paquete?
  */
 public class Paquete {
     private String id;
@@ -18,25 +20,107 @@ public class Paquete {
     private String estado;
     
     public Paquete (String id, Cliente cliente, String fecha, String destinatario, String direccionEnvio, String departamentoEnvio, int peso){
-        
-        //ToDo: Usar setters
-        this.id = id;
-        this.cliente = cliente;
-        this.fecha = fecha;
-        this.destinatario = destinatario;
-        this.direccionEnvio = direccionEnvio;
-        this.departamentoEnvio = departamentoEnvio;
-        this.peso = peso;
-        this.zona = null;
-        this.precio = 0;
-        this.estado = "Pendiente";
-        
+        this.setId(id);
+        this.setCliente(cliente);
+        this.setFecha(fecha);
+        this.setDestinatario(destinatario);
+        this.setDireccionEnvio(direccionEnvio);
+        this.setDepartamentoEnvio(departamentoEnvio);
+        this.setPeso(peso);
+        this.setZona();
+        this.setPrecio(0);
+        this.setEstado("Pendiente");      
     }
     
-    public Paquete(){
+    public Paquete(){ 
+    }
+    
+    @Override
+    public String toString(){
+        return id + " " + destinatario + " " + estado + " " + departamentoEnvio;
+    }
         
+    private String calcularZona(){
+        
+        String zonaCalculada = "";
+        String departamento = this.getDepartamentoEnvio();
+        
+        if (departamento.equalsIgnoreCase("Artigas")   ||
+            departamento.equalsIgnoreCase("Salto")     ||
+            departamento.equalsIgnoreCase("Paysandú")  ||
+            departamento.equalsIgnoreCase("Rivera")    ||
+            departamento.equalsIgnoreCase("Tacuarembo") ){
+            
+            zonaCalculada = "NORTE";
+        }
+           else if
+            (departamento.equalsIgnoreCase("Rio Negro") ||
+            departamento.equalsIgnoreCase("Soriano")    ||
+            departamento.equalsIgnoreCase("Colonia")    ||
+            departamento.equalsIgnoreCase("San josé")){
+               
+               zonaCalculada = "OESTE";
+           }
+           else if
+            (departamento.equalsIgnoreCase("Cerro Largo")   ||
+            departamento.equalsIgnoreCase("Treinta y Tres") ||
+            departamento.equalsIgnoreCase("Lavalleja")      ||
+            departamento.equalsIgnoreCase("Rocha")          ||
+            departamento.equalsIgnoreCase("Maldonado") ){
+               
+               zonaCalculada = "ESTE";
+           }
+        
+         else if
+            (departamento.equalsIgnoreCase("Durazno")  ||
+            departamento.equalsIgnoreCase("Flores")    ||
+            departamento.equalsIgnoreCase("Florida")   ||
+            departamento.equalsIgnoreCase("Canelones") ||
+            departamento.equalsIgnoreCase("Montevideo")) {
+               
+               zonaCalculada = "SUR";
+           }
+         else{
+             zonaCalculada= "DESCONOCIDA";
+            }
+        return zonaCalculada;   
+    }
+   
+    public int calcularCategoria(){
+        int categoria = 0;
+
+        if (peso<= 0){
+            categoria = -1; // esto lo uso para validar que el peso sea real  //
+        }
+        else if (this.peso < 1000){
+            categoria = 1;
+        }
+        else if (peso < 5000){
+            categoria = 2;
+        }
+        else if (peso < 10000){
+            categoria = 3;       
+        }
+        else {
+            categoria = 4;       
+        }
+        return categoria;
     }
 
+    /*public boolean estaPendiente(){
+        boolean esta = false;
+        if(estado.equalsIgnoreCase("Pendiente")){
+            esta = true;
+        }
+        return esta;
+    }*/
+    
+    
+    
+    
+    /*
+        GETTERS & SETTERS
+    */
     public String getId() {
         return id;
     }
@@ -115,96 +199,6 @@ public class Paquete {
 
     public void setZona() {
         this.zona = calcularZona();
-    }
-    
-    
-    
-    @Override
-    
-    public String toString(){
-        return id + " " + destinatario + " " + estado;
-    }
-    
-    
-    private String calcularZona(){
-        
-        String zonaCalculada = "";
-        String departamento = this.getDepartamentoEnvio();
-        
-        if (departamento.equalsIgnoreCase("Artigas")   ||
-            departamento.equalsIgnoreCase("Salto")     ||
-            departamento.equalsIgnoreCase("Paysandú")  ||
-            departamento.equalsIgnoreCase("Rivera")    ||
-            departamento.equalsIgnoreCase("Tacuarembo") ){
-            
-            zonaCalculada = "NORTE";
-        }
-           else if
-            (departamento.equalsIgnoreCase("Rio Negro") ||
-            departamento.equalsIgnoreCase("Soriano")    ||
-            departamento.equalsIgnoreCase("Colonia")    ||
-            departamento.equalsIgnoreCase("San josé")){
-               
-               zonaCalculada = "OESTE";
-           }
-           else if
-            (departamento.equalsIgnoreCase("Cerro Largo")   ||
-            departamento.equalsIgnoreCase("Treinta y Tres") ||
-            departamento.equalsIgnoreCase("Lavalleja")      ||
-            departamento.equalsIgnoreCase("Rocha")          ||
-            departamento.equalsIgnoreCase("Maldonado") ){
-               
-               zonaCalculada = "ESTE";
-           }
-        
-         else if
-            (departamento.equalsIgnoreCase("Durazno")  ||
-            departamento.equalsIgnoreCase("Flores")    ||
-            departamento.equalsIgnoreCase("Florida")   ||
-            departamento.equalsIgnoreCase("Canelones") ||
-            departamento.equalsIgnoreCase("Montevideo")) {
-               
-               zonaCalculada = "SUR";
-           }
-         else{
-             zonaCalculada= "DESCONOCIDA";
-            }
-        return zonaCalculada;   
-    }
-
-    
-    public int calcularCategoria(){
-           int categoria = 0;
-
-           if (peso<= 0){
-               categoria = -1; // esto lo uso para validar que el peso sea real  //
-           }
-           else if (this.peso <= 1000){
-               categoria = 1;
-
-           }
-           else if (peso <=5000){
-               categoria = 2;
-           }
-           else if (peso <=10000){
-               categoria = 3;       
-           }
-           else {
-               categoria = 4;       
-           }
-           return categoria;
-    }
-
-    public void cambiarEstado (String nuevoEstado){
-        this.estado = nuevoEstado;
-    }
-
-    public boolean estaPendiente(){
-        boolean esta = false;
-        if(estado.equalsIgnoreCase("Pendiente")){
-            esta = true;
-        }
-        return esta;
     }
     
 }
