@@ -1,8 +1,7 @@
 package dominio;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Scanner;
+import interfaz.ArchivoLectura;
+import java.util.Observable;
 
 /*
  * Trabajo realizado por 
@@ -10,8 +9,14 @@ import java.util.Scanner;
  * (372277) Lautaro Moreno
 
     MVC: El sistema debe actuar como Controlador? o se va a hacer en el mismo script que la vista.
+    
+    Arrancar un sistema nuevo, borra toda la información de la persistencia, incluido el TARIFAS.TXT? - Si, pero el tarifas.txt se mantiene tal cual la ultima modificacion
+    El sistmea debe incluir precargas? por ejemplo, de Funcionarios? NO
+
+    Id de paquete alfanumérico, único. Alguna restricción de cantidad o minimo? Este dato lo ingresa el usuario o es automático?
+
  */
-public class Sistema {
+public class Sistema extends Observable {
     
     private ArrayList<Cliente> clientes;
     private ArrayList<Funcionario> funcionarios;
@@ -31,8 +36,25 @@ public class Sistema {
         
     }
     
+    public boolean textoVacio(String texto){
+        boolean estaVacio = false;
+   
+        if (texto == null) {
+            estaVacio = true;
+        } else {
+            texto = texto.strip();
+
+            if (texto.length() == 0) {
+                estaVacio = true;
+            }
+        }        
+        return estaVacio;
+    }
+    
     public void agregarCliente(Cliente cliente) {
         this.getClientes().add(cliente);
+        this.setChanged();
+        this.notifyObservers();
     }
     
     public ArrayList<Cliente> getClientes() {
@@ -41,6 +63,8 @@ public class Sistema {
     
     public void agregarFuncionario(Funcionario funcionario) {
         this.getFuncionarios().add(funcionario);
+        this.setChanged();
+        this.notifyObservers();
     }
 
     public ArrayList<Funcionario> getFuncionarios() {
@@ -53,6 +77,8 @@ public class Sistema {
 
     public void agregarPaquete(Paquete paquete) {
         this.getPaquetes().add(paquete);
+        this.setChanged();
+        this.notifyObservers();
     }
 
     public ArrayList<Envio> getEnvios() {
@@ -61,6 +87,8 @@ public class Sistema {
 
     public void agregarEnvios(Envio envio) {
         this.getEnvios().add(envio);
+        this.setChanged();
+        this.notifyObservers();
     }
 
     public ArrayList<Tarifa> getTarifas() {
@@ -69,40 +97,40 @@ public class Sistema {
 
     public void agregarTarifa(Tarifa tarifa) {
         this.getTarifas().add(tarifa);
+        this.setChanged();
+        this.notifyObservers();
     }
          
     public void cargarTarifas(){
         
-        try {
-            Scanner arch = new Scanner(Paths.get("TARIFAS.txt"));
+        ArchivoLectura arch = new ArchivoLectura("TARIFAS.txt");
 
-            while (arch.hasNext()) {
-                
-                String linea = arch.nextLine();
-                
-                String[] partes = linea.split("#");
-                String zona = partes[0];
-                String[] precios =partes[1].split(",");
-                
-                int precio1 = Integer.parseInt(precios[0]);
-                int precio2 = Integer.parseInt(precios[1]);
-                int precio3 = Integer.parseInt(precios[2]);
-                int precio4 = Integer.parseInt(precios[3]);
-                
-                Tarifa t = new Tarifa(zona, precio1, precio2, precio3, precio4);
-                this.getTarifas().add(t);
-      
-            }
-            arch.close();
-            System.out.println(arch);
+        while (arch.hayMasLineas()) {
 
-        } catch (IOException e) {
-            System.out.println("error");
+            String linea = arch.linea();
+
+            String[] partes = linea.split("#");
+            String zona = partes[0];
+            String[] precios =partes[1].split(",");
+
+            int precio1 = Integer.parseInt(precios[0]);
+            int precio2 = Integer.parseInt(precios[1]);
+            int precio3 = Integer.parseInt(precios[2]);
+            int precio4 = Integer.parseInt(precios[3]);
+
+            Tarifa t = new Tarifa(zona, precio1, precio2, precio3, precio4);
+            this.getTarifas().add(t);
+
         }
-        
+        arch.cerrar();
+        System.out.println(arch);
+               
     }
 
     public void calcularPrecio(Paquete paquete){
+        
+        //instanciar el paquete con el precio ya calculado.
+        //public void calcularPrecio(int categoriaPaquete, int precioCategoria){
         
         boolean precioEncontrado = false;
         int precio = 0;

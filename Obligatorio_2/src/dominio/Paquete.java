@@ -37,7 +37,7 @@ public class Paquete {
     
     @Override
     public String toString(){
-        return id + " " + destinatario + " " + estado + " " + departamentoEnvio;
+        return id + " " + destinatario + " " + estado + " " + departamentoEnvio + " " + precio;
     }
         
     private String calcularZona(){

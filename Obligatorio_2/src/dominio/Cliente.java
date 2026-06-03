@@ -10,6 +10,7 @@ public class Cliente extends Persona{
     private String email;
         
     public Cliente(String nombre, String celular, String email){
+        super(nombre, celular);
         this.setEmail(email);
     }
     

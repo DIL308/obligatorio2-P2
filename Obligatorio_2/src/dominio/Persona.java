@@ -14,6 +14,11 @@ public abstract class Persona {
         this.setNombre("SIN-NOMBRE");
         this.setCelular("SIN-CELULAR");
     }
+    
+    public Persona(String nombre, String celular) {
+        this.nombre = nombre;
+        this.celular = celular;
+    }
 
     public String getNombre() {
         return nombre;

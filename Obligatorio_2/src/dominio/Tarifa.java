@@ -24,14 +24,21 @@ public class Tarifa {
     
     public Tarifa(){}
     
-    public void actualizarTarifa(int porcentaje){
+    public void actualizarTarifa(int porcentaje, boolean aumento){
         
-        double incremento = (porcentaje / 100.0) + 1;
+        double variacion;
         
-        double nuevoPrecioCat1 = this.getPrecioCat1() * incremento;
-        double nuevoPrecioCat2 = this.getPrecioCat2() * incremento;
-        double nuevoPrecioCat3 = this.getPrecioCat3() * incremento;
-        double nuevoPrecioCat4 = this.getPrecioCat4() * incremento;
+        if(aumento){
+            variacion = (porcentaje / 100.0) + 1;
+            
+        }else{
+            variacion = 1 - (porcentaje / 100.0);
+        }
+
+        double nuevoPrecioCat1 = this.getPrecioCat1() * variacion;
+        double nuevoPrecioCat2 = this.getPrecioCat2() * variacion;
+        double nuevoPrecioCat3 = this.getPrecioCat3() * variacion;
+        double nuevoPrecioCat4 = this.getPrecioCat4() * variacion;
         
         this.setPrecioCat1((int) Math.round(nuevoPrecioCat1));
         this.setPrecioCat2((int) Math.round(nuevoPrecioCat2));
