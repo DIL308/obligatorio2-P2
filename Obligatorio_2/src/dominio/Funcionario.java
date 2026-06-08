@@ -11,6 +11,7 @@ public class Funcionario extends Persona{
     private int anioIngreso;
     
     public Funcionario(String nombre, String celular, int nroFuncionario, int anioIngreso){
+        super (nombre, celular);
         this.setNroFuncionario(nroFuncionario);
         this.setAnioIngreso(anioIngreso);
     }
@@ -38,7 +39,7 @@ public class Funcionario extends Persona{
     
     @Override
     public String toString(){
-        return nroFuncionario + " " + getNombre(); 
+        return this.getNombre() + " " + nroFuncionario  ; 
     }
     
 }

@@ -29,7 +29,7 @@ public class Cliente extends Persona{
     @Override
     public String toString(){
 
-        return getNombre() + "-" + email;
+        return getNombre();
     }
     
 }

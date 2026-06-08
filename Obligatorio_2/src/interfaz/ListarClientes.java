@@ -1,12 +1,16 @@
 
 package interfaz;
+import dominio.Cliente;
 import dominio.Sistema;
+import java.util.Observer;
+import java.util.Observable;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author danie
  */
-public class ListarClientes extends javax.swing.JFrame {
+public class ListarClientes extends javax.swing.JFrame implements Observer {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ListarClientes.class.getName());
     
@@ -17,13 +21,19 @@ public class ListarClientes extends javax.swing.JFrame {
      */
     public ListarClientes(Sistema modelo) {
         this.modelo = modelo;
+        this.modelo.addObserver(this);
         initComponents();
+        lstClientes.addListSelectionListener(this::lstClientesValueChanged);
         objetoAPantalla();
     }
     
     private void objetoAPantalla(){
-        lstClientes.setListData(this.modelo.getClientes().toArray());
+        lstClientes.setListData(this.modelo.getClientesOrdenados().toArray());
+    }
     
+      @Override 
+    public void update(Observable o, Object arg){
+        objetoAPantalla();
     }
 
     /**
@@ -36,76 +46,318 @@ public class ListarClientes extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton2 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        lblTitulo1 = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        lblCelular = new javax.swing.JLabel();
+        lblEmail = new javax.swing.JLabel();
+        txtCelular = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
+        bnbSalir = new javax.swing.JButton();
+        btnAgregar = new javax.swing.JButton();
+        txtMensaje = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         lblTitulo = new javax.swing.JLabel();
         btnAgregarCliente = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstClientes = new javax.swing.JList<>();
+        txtNombre1 = new javax.swing.JTextField();
+        txtCelular1 = new javax.swing.JTextField();
+        txtEmail1 = new javax.swing.JTextField();
+        lblNombre1 = new javax.swing.JLabel();
+        lblCelular1 = new javax.swing.JLabel();
+        lblEmail1 = new javax.swing.JLabel();
 
         jButton2.setText("Agregar Cliente");
+
+        jPanel2.setLayout(null);
+
+        lblTitulo1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblTitulo1.setText("Agregar nuevo cliente");
+        jPanel2.add(lblTitulo1);
+        lblTitulo1.setBounds(30, 20, 320, 40);
+
+        lblNombre.setText("Nombre:");
+        jPanel2.add(lblNombre);
+        lblNombre.setBounds(30, 90, 70, 17);
+        jPanel2.add(txtNombre);
+        txtNombre.setBounds(90, 90, 270, 23);
+
+        lblCelular.setText("Celular:");
+        jPanel2.add(lblCelular);
+        lblCelular.setBounds(40, 150, 60, 17);
+
+        lblEmail.setText("Email:");
+        jPanel2.add(lblEmail);
+        lblEmail.setBounds(50, 210, 37, 17);
+
+        txtCelular.addActionListener(this::txtCelularActionPerformed);
+        jPanel2.add(txtCelular);
+        txtCelular.setBounds(90, 150, 270, 23);
+        jPanel2.add(txtEmail);
+        txtEmail.setBounds(90, 210, 270, 23);
+
+        bnbSalir.setText("Salir");
+        bnbSalir.addActionListener(this::bnbSalirActionPerformed);
+        jPanel2.add(bnbSalir);
+        bnbSalir.setBounds(290, 290, 72, 23);
+
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(this::btnAgregarActionPerformed);
+        jPanel2.add(btnAgregar);
+        btnAgregar.setBounds(200, 290, 79, 23);
+        jPanel2.add(txtMensaje);
+        txtMensaje.setBounds(60, 260, 270, 16);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Menú de clientes");
 
         jPanel1.setLayout(null);
 
-        lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblTitulo.setFont(new java.awt.Font("Helvetica", 1, 24)); // NOI18N
         lblTitulo.setText("Listado de Clientes");
         jPanel1.add(lblTitulo);
         lblTitulo.setBounds(30, 0, 290, 40);
 
-        btnAgregarCliente.setText("Nuevo Cliente");
+        btnAgregarCliente.setText("Agregar Cliente");
         btnAgregarCliente.addActionListener(this::btnAgregarClienteActionPerformed);
         jPanel1.add(btnAgregarCliente);
-        btnAgregarCliente.setBounds(130, 230, 120, 30);
+        btnAgregarCliente.setBounds(260, 300, 190, 30);
 
         btnSalir.setText("Salir");
         btnSalir.addActionListener(this::btnSalirActionPerformed);
         jPanel1.add(btnSalir);
-        btnSalir.setBounds(250, 230, 120, 30);
+        btnSalir.setBounds(460, 300, 120, 30);
 
-        lstClientes.setModel(new javax.swing.AbstractListModel<Object>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(lstClientes);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(30, 50, 340, 160);
+        jScrollPane1.setBounds(320, 40, 260, 230);
+
+        txtNombre1.addActionListener(this::txtNombre1ActionPerformed);
+        jPanel1.add(txtNombre1);
+        txtNombre1.setBounds(100, 50, 200, 23);
+        jPanel1.add(txtCelular1);
+        txtCelular1.setBounds(100, 90, 200, 23);
+
+        txtEmail1.addActionListener(this::txtEmail1ActionPerformed);
+        jPanel1.add(txtEmail1);
+        txtEmail1.setBounds(100, 130, 200, 23);
+
+        lblNombre1.setText("Nombre");
+        jPanel1.add(lblNombre1);
+        lblNombre1.setBounds(30, 50, 60, 17);
+
+        lblCelular1.setText("Celular");
+        jPanel1.add(lblCelular1);
+        lblCelular1.setBounds(30, 90, 60, 17);
+
+        lblEmail1.setText("E-mail");
+        jPanel1.add(lblEmail1);
+        lblEmail1.setBounds(30, 130, 50, 17);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
         );
 
-        setBounds(0, 0, 416, 309);
+        setBounds(0, 0, 603, 378);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarClienteActionPerformed
-        NuevoCliente nc = new NuevoCliente(modelo);
-        nc.setVisible(true);
+
+        boolean datosValidos = true;
+        txtMensaje.setText("");
+
+        String nombre = txtNombre1.getText(); //No debe contener número
+        String celular = txtCelular1.getText(); //Deben ser números
+        String email = txtEmail1.getText();// ToDo: Mejorar validación de Email
+
+        //Valido datos contengan texto
+        if((this.modelo.textoVacio(nombre)) ||
+            (this.modelo.textoVacio(celular)) ||
+            (this.modelo.textoVacio(email))
+        ){
+            datosValidos = false;
+            JOptionPane.showMessageDialog(this, "Debe completar todos los campos.", "Error de formato",0);
+
+        }
+        
+        if (datosValidos & !this.modelo.esSoloLetrasYEspacios(nombre)){
+            datosValidos = false;
+                    JOptionPane.showMessageDialog(this, "El nombre no puede contener números ni caracteres especiales.", "Error de formato",0);
+
+        }
+        if(datosValidos){
+            for (int i=0; i<celular.length() && datosValidos;i++){
+                if (!Character.isDigit(celular.charAt(i))){
+                    datosValidos=false;
+                    JOptionPane.showMessageDialog(this, "El celular solo puede tener números.", "Error de formato",0);
+
+                    
+                }
+                
+            }
+            
+        }
+        
+        if(datosValidos && !email.contains("@")){
+            datosValidos = false;
+            JOptionPane.showMessageDialog(this,"El email no es válido.(debe contener '@')", "Erorr de formato",0);
+        }
+        
+        Cliente seleccionado = (Cliente) lstClientes.getSelectedValue();
+        
+        if(datosValidos){
+            if(seleccionado == null){
+                if(this.modelo.clienteYaExiste(nombre)){
+                 JOptionPane.showMessageDialog(this,"Ya existe un cliente registrado con ese nombre","Erorr de formato",0);
+                }else{
+                    Cliente nuevo = new Cliente (nombre,celular,email);
+                    this.modelo.agregarCliente(nuevo);
+                    JOptionPane.showMessageDialog(this,"Cliente agregado correctamente");
+                    limpiarCampos();
+                }
+            } else{
+                if(!seleccionado.getNombre().equalsIgnoreCase(nombre) && this.modelo.clienteYaExiste(nombre)){
+                  JOptionPane.showMessageDialog(this,"El nuevo nombre ya pertenece a otro cliente","Error",0);
+                }else{
+                        Cliente modificado = new Cliente(nombre,celular,email);
+                        this.modelo.agregarCliente(modificado);
+                        JOptionPane.showMessageDialog(this, "Cliente modificado con éxito");
+
+                          limpiarCampos();
+                          }
+  
+                }
+            
+        
+        }
+
+     
     }//GEN-LAST:event_btnAgregarClienteActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void txtCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCelularActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCelularActionPerformed
+
+    private void bnbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnbSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_bnbSalirActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+
+        boolean datosValidos = true;
+        txtMensaje.setText("");
+
+        String nombre = txtNombre1.getText(); //No debe contener número
+        String celular = txtCelular1.getText(); //Deben ser números
+        String email = txtEmail1.getText();// ToDo: Mejorar validación de Email
+
+        //Valido datos contengan texto
+        if(  (this.modelo.textoVacio(nombre)) ||
+            (this.modelo.textoVacio(celular)) ||
+            (this.modelo.textoVacio(email))
+        ){
+            datosValidos = false;
+            txtMensaje.setText("Debe completar todos los campos.");
+
+        }
+        else if(!email.contains("@")){
+            datosValidos = false;
+            txtMensaje.setText("El email no es válido.");
+        }
+        
+        if (datosValidos){
+            Cliente nuevo = new Cliente(nombre,celular,email);
+            
+            modelo.agregarCliente(nuevo);
+            objetoAPantalla();
+            
+            txtNombre1.setText("");
+            txtCelular1.setText("");
+            txtEmail1.setText("");
+            
+            txtMensaje.setText("Cliente agregado correctamente");
+            txtNombre1.requestFocus();
+        }
+        
+   
+
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void txtEmail1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmail1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmail1ActionPerformed
+
+    private void txtNombre1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombre1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombre1ActionPerformed
+ private void lstClientesValueChanged(javax.swing.event.ListSelectionEvent evt) {
+    // Evitamos que el evento se dispare doble al hacer clic
+    if (!evt.getValueIsAdjusting()) {
+        Cliente seleccionado = (Cliente) lstClientes.getSelectedValue();
+        if (seleccionado != null) {
+            // Cargamos los datos del objeto en los casilleros de texto
+            txtNombre1.setText(seleccionado.getNombre());
+            txtCelular1.setText(seleccionado.getCelular());
+            txtEmail1.setText(seleccionado.getEmail());
+            
+            btnAgregarCliente.setText("Guardar Cambios");
+        }
+    }
+
+    }
+ private void limpiarCampos(){
+     lstClientes.clearSelection();
+     txtNombre1.setText("");
+     txtCelular1.setText("");
+     txtEmail1.setText("");
+     
+     btnAgregarCliente.setText("Agregar Cliente");
+     txtNombre1.requestFocus();
+     
+ }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bnbSalir;
+    private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnAgregarCliente;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblCelular;
+    private javax.swing.JLabel lblCelular1;
+    private javax.swing.JLabel lblEmail;
+    private javax.swing.JLabel lblEmail1;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblNombre1;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JLabel lblTitulo1;
     private javax.swing.JList<Object> lstClientes;
+    private javax.swing.JTextField txtCelular;
+    private javax.swing.JTextField txtCelular1;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtEmail1;
+    private javax.swing.JLabel txtMensaje;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtNombre1;
     // End of variables declaration//GEN-END:variables
+
 }
+
+
