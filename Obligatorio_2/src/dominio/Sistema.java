@@ -203,7 +203,7 @@ public class Sistema extends Observable {
             }
         }
 
-        return tieneLetra && tieneNumero;
+        return tieneLetra || tieneNumero;
     }
 
     public String zonaDepartamento(String departamento){

@@ -1,4 +1,5 @@
 package dominio;
+import java.util.Date;
 
 /**
  * Trabajo realizado por 
@@ -10,7 +11,7 @@ package dominio;
 public class Paquete {
     private String id;
     private Cliente cliente;
-    private String fecha;
+    private Date fecha;
     private String destinatario;
     private String direccionEnvio;
     private String departamentoEnvio;
@@ -19,7 +20,7 @@ public class Paquete {
     private int precio;
     private String estado;
     
-    public Paquete (String id, Cliente cliente, String fecha, String destinatario, String direccionEnvio, String departamentoEnvio, int peso, int precio, String zona){
+    public Paquete (String id, Cliente cliente, Date fecha, String destinatario, String direccionEnvio, String departamentoEnvio, int peso, int precio, String zona){
         this.setId(id);
         this.setCliente(cliente);
         this.setFecha(fecha);
@@ -90,11 +91,11 @@ public class Paquete {
         this.cliente = cliente;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 

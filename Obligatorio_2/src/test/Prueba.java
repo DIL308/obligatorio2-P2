@@ -31,9 +31,5 @@ public class Prueba {
         s.calcularPrecio(p1);
         System.out.println(s.filtrarPaquetesPendientesPorZona("NORTE"));
         */
-        
-        
-
- 
     }
 }
