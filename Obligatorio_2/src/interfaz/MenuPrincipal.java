@@ -19,6 +19,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
      */
     public MenuPrincipal(Sistema modelo) {
         this.modelo = modelo;
+        javax.swing.JFrame.setDefaultLookAndFeelDecorated(false);
+        javax.swing.JDialog.setDefaultLookAndFeelDecorated(false);
+        
         initComponents();
     }
     
@@ -56,9 +59,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setText("Funcionarios");
+        jMenuItem2.addActionListener(this::jMenuItem2ActionPerformed);
         jMenu1.add(jMenuItem2);
 
         jMenuItem3.setText("Tarifas");
+        jMenuItem3.addActionListener(this::jMenuItem3ActionPerformed);
         jMenu1.add(jMenuItem3);
 
         jMenuBar1.add(jMenu1);
@@ -120,6 +125,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void MenuPaqueteRecepcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuPaqueteRecepcionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_MenuPaqueteRecepcionActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        ListarFuncionarios ventanaFuncionarios = new ListarFuncionarios(this.modelo);
+        ventanaFuncionarios.setVisible(true);
+
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    TarifasPorZona ventanaTarifas = new TarifasPorZona(this.modelo);
+        ventanaTarifas.setVisible(true);    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
    
    

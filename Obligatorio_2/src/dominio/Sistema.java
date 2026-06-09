@@ -49,6 +49,7 @@ public class Sistema extends Observable {
     }
     
     public void agregarCliente(Cliente cliente) {
+
         this.getClientes().add(cliente);
         this.setChanged();
         this.notifyObservers();
@@ -59,7 +60,24 @@ public class Sistema extends Observable {
     }
     
     public void agregarFuncionario(Funcionario funcionario) {
+        Funcionario existente = null;
+        int i = 0;
+        
+        while(i<this.getFuncionarios().size() && existente == null){
+            Funcionario f = this.getFuncionarios().get(i);
+            if (f.getNroFuncionario() == funcionario.getNroFuncionario()){
+                existente = f;
+            }
+            i++;
+        }
+        if (existente != null){
+            existente.setNombre(funcionario.getNombre());
+            existente.setCelular(funcionario.getCelular());
+            existente.setAnioIngreso(funcionario.getAnioIngreso());
+        }
+        else{
         this.getFuncionarios().add(funcionario);
+        }
         this.setChanged();
         this.notifyObservers();
     }
@@ -161,7 +179,7 @@ public class Sistema extends Observable {
             
             Paquete unPaquete = this.getPaquetes().get(i);
             
-            if(unPaquete.getZona() == zona){
+            if(unPaquete.getZona().equals(zona)){
                 paquetesFiltrados.add(unPaquete);
             }
         }
@@ -256,4 +274,37 @@ public class Sistema extends Observable {
         }
         return categoria;
     }
+
+
+    
+    public boolean esSoloLetrasYEspacios(String texto){
+        boolean todoOk = true;
+
+        for (int i=0;i<texto.length()&& todoOk;i++){
+            char caracterActual = texto.charAt(i);
+
+            if(!Character.isLetter(caracterActual) && caracterActual != ' '){
+            todoOk = false;
+
+            }
+        }
+        return todoOk;
+    }
+    
+    public boolean clienteYaExiste(String nombre){
+        boolean existe = false;
+        for (int i=0; i<this.clientes.size() && !existe;i++){
+            if (this.clientes.get(i).getNombre().equalsIgnoreCase(nombre)){
+                existe = true;
+            }
+            
+        }return existe;
+    }
+    
+    public ArrayList<Cliente> getClientesOrdenados(){
+        ArrayList<Cliente> listaOrdenada = new ArrayList<Cliente>(this.clientes);
+        listaOrdenada.sort((c1,c2) -> c1.getNombre().compareToIgnoreCase(c2.getNombre()));
+        return listaOrdenada;
+    }
+
 }
