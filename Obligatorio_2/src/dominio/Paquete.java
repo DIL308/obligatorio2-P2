@@ -19,7 +19,7 @@ public class Paquete {
     private int precio;
     private String estado;
     
-    public Paquete (String id, Cliente cliente, String fecha, String destinatario, String direccionEnvio, String departamentoEnvio, int peso){
+    public Paquete (String id, Cliente cliente, String fecha, String destinatario, String direccionEnvio, String departamentoEnvio, int peso, int precio, String zona){
         this.setId(id);
         this.setCliente(cliente);
         this.setFecha(fecha);
@@ -27,9 +27,9 @@ public class Paquete {
         this.setDireccionEnvio(direccionEnvio);
         this.setDepartamentoEnvio(departamentoEnvio);
         this.setPeso(peso);
-        this.setZona();
-        this.setPrecio(0);
-        this.setEstado("Pendiente");      
+        this.setZona(zona);
+        this.setEstado("Pendiente");    
+        this.setPrecio(precio);
     }
     
     public Paquete(){ 
@@ -40,51 +40,6 @@ public class Paquete {
         return id + " " + destinatario + " " + estado + " " + departamentoEnvio + " " + precio;
     }
         
-    private String calcularZona(){
-        
-        String zonaCalculada = "";
-        String departamento = this.getDepartamentoEnvio();
-        
-        if (departamento.equalsIgnoreCase("Artigas")   ||
-            departamento.equalsIgnoreCase("Salto")     ||
-            departamento.equalsIgnoreCase("Paysandú")  ||
-            departamento.equalsIgnoreCase("Rivera")    ||
-            departamento.equalsIgnoreCase("Tacuarembo") ){
-            
-            zonaCalculada = "NORTE";
-        }
-           else if
-            (departamento.equalsIgnoreCase("Rio Negro") ||
-            departamento.equalsIgnoreCase("Soriano")    ||
-            departamento.equalsIgnoreCase("Colonia")    ||
-            departamento.equalsIgnoreCase("San josé")){
-               
-               zonaCalculada = "OESTE";
-           }
-           else if
-            (departamento.equalsIgnoreCase("Cerro Largo")   ||
-            departamento.equalsIgnoreCase("Treinta y Tres") ||
-            departamento.equalsIgnoreCase("Lavalleja")      ||
-            departamento.equalsIgnoreCase("Rocha")          ||
-            departamento.equalsIgnoreCase("Maldonado") ){
-               
-               zonaCalculada = "ESTE";
-           }
-        
-         else if
-            (departamento.equalsIgnoreCase("Durazno")  ||
-            departamento.equalsIgnoreCase("Flores")    ||
-            departamento.equalsIgnoreCase("Florida")   ||
-            departamento.equalsIgnoreCase("Canelones") ||
-            departamento.equalsIgnoreCase("Montevideo")) {
-               
-               zonaCalculada = "SUR";
-           }
-         else{
-             zonaCalculada= "DESCONOCIDA";
-            }
-        return zonaCalculada;   
-    }
    
     public int calcularCategoria(){
         int categoria = 0;
@@ -115,9 +70,7 @@ public class Paquete {
         return esta;
     }*/
     
-    
-    
-    
+  
     /*
         GETTERS & SETTERS
     */
@@ -197,8 +150,8 @@ public class Paquete {
         return zona;
     }
 
-    public void setZona() {
-        this.zona = calcularZona();
+    public void setZona(String zona) {
+        this.zona = zona;
     }
     
 }

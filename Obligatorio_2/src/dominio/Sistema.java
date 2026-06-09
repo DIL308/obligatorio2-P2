@@ -11,9 +11,6 @@ import java.util.Observable;
     MVC: El sistema debe actuar como Controlador? o se va a hacer en el mismo script que la vista.
     
     Arrancar un sistema nuevo, borra toda la información de la persistencia, incluido el TARIFAS.TXT? - Si, pero el tarifas.txt se mantiene tal cual la ultima modificacion
-    El sistmea debe incluir precargas? por ejemplo, de Funcionarios? NO
-
-    Id de paquete alfanumérico, único. Alguna restricción de cantidad o minimo? Este dato lo ingresa el usuario o es automático?
 
  */
 public class Sistema extends Observable {
@@ -126,40 +123,36 @@ public class Sistema extends Observable {
         System.out.println(arch);
                
     }
-
-    public void calcularPrecio(Paquete paquete){
-        
-        //instanciar el paquete con el precio ya calculado.
-        //public void calcularPrecio(int categoriaPaquete, int precioCategoria){
+    
+    public int calcularPrecio(String zona, int peso){
         
         boolean precioEncontrado = false;
         int precio = 0;
-        int categoriaPaquete = paquete.calcularCategoria();
-        int precioCategoria = 0;
-        String zonaPaquete = paquete.getZona();
+        int categoria = calcularCategoria(peso);
         
         for(int i=0; (i< this.getTarifas().size()) && (!precioEncontrado); i++){
             Tarifa unaTarifa = this.getTarifas().get(i);
             
-            if(unaTarifa.getZona().equals(zonaPaquete)){
-                if(categoriaPaquete == 1){
-                    precioCategoria = unaTarifa.getPrecioCat1();
+            if(unaTarifa.getZona().equals(zona)){
+                if(categoria == 1){
+                    precio = unaTarifa.getPrecioCat1();
                 }
-                else if(categoriaPaquete == 2){
-                    precioCategoria = unaTarifa.getPrecioCat2();
+                else if(categoria == 2){
+                    precio = unaTarifa.getPrecioCat2();
                 }
-                else if(categoriaPaquete == 3){
-                    precioCategoria = unaTarifa.getPrecioCat3();
+                else if(categoria == 3){
+                    precio = unaTarifa.getPrecioCat3();
                 }
-                else if(categoriaPaquete == 4){
-                    precioCategoria = unaTarifa.getPrecioCat4();
+                else if(categoria == 4){
+                    precio = unaTarifa.getPrecioCat4();
                 }
                 precioEncontrado = true;
-            } 
+            }
         }
-        paquete.setPrecio(precioCategoria);
+    
+        return precio;
     }
-
+    
     public ArrayList<Paquete> filtrarPaquetesPendientesPorZona(String zona){
         
         ArrayList<Paquete> paquetesFiltrados = new ArrayList<Paquete>();
@@ -174,5 +167,93 @@ public class Sistema extends Observable {
         }
         
         return paquetesFiltrados; 
+    }
+
+    public boolean esAlfanumerico(String texto) {
+        boolean tieneLetra = false;
+        boolean tieneNumero = false;
+
+        for (int i = 0; i < texto.length(); i++) {
+            char c = texto.charAt(i);
+
+            if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
+                tieneLetra = true;
+            }
+
+            if (c >= '0' && c <= '9') {
+                tieneNumero = true;
+            }
+        }
+
+        return tieneLetra && tieneNumero;
+    }
+
+    public String zonaDepartamento(String departamento){
+        
+        //Dado un string Departamento, devuelve la zona que corresponde. 
+        String zonaDepartamento = "";
+        
+        if (departamento.equalsIgnoreCase("Artigas")   ||
+            departamento.equalsIgnoreCase("Salto")     ||
+            departamento.equalsIgnoreCase("Paysandú")  ||
+            departamento.equalsIgnoreCase("Rivera")    ||
+            departamento.equalsIgnoreCase("Tacuarembó") ){
+            
+            zonaDepartamento = "NORTE";
+        }
+           else if
+            (departamento.equalsIgnoreCase("Río Negro") ||
+            departamento.equalsIgnoreCase("Soriano")    ||
+            departamento.equalsIgnoreCase("Colonia")    ||
+            departamento.equalsIgnoreCase("San josé")){
+               
+               zonaDepartamento = "OESTE";
+           }
+           else if
+            (departamento.equalsIgnoreCase("Cerro Largo")   ||
+            departamento.equalsIgnoreCase("Treinta y Tres") ||
+            departamento.equalsIgnoreCase("Lavalleja")      ||
+            departamento.equalsIgnoreCase("Rocha")          ||
+            departamento.equalsIgnoreCase("Maldonado") ){
+               
+               zonaDepartamento = "ESTE";
+           }
+        
+         else if
+            (departamento.equalsIgnoreCase("Durazno")  ||
+            departamento.equalsIgnoreCase("Flores")    ||
+            departamento.equalsIgnoreCase("Florida")   ||
+            departamento.equalsIgnoreCase("Canelones") ||
+            departamento.equalsIgnoreCase("Montevideo")) {
+               
+               zonaDepartamento = "SUR";
+           }
+         else{
+             zonaDepartamento= "DESCONOCIDA";
+            }
+        return zonaDepartamento;   
+    }
+    
+    public int calcularCategoria(int peso){
+        
+        //Dado un peso, devuelve int con categoria (1 a 4 o -1 si error)
+        int categoria = 0;
+
+        if (peso<= 0){
+            categoria = -1; // esto lo uso para validar que el peso sea real  //
+        }
+        else if (peso < 1000){
+            categoria = 1;
+        }
+        else if (peso < 5000){
+            categoria = 2;
+        }
+        else if (peso < 10000){
+            categoria = 3;       
+        }
+        else {
+            categoria = 4;       
+        }
+        return categoria;
     }
 }
