@@ -61,7 +61,7 @@ public class ListarFuncionarios extends javax.swing.JFrame implements Observer{
         btnSalir = new javax.swing.JButton();
         txtMensaje = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel1.setText("Lista de Funcionarios");
@@ -162,7 +162,6 @@ public class ListarFuncionarios extends javax.swing.JFrame implements Observer{
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -171,7 +170,7 @@ public class ListarFuncionarios extends javax.swing.JFrame implements Observer{
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        pack();
+        setBounds(0, 0, 637, 415);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtNombreFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreFActionPerformed

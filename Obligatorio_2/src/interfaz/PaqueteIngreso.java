@@ -53,6 +53,7 @@ public class PaqueteIngreso extends javax.swing.JFrame {
         cmbDepartamento = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         txtDireccionDestino = new javax.swing.JTextField();
+        lblTitulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Ingreso de Paquetes");
@@ -126,6 +127,11 @@ public class PaqueteIngreso extends javax.swing.JFrame {
         jPanel1.add(txtDireccionDestino);
         txtDireccionDestino.setBounds(180, 270, 210, 26);
 
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblTitulo.setText("Crear Paquete");
+        jPanel1.add(lblTitulo);
+        lblTitulo.setBounds(140, 0, 240, 30);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -156,7 +162,7 @@ public class PaqueteIngreso extends javax.swing.JFrame {
         sdf.setLenient(false);
         
         boolean todoOk = true;
-        String msjError = "";
+        String mensaje = "";
         
         try{    
             String id = txtId.getText();
@@ -172,10 +178,11 @@ public class PaqueteIngreso extends javax.swing.JFrame {
             if(  (this.modelo.textoVacio(id)) ||
                  (this.modelo.textoVacio(destinatario)) ||
                  (this.modelo.textoVacio(direccionDestino)) ||
-                 (this.modelo.textoVacio(peso)) 
+                 (this.modelo.textoVacio(peso)) ||
+                 (this.modelo.textoVacio(departamento)) 
             ){
                 todoOk = false;
-                msjError = "Debe completar todos los campos.";
+                mensaje = "Debe completar todos los campos.";
             }
             else{
                 pesoInt = Integer.parseInt(peso);
@@ -183,12 +190,17 @@ public class PaqueteIngreso extends javax.swing.JFrame {
 
             if(todoOk && !(this.modelo.esAlfanumerico(id))){
                 todoOk = false;
-                msjError = "El Id debe contener únicamente letras y/o números";
+                mensaje = "El Id debe contener únicamente letras y/o números";
             }
             
             if (todoOk && (cliente == null)) {
                 todoOk = false;
-                msjError = "Debe seleccionar un cliente";
+                mensaje = "Debe seleccionar un cliente";
+            }
+            
+            if (todoOk & (!this.modelo.esSoloLetrasYEspacios(destinatario))){
+                todoOk = false;
+                mensaje = "El destinatario no puede contener números ni caracteres especiales";
             }
 
             if(todoOk){ 
@@ -196,20 +208,34 @@ public class PaqueteIngreso extends javax.swing.JFrame {
                 int precio = this.modelo.calcularPrecio(zona, pesoInt);
 
                 Paquete nuevoPaquete = new Paquete(id, cliente, fecha, destinatario, direccionDestino, departamento, pesoInt, precio, zona);
-
-                PaqueteIngresoConfirmacion confirm = new PaqueteIngresoConfirmacion(modelo, nuevoPaquete);
-                confirm.setVisible(true);
-
+                
+                int opcion = JOptionPane.showConfirmDialog(this, "El costo del paquete es de " + nuevoPaquete.getPrecio() + ". ¿Desea crear el paquete?", "Confirmación",JOptionPane.YES_NO_OPTION);
+                
+                if(opcion == JOptionPane.YES_OPTION){
+                    this.modelo.agregarPaquete(nuevoPaquete);
+                    txtId.setText("");
+                    lstClientes.clearSelection();
+                    txtFecha.setText("");
+                    txtDestinatario.setText("");
+                    txtDireccionDestino.setText("");
+                    cmbDepartamento.setSelectedIndex(-1);
+                    txtPeso.setText("");
+                    mensaje = "El paquete fue creado con éxito.";
+                }else{
+                    mensaje = "Se canceló la creación del paquete.";
+     
+                }
+                JOptionPane.showMessageDialog(this, mensaje, "Confirmación", JOptionPane.INFORMATION_MESSAGE);
             }
             else{
-                JOptionPane.showMessageDialog(this, msjError, "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
             }      
         } catch(ParseException e){
-            msjError = "Introduzca una fecha en formato DD/MM/YYYY";
-            JOptionPane.showMessageDialog(this, msjError, "Error", JOptionPane.ERROR_MESSAGE);
+            mensaje = "Introduzca una fecha en formato DD/MM/YYYY";
+            JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
         } catch (NumberFormatException e) {
-            msjError = "El peso debe ser un número.";
-            JOptionPane.showMessageDialog(this, msjError, "Error", JOptionPane.ERROR_MESSAGE);
+            mensaje = "El peso debe ser un número.";
+            JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnCargarActionPerformed
 
@@ -236,6 +262,7 @@ public class PaqueteIngreso extends javax.swing.JFrame {
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblPeso;
+    private javax.swing.JLabel lblTitulo;
     private javax.swing.JList<Object> lstClientes;
     private javax.swing.JTextField txtDestinatario;
     private javax.swing.JTextField txtDireccionDestino;

@@ -171,7 +171,7 @@ public class Sistema extends Observable {
         return precio;
     }
     
-    public ArrayList<Paquete> filtrarPaquetesPendientesPorZona(String zona){
+    public ArrayList<Paquete> getPaquetesPendientesPorZona(String zona){
         
         ArrayList<Paquete> paquetesFiltrados = new ArrayList<Paquete>();
         
@@ -284,8 +284,7 @@ public class Sistema extends Observable {
             char caracterActual = texto.charAt(i);
 
             if(!Character.isLetter(caracterActual) && caracterActual != ' '){
-            todoOk = false;
-
+                todoOk = false;
             }
         }
         return todoOk;
@@ -306,5 +305,6 @@ public class Sistema extends Observable {
         listaOrdenada.sort((c1,c2) -> c1.getNombre().compareToIgnoreCase(c2.getNombre()));
         return listaOrdenada;
     }
+    
 
 }

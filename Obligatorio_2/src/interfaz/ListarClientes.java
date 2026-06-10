@@ -81,33 +81,33 @@ public class ListarClientes extends javax.swing.JFrame implements Observer {
 
         lblNombre.setText("Nombre:");
         jPanel2.add(lblNombre);
-        lblNombre.setBounds(30, 90, 70, 17);
+        lblNombre.setBounds(30, 90, 70, 16);
         jPanel2.add(txtNombre);
-        txtNombre.setBounds(90, 90, 270, 23);
+        txtNombre.setBounds(90, 90, 270, 26);
 
         lblCelular.setText("Celular:");
         jPanel2.add(lblCelular);
-        lblCelular.setBounds(40, 150, 60, 17);
+        lblCelular.setBounds(40, 150, 60, 16);
 
         lblEmail.setText("Email:");
         jPanel2.add(lblEmail);
-        lblEmail.setBounds(50, 210, 37, 17);
+        lblEmail.setBounds(50, 210, 37, 16);
 
         txtCelular.addActionListener(this::txtCelularActionPerformed);
         jPanel2.add(txtCelular);
-        txtCelular.setBounds(90, 150, 270, 23);
+        txtCelular.setBounds(90, 150, 270, 26);
         jPanel2.add(txtEmail);
-        txtEmail.setBounds(90, 210, 270, 23);
+        txtEmail.setBounds(90, 210, 270, 26);
 
         bnbSalir.setText("Salir");
         bnbSalir.addActionListener(this::bnbSalirActionPerformed);
         jPanel2.add(bnbSalir);
-        bnbSalir.setBounds(290, 290, 72, 23);
+        bnbSalir.setBounds(290, 290, 76, 27);
 
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(this::btnAgregarActionPerformed);
         jPanel2.add(btnAgregar);
-        btnAgregar.setBounds(200, 290, 79, 23);
+        btnAgregar.setBounds(200, 290, 79, 27);
         jPanel2.add(txtMensaje);
         txtMensaje.setBounds(60, 260, 270, 16);
 
@@ -138,31 +138,31 @@ public class ListarClientes extends javax.swing.JFrame implements Observer {
 
         txtNombre1.addActionListener(this::txtNombre1ActionPerformed);
         jPanel1.add(txtNombre1);
-        txtNombre1.setBounds(100, 50, 200, 23);
+        txtNombre1.setBounds(100, 50, 200, 26);
         jPanel1.add(txtCelular1);
-        txtCelular1.setBounds(100, 90, 200, 23);
+        txtCelular1.setBounds(100, 90, 200, 26);
 
         txtEmail1.addActionListener(this::txtEmail1ActionPerformed);
         jPanel1.add(txtEmail1);
-        txtEmail1.setBounds(100, 130, 200, 23);
+        txtEmail1.setBounds(100, 130, 200, 26);
 
         lblNombre1.setText("Nombre");
         jPanel1.add(lblNombre1);
-        lblNombre1.setBounds(30, 50, 60, 17);
+        lblNombre1.setBounds(30, 50, 60, 16);
 
         lblCelular1.setText("Celular");
         jPanel1.add(lblCelular1);
-        lblCelular1.setBounds(30, 90, 60, 17);
+        lblCelular1.setBounds(30, 90, 60, 16);
 
         lblEmail1.setText("E-mail");
         jPanel1.add(lblEmail1);
-        lblEmail1.setBounds(30, 130, 50, 17);
+        lblEmail1.setBounds(30, 130, 50, 16);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

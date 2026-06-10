@@ -75,6 +75,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         MenuPaquete.add(MenuPaqueteIngreso);
 
         MenuPaqueteEnvio.setText("Envío");
+        MenuPaqueteEnvio.addActionListener(this::MenuPaqueteEnvioActionPerformed);
         MenuPaquete.add(MenuPaqueteEnvio);
 
         MenuPaqueteRecepcion.setText("Recepción");
@@ -135,6 +136,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
     TarifasPorZona ventanaTarifas = new TarifasPorZona(this.modelo);
         ventanaTarifas.setVisible(true);    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void MenuPaqueteEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuPaqueteEnvioActionPerformed
+        PaqueteEnvio pe = new PaqueteEnvio(modelo);
+        pe.setVisible(true);
+    }//GEN-LAST:event_MenuPaqueteEnvioActionPerformed
 
    
    
