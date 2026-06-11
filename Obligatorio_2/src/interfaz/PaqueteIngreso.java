@@ -158,7 +158,7 @@ public class PaqueteIngreso extends javax.swing.JFrame {
 
     private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
         
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         sdf.setLenient(false);
         
         boolean todoOk = true;
@@ -218,7 +218,7 @@ public class PaqueteIngreso extends javax.swing.JFrame {
                     txtFecha.setText("");
                     txtDestinatario.setText("");
                     txtDireccionDestino.setText("");
-                    cmbDepartamento.setSelectedIndex(-1);
+                    cmbDepartamento.setSelectedIndex(0);
                     txtPeso.setText("");
                     mensaje = "El paquete fue creado con éxito.";
                 }else{
@@ -231,7 +231,7 @@ public class PaqueteIngreso extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
             }      
         } catch(ParseException e){
-            mensaje = "Introduzca una fecha en formato DD/MM/YYYY";
+            mensaje = "Fecha inválida.";
             JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
         } catch (NumberFormatException e) {
             mensaje = "El peso debe ser un número.";

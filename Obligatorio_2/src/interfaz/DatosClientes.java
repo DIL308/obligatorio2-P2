@@ -6,20 +6,21 @@ import java.util.Observer;
 import java.util.Observable;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author danie
+/*
+ * Trabajo realizado por 
+ * (333503) Daniel López
+ * (372277) Lautaro Moreno
  */
-public class ListarClientes extends javax.swing.JFrame implements Observer {
+public class DatosClientes extends javax.swing.JFrame implements Observer {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ListarClientes.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DatosClientes.class.getName());
     
 
     private Sistema modelo; //Esto va a ir en todas las ventanas
     /**
      * Creates new form IngresoClientes
      */
-    public ListarClientes(Sistema modelo) {
+    public DatosClientes(Sistema modelo) {
         this.modelo = modelo;
         this.modelo.addObserver(this);
         initComponents();
@@ -121,12 +122,12 @@ public class ListarClientes extends javax.swing.JFrame implements Observer {
         jPanel1.add(lblTitulo);
         lblTitulo.setBounds(30, 0, 290, 40);
 
-        btnAgregarCliente.setText("Agregar Cliente");
+        btnAgregarCliente.setText("Agregar");
         btnAgregarCliente.addActionListener(this::btnAgregarClienteActionPerformed);
         jPanel1.add(btnAgregarCliente);
-        btnAgregarCliente.setBounds(260, 300, 190, 30);
+        btnAgregarCliente.setBounds(330, 300, 120, 30);
 
-        btnSalir.setText("Salir");
+        btnSalir.setText("Cancelar");
         btnSalir.addActionListener(this::btnSalirActionPerformed);
         jPanel1.add(btnSalir);
         btnSalir.setBounds(460, 300, 120, 30);

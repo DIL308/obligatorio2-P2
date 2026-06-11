@@ -13,19 +13,22 @@ public class Prueba {
         mp.setVisible(true);
         
         Cliente c1 = new Cliente("Pepe", "099123456", "algo@algo.com");
-        Cliente c2 = new Cliente("Nombre Unico", "099123456", "algo@algo.com");
-        Cliente c3 = new Cliente("Pepe", "099123456", "algo@algo.com");
+        Cliente c2 = new Cliente("Juan", "099123456", "algo@algo.com");
+        Cliente c3 = new Cliente("Maria", "099123456", "algo@algo.com");
         modelo.agregarCliente(c1);
         modelo.agregarCliente(c2);
         modelo.agregarCliente(c3);
+        
+        Funcionario f1 = new Funcionario();
+        modelo.agregarFuncionario(f1);
         
         
         SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
         try{
             
             Paquete p1 = new Paquete("123", c1, sdf.parse("01/01/2025"), "Destino", "Direccion", "Artigas", 1000, 500, "NORTE");
-            Paquete p2 = new Paquete("123", c1, sdf.parse("01/01/2025"), "Destino", "Direccion", "Colonia", 1000, 500, "OESTE");
-            Paquete p3 = new Paquete("123", c1, sdf.parse("01/01/2025"), "Destino", "Direccion", "Paysandú", 1000, 500, "NORTE");
+            Paquete p2 = new Paquete("123", c2, sdf.parse("01/01/2025"), "Destino", "Direccion", "Colonia", 1000, 500, "OESTE");
+            Paquete p3 = new Paquete("123", c3, sdf.parse("01/01/2025"), "Destino", "Direccion", "Paysandú", 1000, 500, "NORTE");
             
             modelo.agregarPaquete(p1);
             modelo.agregarPaquete(p2);

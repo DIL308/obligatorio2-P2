@@ -1,16 +1,22 @@
 package interfaz;
 import dominio.Sistema;
 
-public class TarifasPorZona extends javax.swing.JFrame {
+/*
+ * Trabajo realizado por 
+ * (333503) Daniel López
+ * (372277) Lautaro Moreno
+ */
+
+public class DatosTarifas extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TarifasPorZona.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DatosTarifas.class.getName());
     
     private Sistema modelo;
 
     /**
      * Creates new form TarifasPorZona
      */
-    public TarifasPorZona(Sistema modelo) {
+    public DatosTarifas(Sistema modelo) {
         this.modelo = modelo;
         initComponents();
         
@@ -40,7 +46,7 @@ public class TarifasPorZona extends javax.swing.JFrame {
             
             modeloTabla.addRow(fila);
         }
-        jTable4.setModel(modeloTabla);
+        tblMain.setModel(modeloTabla);
     }
 
     /**
@@ -61,34 +67,52 @@ public class TarifasPorZona extends javax.swing.JFrame {
         rbtnAumentar = new javax.swing.JRadioButton();
         rbtnDisminuir = new javax.swing.JRadioButton();
         btnActualizar = new javax.swing.JButton();
-        btnSalir = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        tblMain = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel1.setLayout(null);
 
         lblModTarifa.setText("Modificar Tarifa");
+        jPanel1.add(lblModTarifa);
+        lblModTarifa.setBounds(23, 434, 84, 16);
 
         jLabel2.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
         jLabel2.setText("Tarifas por zona");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(190, 40, 186, 32);
 
         txtModTarifa.addActionListener(this::txtModTarifaActionPerformed);
+        jPanel1.add(txtModTarifa);
+        txtModTarifa.setBounds(122, 429, 88, 26);
 
         jLabel7.setText("%");
+        jPanel1.add(jLabel7);
+        jLabel7.setBounds(210, 430, 10, 16);
 
         rbtnAumentar.setText("Aumentar");
         rbtnAumentar.addActionListener(this::rbtnAumentarActionPerformed);
+        jPanel1.add(rbtnAumentar);
+        rbtnAumentar.setBounds(303, 432, 78, 21);
 
         rbtnDisminuir.setText("Disminuir");
         rbtnDisminuir.addActionListener(this::rbtnDisminuirActionPerformed);
+        jPanel1.add(rbtnDisminuir);
+        rbtnDisminuir.setBounds(426, 432, 76, 21);
 
         btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(this::btnActualizarActionPerformed);
+        jPanel1.add(btnActualizar);
+        btnActualizar.setBounds(290, 470, 100, 27);
 
-        btnSalir.setText("Salir");
-        btnSalir.addActionListener(this::btnSalirActionPerformed);
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(this::btnCancelarActionPerformed);
+        jPanel1.add(btnCancelar);
+        btnCancelar.setBounds(405, 472, 110, 27);
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tblMain.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -99,78 +123,25 @@ public class TarifasPorZona extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane5.setViewportView(jTable4);
+        jScrollPane5.setViewportView(tblMain);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(lblModTarifa)
-                .addGap(15, 15, 15)
-                .addComponent(txtModTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(jLabel7)
-                .addGap(52, 52, 52)
-                .addComponent(rbtnAumentar)
-                .addGap(45, 45, 45)
-                .addComponent(rbtnDisminuir)
-                .addContainerGap(49, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(184, 184, 184))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnActualizar)
-                        .addGap(38, 38, 38)
-                        .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(36, 36, 36))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(51, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(94, 94, 94))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblModTarifa)
-                            .addComponent(txtModTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(rbtnAumentar)
-                            .addComponent(rbtnDisminuir)
-                            .addComponent(jLabel7))
-                        .addGap(17, 17, 17)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnActualizar)
-                    .addComponent(btnSalir))
-                .addGap(89, 89, 89))
-        );
+        jPanel1.add(jScrollPane5);
+        jScrollPane5.setBounds(55, 101, 460, 277);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        pack();
+        setBounds(0, 0, 570, 536);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
@@ -229,8 +200,8 @@ public class TarifasPorZona extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtModTarifaActionPerformed
 
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-this.dispose();    }//GEN-LAST:event_btnSalirActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+this.dispose();    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -239,16 +210,16 @@ this.dispose();    }//GEN-LAST:event_btnSalirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
-    private javax.swing.JButton btnSalir;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable jTable4;
     private javax.swing.JLabel lblModTarifa;
     private javax.swing.JRadioButton rbtnAumentar;
     private javax.swing.JRadioButton rbtnDisminuir;
+    private javax.swing.JTable tblMain;
     private javax.swing.JTextField txtModTarifa;
     // End of variables declaration//GEN-END:variables
 

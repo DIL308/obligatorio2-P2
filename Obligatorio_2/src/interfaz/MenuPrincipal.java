@@ -114,7 +114,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        ListarClientes lc = new ListarClientes(modelo);
+        DatosClientes lc = new DatosClientes(modelo);
         lc.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -125,16 +125,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void MenuPaqueteRecepcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuPaqueteRecepcionActionPerformed
         // TODO add your handling code here:
+        PaqueteRecepcion pr = new PaqueteRecepcion(modelo);
+        pr.setVisible(true);
     }//GEN-LAST:event_MenuPaqueteRecepcionActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        ListarFuncionarios ventanaFuncionarios = new ListarFuncionarios(this.modelo);
+        DatosFuncionarios ventanaFuncionarios = new DatosFuncionarios(this.modelo);
         ventanaFuncionarios.setVisible(true);
 
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-    TarifasPorZona ventanaTarifas = new TarifasPorZona(this.modelo);
+    DatosTarifas ventanaTarifas = new DatosTarifas(this.modelo);
         ventanaTarifas.setVisible(true);    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void MenuPaqueteEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuPaqueteEnvioActionPerformed
