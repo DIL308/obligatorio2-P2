@@ -1,13 +1,14 @@
 package dominio;
 import java.util.ArrayList;
 import java.util.Date;
+import java.io.Serializable;
 
 /*
  * Trabajo realizado por 
  * (333503) Daniel López
  * (372277) Lautaro Moreno
  */
-public class Envio implements Comparable<Envio>{
+public class Envio implements Comparable<Envio>, Serializable{
     
     private static int contador = 1;
     

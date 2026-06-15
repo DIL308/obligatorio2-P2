@@ -45,7 +45,7 @@ public class Sistema extends Observable  implements Serializable{
         
     }
     
-    private void serializar(){
+    public void serializar(){
         
         try{
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("sistema.ser"));
@@ -56,14 +56,18 @@ public class Sistema extends Observable  implements Serializable{
         
     }
     
-    private void deserializar(){
+    public static Sistema deserializar(){
+        
+        Sistema sistema = null;
         
         try{
             ObjectInputStream in = new ObjectInputStream(new FileInputStream("sistema.ser"));
-            Sistema sistema = (Sistema) in.readObject();
+            sistema = (Sistema) in.readObject();
         }catch (IOException | ClassNotFoundException ex){
             System.out.println("Error");
         }
+        
+        return sistema;
         
     }
     

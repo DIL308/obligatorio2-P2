@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 public class Prueba {
     
     public static void main(String[] args) {
-        
+              
         Sistema modelo = new Sistema();
         MenuPrincipal mp = new MenuPrincipal(modelo);
         //PaqueteEnvio mp = new PaqueteEnvio(modelo);

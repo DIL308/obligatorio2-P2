@@ -9,9 +9,8 @@ import dominio.Sistema;
 public class MainSistema {
     public static void main(String[] args) {
         
-        Sistema modelo = new Sistema();
-        MenuPrincipal mp = new MenuPrincipal(modelo);
-        mp.setVisible(true);
+        ComenzarCon cc = new ComenzarCon();
+        cc.setVisible(true);
         
     }
     
