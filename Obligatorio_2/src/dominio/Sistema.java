@@ -2,6 +2,16 @@ package dominio;
 import java.util.ArrayList;
 import interfaz.ArchivoLectura;
 import java.util.Observable;
+import java.util.Observer;
+import javax.swing.DefaultListModel;
+import java.util.Collections;
+import java.io.IOException;
+import java.io.NotSerializableException;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.FileInputStream;
+import java.io.Serializable;
 
 /*
  * Trabajo realizado por 
@@ -13,13 +23,14 @@ import java.util.Observable;
     Arrancar un sistema nuevo, borra toda la información de la persistencia, incluido el TARIFAS.TXT? - Si, pero el tarifas.txt se mantiene tal cual la ultima modificacion
 
  */
-public class Sistema extends Observable {
+public class Sistema extends Observable  implements Serializable{
     
     private ArrayList<Cliente> clientes;
     private ArrayList<Funcionario> funcionarios;
     private ArrayList<Paquete> paquetes;
     private ArrayList<Envio> envios;
     private ArrayList<Tarifa> tarifas;
+    
     
     public Sistema(){
          
@@ -30,7 +41,34 @@ public class Sistema extends Observable {
         this.tarifas = new ArrayList<Tarifa>();
         
         cargarTarifas();
+        serializar();
         
+    }
+    
+    private void serializar(){
+        
+        try{
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("sistema.ser"));
+            out.writeObject(this);
+        }catch (IOException e){
+            System.out.println("Error");
+        }
+        
+    }
+    
+    private void deserializar(){
+        
+        try{
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream("sistema.ser"));
+            Sistema sistema = (Sistema) in.readObject();
+        }catch (IOException | ClassNotFoundException ex){
+            System.out.println("Error");
+        }
+        
+    }
+    
+    public void addObserver(Observer o){
+        super.addObserver(o);
     }
     
     public boolean textoVacio(String texto){
@@ -138,7 +176,6 @@ public class Sistema extends Observable {
 
         }
         arch.cerrar();
-        System.out.println(arch);
                
     }
     
@@ -274,9 +311,7 @@ public class Sistema extends Observable {
         }
         return categoria;
     }
-
-
-    
+  
     public boolean esSoloLetrasYEspacios(String texto){
         boolean todoOk = true;
 
@@ -306,5 +341,40 @@ public class Sistema extends Observable {
         return listaOrdenada;
     }
     
+    public double pesoDePaquetes(DefaultListModel<Object> paquetes, boolean enKilos){
+        
+        double peso = 0.0;
+        
+        for(int i=0; i<paquetes.size(); i++){
+            Paquete p = (Paquete) paquetes.get(i);
+            peso += p.getPeso();
+        }
+        
+        if(enKilos){
+            peso = peso / 1000;
+        }
+        
+        return peso;
+    }
+    
+    public int precioDePaquetes(DefaultListModel<Object> paquetes){
+        
+        int precio = 0;
+        
+        for(int i=0; i<paquetes.size(); i++){
+            Paquete p = (Paquete) paquetes.get(i);
+            precio += p.getPrecio();
+        }
+       
+        
+        return precio;
+    }
+    
+    public ArrayList<Envio> getEnviosOrdenadosDescendente() {
+
+        ArrayList<Envio> env = new ArrayList<>(this.getEnvios());
+        Collections.sort(env);
+        return env;
+}
 
 }

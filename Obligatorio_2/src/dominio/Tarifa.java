@@ -1,11 +1,12 @@
 package dominio;
+import java.io.Serializable;
 
 /*
  * Trabajo realizado por 
  * (333503) Daniel López
  * (372277) Lautaro Moreno
  */
-public class Tarifa {
+public class Tarifa implements Serializable{
     
     private String zona;
     private int precioCat1;

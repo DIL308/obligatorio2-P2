@@ -5,7 +5,7 @@ package dominio;
  * (333503) Daniel López
  * (372277) Lautaro Moreno
  */
-public class Funcionario extends Persona{
+public class Funcionario extends Persona{ //Ya implementa serializable por Persona
     
     private int nroFuncionario;
     private int anioIngreso;

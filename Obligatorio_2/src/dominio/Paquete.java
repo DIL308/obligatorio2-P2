@@ -1,6 +1,6 @@
 package dominio;
 import java.util.Date;
-
+import java.io.Serializable;
 /**
  * Trabajo realizado por 
  * (333503) Daniel López
@@ -8,7 +8,7 @@ import java.util.Date;
  * 
  * El precio y zona, deben calcularse en sistema o en paquete?
  */
-public class Paquete {
+public class Paquete implements Serializable{
     private String id;
     private Cliente cliente;
     private Date fecha;

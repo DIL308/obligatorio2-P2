@@ -2,12 +2,16 @@
 package interfaz;
 import dominio.Sistema;
 import dominio.Paquete;
+import dominio.Envio;
 import dominio.Funcionario;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JOptionPane;
+import javax.swing.DefaultListModel;
 
 /*
  * Trabajo realizado por 
@@ -16,39 +20,27 @@ import javax.swing.JOptionPane;
     
 Duda: Es válido tener acá un Setter/Getter del arraylist auxiliar? Getter no hay, le pego direco al atributo.
  */
-public class PaqueteEnvio extends javax.swing.JFrame {
+public class PaqueteEnvio extends javax.swing.JFrame implements Observer {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PaqueteEnvio.class.getName());
     
     Sistema modelo;
-    /*private DefaultListModel<Paquete> modeloPaquetes;
-    private DefaultListModel<Paquete> modeloEnvios;*/
-
-    /**
-     * Creates new form PaqueteEnvio
-     */
+    ArrayList<Paquete> paquetesPendientesEnZona = new ArrayList<Paquete>();
+    DefaultListModel<Object> paqueteParaEnvio = new DefaultListModel<>();
+    
     public PaqueteEnvio(Sistema modelo) {
         this.modelo = modelo;
+        this.modelo.addObserver(this);
         initComponents();
         objetoAPantalla();
-        
-        //tengo que cambiar el modelo seteado por default para poder agregar/quitar elementos de lstEnvio
-        /*modeloPaquetes = new DefaultListModel<>();
-        modeloEnvios = new DefaultListModel<>();
-
-        lstPaquete.setModel(modeloPaquetes);
-        lstEnvio.setModel(modeloEnvios);*/
     }
     
     private void objetoAPantalla(){
         
-        int paqueteNro = modelo.getEnvios().size() + 1;
+        int paqueteNro = Envio.getProximoId();
         lblTitulo.setText("Nuevo envío (número " + paqueteNro + ")");
         lstFuncionario.setListData(modelo.getFuncionarios().toArray());
-        cmbZona.addItem("NORTE");
-        cmbZona.addItem("SUR");
-        cmbZona.addItem("ESTE");
-        cmbZona.addItem("OESTE");
+        lstEnvio.setModel(paqueteParaEnvio);
         this.mostrarElementos(false);
         
     }
@@ -67,6 +59,24 @@ public class PaqueteEnvio extends javax.swing.JFrame {
         lblPesoGrs.setVisible(mostrar);
         lblMonto.setVisible(mostrar);
         btnConfirmar.setVisible(mostrar);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        objetoAPantalla();
+    }
+    
+    private void actualizarValoresEnvio(){
+        int cantPaquetesEnvio = paqueteParaEnvio.size();
+        double pesoKilos = this.modelo.pesoDePaquetes(paqueteParaEnvio, true);
+        double pesoGramos = this.modelo.pesoDePaquetes(paqueteParaEnvio, false);
+        int precio = this.modelo.precioDePaquetes(paqueteParaEnvio);
+        
+        lblCantPaquetes.setText("Paquetes en Envío: " + cantPaquetesEnvio);
+        lblPesoKgs.setText("Peso total (Kgs): " + pesoKilos);
+        lblPesoGrs.setText("Peso total (Grs): " + pesoGramos);
+        lblMonto.setText("Monto Total: " + precio);
+        
     }
     
     /**
@@ -140,6 +150,7 @@ public class PaqueteEnvio extends javax.swing.JFrame {
         panel.add(lblZona);
         lblZona.setBounds(390, 140, 70, 16);
 
+        cmbZona.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NORTE", "SUR", "ESTE", "OESTE" }));
         cmbZona.addActionListener(this::cmbZonaActionPerformed);
         panel.add(cmbZona);
         cmbZona.setBounds(460, 140, 210, 26);
@@ -186,26 +197,26 @@ public class PaqueteEnvio extends javax.swing.JFrame {
         panel.add(btnAgregar);
         btnAgregar.setBounds(320, 310, 110, 27);
 
-        btnQuitar.setText("←Quitar");
+        btnQuitar.setText("← Quitar");
         btnQuitar.addActionListener(this::btnQuitarActionPerformed);
         panel.add(btnQuitar);
         btnQuitar.setBounds(320, 360, 110, 27);
 
         lblCantPaquetes.setText("Paquetes en Envío:");
         panel.add(lblCantPaquetes);
-        lblCantPaquetes.setBounds(440, 460, 140, 16);
+        lblCantPaquetes.setBounds(440, 460, 280, 16);
 
         lblPesoKgs.setText("Peso total (Kgs):");
         panel.add(lblPesoKgs);
-        lblPesoKgs.setBounds(440, 480, 100, 16);
+        lblPesoKgs.setBounds(440, 480, 280, 16);
 
-        lblPesoGrs.setText("Peso total (Grs):");
+        lblPesoGrs.setText("Peso total (Grs): ");
         panel.add(lblPesoGrs);
-        lblPesoGrs.setBounds(440, 500, 100, 16);
+        lblPesoGrs.setBounds(440, 500, 280, 16);
 
-        lblMonto.setText("Monto Total: ");
+        lblMonto.setText("Monto Total:  ");
         panel.add(lblMonto);
-        lblMonto.setBounds(440, 520, 80, 16);
+        lblMonto.setBounds(440, 520, 280, 16);
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
@@ -218,17 +229,21 @@ public class PaqueteEnvio extends javax.swing.JFrame {
         btnConfirmar.setBounds(500, 560, 100, 27);
 
         getContentPane().add(panel);
-        panel.setBounds(0, 0, 820, 740);
+        panel.setBounds(0, 0, 790, 630);
 
-        setBounds(0, 0, 832, 742);
+        setBounds(0, 0, 811, 641);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:
-        Paquete paquete = (Paquete) lstPendientes.getSelectedValue();
         
-        if(paquete != null){
-            System.out.println("Falta implementar funcionalidad");
+        Paquete paquete = (Paquete) lstPendientes.getSelectedValue();
+        String zona = (String) cmbZona.getSelectedItem();   
+        if (paquete != null) {
+            paqueteParaEnvio.addElement(paquete);
+            
+            this.paquetesPendientesEnZona.remove(paquete);
+            lstPendientes.setListData(this.paquetesPendientesEnZona.toArray());
+            this.actualizarValoresEnvio();
             
         }
         else{
@@ -255,7 +270,7 @@ public class PaqueteEnvio extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Debe seleccionar un funcionario", "Error", JOptionPane.ERROR_MESSAGE);
             }else{
                 
-                ArrayList<Paquete> paquetesPendientesEnZona = this.modelo.getPaquetesPendientesPorZona(zona);
+                this.paquetesPendientesEnZona = this.modelo.getPaquetesPendientesPorZona(zona);
                 if(paquetesPendientesEnZona.size() == 0){
                     this.mostrarElementos(false);
                     JOptionPane.showMessageDialog(this, "No existen paquetes para la zona " + zona, "Información", JOptionPane.INFORMATION_MESSAGE);
@@ -275,16 +290,47 @@ public class PaqueteEnvio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setLenient(false);
+        
+        try{
+            Funcionario func = (Funcionario) lstFuncionario.getSelectedValue();
+            Date fecha = sdf.parse(txtFecha.getText());
+            String zona = (String) cmbZona.getSelectedItem(); 
+            ArrayList<Paquete> paquetes = new ArrayList<>();
+            
+            for (int i = 0; i < paqueteParaEnvio.getSize(); i++) {
+                Paquete p = (Paquete)paqueteParaEnvio.getElementAt(i);
+                p.setEstado("enviado");
+                this.modelo.getPaquetes().remove(p);
+                paquetes.add(p);
+            }
+            
+            Envio nuevoEnvio = new Envio(fecha, zona, func, paquetes);
+            this.modelo.getEnvios().add(nuevoEnvio);
+            
+            paqueteParaEnvio.clear();
+            JOptionPane.showMessageDialog(this, "El envío fue creado correctamente.", "Envío creado", JOptionPane.INFORMATION_MESSAGE);   
+            
+        } catch(ParseException e){
+            JOptionPane.showMessageDialog(this, "Fecha inválida.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
         
-        int indice = lstEnvio.getSelectedIndex();
+        Paquete paquete = (Paquete) lstEnvio.getSelectedValue();
         
-        if (indice > -1) {
-            lstEnvio.remove(indice);
+        if (paquete != null) {
+            this.paquetesPendientesEnZona.add(paquete);
+            this.paqueteParaEnvio.removeElement(paquete);
+            lstPendientes.setListData(this.paquetesPendientesEnZona.toArray());
+            this.actualizarValoresEnvio();
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Seleccione el paquete que quiere quitar del envío.", "Error", JOptionPane.ERROR_MESSAGE);
         }
         
         

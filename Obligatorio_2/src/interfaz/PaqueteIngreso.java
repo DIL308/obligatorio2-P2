@@ -6,13 +6,16 @@ import javax.swing.JOptionPane;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * Trabajo realizado por 
  * (333503) Daniel López
  * (372277) Lautaro Moreno
  */
-public class PaqueteIngreso extends javax.swing.JFrame {
+public class PaqueteIngreso extends javax.swing.JFrame implements Observer{
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PaqueteIngreso.class.getName());
     
@@ -20,6 +23,7 @@ public class PaqueteIngreso extends javax.swing.JFrame {
     
     public PaqueteIngreso(Sistema modelo) {
         this.modelo = modelo;
+        this.modelo.addObserver(this);
         initComponents();
         this.objetoAPantalla();
     }
@@ -28,6 +32,35 @@ public class PaqueteIngreso extends javax.swing.JFrame {
     
     private void objetoAPantalla(){
         lstClientes.setListData(modelo.getClientes().toArray());
+        this.cargarTabla();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        objetoAPantalla();
+    }
+    
+    private void cargarTabla() {
+
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblPaquetes.getModel();
+
+        modeloTabla.setRowCount(0);
+
+        for (Paquete paquete : this.modelo.getPaquetes()) {
+
+            modeloTabla.addRow(new Object[]{
+                paquete.getId(), 
+                paquete.getCliente(),
+                paquete.getFecha(),
+                paquete.getDestinatario(),
+                paquete.getDireccionEnvio(),
+                paquete.getDepartamentoEnvio(),
+                paquete.getPeso(),
+                paquete.getZona(),
+                paquete.getPrecio(),
+                paquete.getEstado()
+            });
+        }
     }
     
     
@@ -54,6 +87,8 @@ public class PaqueteIngreso extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtDireccionDestino = new javax.swing.JTextField();
         lblTitulo = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblPaquetes = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Ingreso de Paquetes");
@@ -62,7 +97,7 @@ public class PaqueteIngreso extends javax.swing.JFrame {
 
         lblId.setText("Id:");
         jPanel1.add(lblId);
-        lblId.setBounds(40, 40, 90, 16);
+        lblId.setBounds(50, 40, 90, 16);
 
         lstClientes.setModel(new javax.swing.AbstractListModel<Object>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -72,80 +107,108 @@ public class PaqueteIngreso extends javax.swing.JFrame {
         jScrollPane1.setViewportView(lstClientes);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(100, 90, 290, 110);
+        jScrollPane1.setBounds(110, 90, 290, 110);
 
         txtId.addActionListener(this::txtIdActionPerformed);
         jPanel1.add(txtId);
-        txtId.setBounds(100, 40, 290, 26);
+        txtId.setBounds(110, 40, 290, 26);
 
         lblFecha.setText("Fecha (dd/mm/yyyy):");
         jPanel1.add(lblFecha);
-        lblFecha.setBounds(40, 210, 130, 16);
+        lblFecha.setBounds(50, 210, 130, 16);
 
         lblDestinatario.setText("Nombre destinatario:");
         jPanel1.add(lblDestinatario);
-        lblDestinatario.setBounds(40, 240, 140, 16);
+        lblDestinatario.setBounds(50, 240, 140, 16);
 
         lblDepartamento.setText("Departamento:");
         jPanel1.add(lblDepartamento);
-        lblDepartamento.setBounds(40, 310, 100, 16);
+        lblDepartamento.setBounds(50, 310, 100, 16);
 
         lblPeso.setText("Peso (en gramos):");
         jPanel1.add(lblPeso);
-        lblPeso.setBounds(40, 340, 130, 16);
+        lblPeso.setBounds(50, 340, 130, 16);
 
         btnCargar.setText("Cargar Paquete");
         btnCargar.addActionListener(this::btnCargarActionPerformed);
         jPanel1.add(btnCargar);
-        btnCargar.setBounds(120, 390, 140, 27);
+        btnCargar.setBounds(130, 390, 140, 27);
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
         jPanel1.add(btnCancelar);
-        btnCancelar.setBounds(270, 390, 140, 27);
+        btnCancelar.setBounds(280, 390, 140, 27);
 
         txtFecha.addActionListener(this::txtFechaActionPerformed);
         jPanel1.add(txtFecha);
-        txtFecha.setBounds(180, 210, 210, 26);
+        txtFecha.setBounds(190, 210, 210, 26);
         jPanel1.add(txtDestinatario);
-        txtDestinatario.setBounds(180, 240, 210, 26);
+        txtDestinatario.setBounds(190, 240, 210, 26);
         jPanel1.add(txtPeso);
-        txtPeso.setBounds(180, 340, 210, 26);
+        txtPeso.setBounds(190, 340, 210, 26);
 
         jLabel1.setText("Cliente:");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(40, 90, 80, 16);
+        jLabel1.setBounds(50, 90, 80, 16);
 
         cmbDepartamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Artigas", "Canelones", "Cerro Largo", "Colonia", "Durazno", "Flores", "Florida", "Lavalleja", "Maldonado", "Montevideo", "Paysandú", "Río Negro", "Rivera", "Rocha", "Salto", "San José", "Soriano", "Tacuarembó", "Treinta y Tres" }));
         cmbDepartamento.addActionListener(this::cmbDepartamentoActionPerformed);
         jPanel1.add(cmbDepartamento);
-        cmbDepartamento.setBounds(180, 310, 210, 26);
+        cmbDepartamento.setBounds(190, 310, 210, 26);
 
         jLabel2.setText("Dirección destinatario:");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(40, 270, 140, 20);
+        jLabel2.setBounds(50, 270, 140, 20);
         jPanel1.add(txtDireccionDestino);
-        txtDireccionDestino.setBounds(180, 270, 210, 26);
+        txtDireccionDestino.setBounds(190, 270, 210, 26);
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblTitulo.setText("Crear Paquete");
         jPanel1.add(lblTitulo);
-        lblTitulo.setBounds(140, 0, 240, 30);
+        lblTitulo.setBounds(150, 0, 240, 30);
+
+        tblPaquetes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Id", "Cliente", "Fecha", "Destinatario", "Dirección", "Departamento", "Peso", "Zona", "Precio", "Estado"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tblPaquetes);
+
+        jPanel1.add(jScrollPane2);
+        jScrollPane2.setBounds(10, 440, 540, 110);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(8, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setBounds(0, 0, 472, 496);
+        setBounds(0, 0, 580, 667);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaActionPerformed
@@ -257,6 +320,7 @@ public class PaqueteIngreso extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblDepartamento;
     private javax.swing.JLabel lblDestinatario;
     private javax.swing.JLabel lblFecha;
@@ -264,6 +328,7 @@ public class PaqueteIngreso extends javax.swing.JFrame {
     private javax.swing.JLabel lblPeso;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JList<Object> lstClientes;
+    private javax.swing.JTable tblPaquetes;
     private javax.swing.JTextField txtDestinatario;
     private javax.swing.JTextField txtDireccionDestino;
     private javax.swing.JTextField txtFecha;

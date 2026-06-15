@@ -18,6 +18,11 @@ public class PaqueteRecepcion extends javax.swing.JFrame {
     public PaqueteRecepcion(Sistema modelo) {
         this.modelo = modelo;
         initComponents();
+        objetoAPantalla();
+    }
+    
+    public void objetoAPantalla(){
+        lstEnvios.setListData(modelo.getEnviosOrdenadosDescendente().toArray());
     }
 
     /**
@@ -33,7 +38,7 @@ public class PaqueteRecepcion extends javax.swing.JFrame {
         lblTitulo = new javax.swing.JLabel();
         lblEnvios = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList<>();
+        lstEnvios = new javax.swing.JList<>();
         jScrollPane3 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
@@ -56,12 +61,12 @@ public class PaqueteRecepcion extends javax.swing.JFrame {
         jPanel1.add(lblEnvios);
         lblEnvios.setBounds(170, 70, 70, 16);
 
-        jList3.setModel(new javax.swing.AbstractListModel<String>() {
+        lstEnvios.setModel(new javax.swing.AbstractListModel<Object>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+            public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(jList3);
+        jScrollPane2.setViewportView(lstEnvios);
 
         jPanel1.add(jScrollPane2);
         jScrollPane2.setBounds(30, 90, 350, 110);
@@ -106,11 +111,11 @@ public class PaqueteRecepcion extends javax.swing.JFrame {
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jList2;
-    private javax.swing.JList<String> jList3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblEnvios;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JList<Object> lstEnvios;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,11 +1,12 @@
 package dominio;
+import java.io.Serializable;
 
 /**
  * Trabajo realizado por 
  * (333503) Daniel López
  * (372277) Lautaro Moreno
  */
-public abstract class Persona {
+public abstract class Persona implements Serializable{
     
     private String nombre;
     private String celular;

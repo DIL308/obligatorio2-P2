@@ -1,11 +1,12 @@
 package dominio;
 
+
 /**
  * Trabajo realizado por 
  * (333503) Daniel López
  * (372277) Lautaro Moreno
  */
-public class Cliente extends Persona{
+public class Cliente extends Persona{ //Ya implementa serializable por Persona
     
     private String email;
         

@@ -1,26 +1,32 @@
 package dominio;
 import java.util.ArrayList;
+import java.util.Date;
 
 /*
  * Trabajo realizado por 
  * (333503) Daniel López
  * (372277) Lautaro Moreno
  */
-public class Envio {
+public class Envio implements Comparable<Envio>{
     
     private static int contador = 1;
     
     private int id;
-    private int numero;
-    private String fechaEnvio;
+    private Date fechaEnvio;
     private String zona;
     private Funcionario funcionario;
     private ArrayList<Paquete> paquetes;
 
-    public Envio(int numero, String fechaEnvio, String zona, Funcionario funcionario, ArrayList<Paquete> paquetes) {
+    @Override
+    public int compareTo(Envio e) {
+        return Integer.compare(e.getId(), this.getId());
+    }
+    
+    
+
+    public Envio(Date fechaEnvio, String zona, Funcionario funcionario, ArrayList<Paquete> paquetes) {
         
         this.id = this.contador;
-        this.numero = numero;
         this.fechaEnvio = fechaEnvio;
         this.zona = zona;
         this.funcionario = funcionario;
@@ -52,19 +58,19 @@ public class Envio {
         return this.paquetes;
     }
 
-    public int getNumero() {
-        return numero;
+    public int getId() {
+        return id;
+    }
+    
+    public static int getProximoId() {
+        return contador;
     }
 
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
-
-    public String getFechaEnvio() {
+    public Date getFechaEnvio() {
         return fechaEnvio;
     }
 
-    public void setFechaEnvio(String fechaEnvio) {
+    public void setFechaEnvio(Date fechaEnvio) {
         this.fechaEnvio = fechaEnvio;
     }
 
@@ -82,6 +88,11 @@ public class Envio {
 
     public void setFuncionario(Funcionario funcionario) {
         this.funcionario = funcionario;
+    }
+    
+    @Override
+    public String toString(){
+        return "Envío: " + this.getId() + " Fecha: " + this.getFechaEnvio();
     }
     
 }

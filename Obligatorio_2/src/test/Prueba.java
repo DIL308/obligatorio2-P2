@@ -10,7 +10,8 @@ public class Prueba {
         
         Sistema modelo = new Sistema();
         MenuPrincipal mp = new MenuPrincipal(modelo);
-        mp.setVisible(true);
+        //PaqueteEnvio mp = new PaqueteEnvio(modelo);
+        mp.setVisible(true); 
         
         Cliente c1 = new Cliente("Pepe", "099123456", "algo@algo.com");
         Cliente c2 = new Cliente("Juan", "099123456", "algo@algo.com");
@@ -26,9 +27,9 @@ public class Prueba {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
         try{
             
-            Paquete p1 = new Paquete("123", c1, sdf.parse("01/01/2025"), "Destino", "Direccion", "Artigas", 1000, 500, "NORTE");
+            Paquete p1 = new Paquete("123", c1, sdf.parse("01/01/2025"), "Destino", "Direccion", "Artigas", 2000, 800, "NORTE");
             Paquete p2 = new Paquete("123", c2, sdf.parse("01/01/2025"), "Destino", "Direccion", "Colonia", 1000, 500, "OESTE");
-            Paquete p3 = new Paquete("123", c3, sdf.parse("01/01/2025"), "Destino", "Direccion", "Paysandú", 1000, 500, "NORTE");
+            Paquete p3 = new Paquete("123", c3, sdf.parse("01/01/2025"), "Destino", "Direccion", "Paysandú", 750, 100, "NORTE");
             
             modelo.agregarPaquete(p1);
             modelo.agregarPaquete(p2);

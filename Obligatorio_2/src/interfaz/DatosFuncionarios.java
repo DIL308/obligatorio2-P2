@@ -72,21 +72,21 @@ public class DatosFuncionarios extends javax.swing.JFrame implements Observer{
         jPanel1.add(jLabel1);
         jLabel1.setBounds(174, 6, 435, 45);
 
-        jLabel2.setText("Nombre");
+        jLabel2.setText("Nombre:");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(44, 62, 44, 16);
+        jLabel2.setBounds(44, 62, 70, 16);
 
-        jLabel3.setText("Celular");
+        jLabel3.setText("Celular: ");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(44, 107, 37, 16);
+        jLabel3.setBounds(44, 107, 70, 16);
 
         jLabel4.setText("Nro de Funcionario");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(44, 145, 102, 16);
+        jLabel4.setBounds(44, 145, 120, 16);
 
         jLabel5.setText("Año de Ingreso");
         jPanel1.add(jLabel5);
-        jLabel5.setBounds(44, 184, 80, 16);
+        jLabel5.setBounds(44, 184, 110, 16);
 
         txtNombreF.addActionListener(this::txtNombreFActionPerformed);
         jPanel1.add(txtNombreF);
@@ -215,7 +215,7 @@ public class DatosFuncionarios extends javax.swing.JFrame implements Observer{
         txtCelularF.setText("");
         txtNumeroF.setText("");
         txtAnioIngresoF.setText("");
-        BtnAgregarFuncionario.setText("Nuevo Funcionario");
+        BtnAgregarFuncionario.setText("Agregar");
         txtNumeroF.setEditable(true);
         
         txtNombreF.requestFocus();
