@@ -180,19 +180,30 @@ public class DatosFuncionarios extends javax.swing.JFrame implements Observer{
                      
             }
             
-            if (datosValidos){
-               Funcionario nuevo = new Funcionario (nombre, celular, nro, anio);
-                this.modelo.agregarFuncionario(nuevo);
-                
-                JOptionPane.showMessageDialog(this,"Funcionario registrado con éxito", "Registro exitoso", 1);
-                this.limpiarCampos();
-                
-                
-                
-            }
+            Funcionario seleccionado = (Funcionario) lstFuncionarios.getSelectedValue();
             
+            if (datosValidos){
+                if(seleccionado == null){
+                    if(this.modelo.NombreYaExisteEnSistema(nombre)){
+                        JOptionPane.showMessageDialog(this,"Ya existe un usuario en el sistema registrado con el mismo nombre");
+                    }else{
+                        Funcionario nuevo = new Funcionario (nombre, celular, nro, anio);
+                        this.modelo.agregarFuncionario(nuevo);
+                        JOptionPane.showMessageDialog(this,"Funcionario registrado con éxito", "Registro exitoso", 1);
+                        this.limpiarCampos();
+                    }
+                }else{
+                    seleccionado.setNombre(nombre);
+                    seleccionado.setCelular(celular);
+                    seleccionado.setNroFuncionario(nro);
+                    seleccionado.setAnioIngreso(anio);
+                    
+                    this.modelo.agregarFuncionario(null);
+                    JOptionPane.showMessageDialog(this, "Funcionario modificado con éxito.");
+                    this.limpiarCampos();
+                } 
+            }
         
-
     }//GEN-LAST:event_BtnAgregarFuncionarioActionPerformed
 
     private void lstFuncionariosValueChanged(javax.swing.event.ListSelectionEvent evt){

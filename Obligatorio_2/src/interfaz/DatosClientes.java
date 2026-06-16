@@ -29,7 +29,9 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
     }
     
     private void objetoAPantalla(){
+        lstClientes.removeListSelectionListener(this::lstClientesValueChanged);
         lstClientes.setListData(this.modelo.getClientesOrdenados().toArray());
+        lstClientes.addListSelectionListener(this::lstClientesValueChanged);
     }
     
       @Override 
@@ -46,7 +48,6 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lblTitulo1 = new javax.swing.JLabel();
         lblNombre = new javax.swing.JLabel();
@@ -56,7 +57,6 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
         txtCelular = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         bnbSalir = new javax.swing.JButton();
-        btnAgregar = new javax.swing.JButton();
         txtMensaje = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         lblTitulo = new javax.swing.JLabel();
@@ -71,8 +71,6 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
         lblCelular1 = new javax.swing.JLabel();
         lblEmail1 = new javax.swing.JLabel();
 
-        jButton2.setText("Agregar Cliente");
-
         jPanel2.setLayout(null);
 
         lblTitulo1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -82,33 +80,28 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
 
         lblNombre.setText("Nombre:");
         jPanel2.add(lblNombre);
-        lblNombre.setBounds(30, 90, 70, 16);
+        lblNombre.setBounds(30, 90, 70, 17);
         jPanel2.add(txtNombre);
-        txtNombre.setBounds(90, 90, 270, 26);
+        txtNombre.setBounds(90, 90, 270, 23);
 
         lblCelular.setText("Celular:");
         jPanel2.add(lblCelular);
-        lblCelular.setBounds(40, 150, 60, 16);
+        lblCelular.setBounds(40, 150, 60, 17);
 
         lblEmail.setText("Email:");
         jPanel2.add(lblEmail);
-        lblEmail.setBounds(50, 210, 37, 16);
+        lblEmail.setBounds(50, 210, 37, 17);
 
         txtCelular.addActionListener(this::txtCelularActionPerformed);
         jPanel2.add(txtCelular);
-        txtCelular.setBounds(90, 150, 270, 26);
+        txtCelular.setBounds(90, 150, 270, 23);
         jPanel2.add(txtEmail);
-        txtEmail.setBounds(90, 210, 270, 26);
+        txtEmail.setBounds(90, 210, 270, 23);
 
         bnbSalir.setText("Salir");
         bnbSalir.addActionListener(this::bnbSalirActionPerformed);
         jPanel2.add(bnbSalir);
-        bnbSalir.setBounds(290, 290, 76, 27);
-
-        btnAgregar.setText("Agregar");
-        btnAgregar.addActionListener(this::btnAgregarActionPerformed);
-        jPanel2.add(btnAgregar);
-        btnAgregar.setBounds(200, 290, 79, 27);
+        bnbSalir.setBounds(290, 290, 72, 23);
         jPanel2.add(txtMensaje);
         txtMensaje.setBounds(60, 260, 270, 16);
 
@@ -139,25 +132,25 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
 
         txtNombre1.addActionListener(this::txtNombre1ActionPerformed);
         jPanel1.add(txtNombre1);
-        txtNombre1.setBounds(100, 50, 200, 26);
+        txtNombre1.setBounds(100, 50, 200, 23);
         jPanel1.add(txtCelular1);
-        txtCelular1.setBounds(100, 90, 200, 26);
+        txtCelular1.setBounds(100, 90, 200, 23);
 
         txtEmail1.addActionListener(this::txtEmail1ActionPerformed);
         jPanel1.add(txtEmail1);
-        txtEmail1.setBounds(100, 130, 200, 26);
+        txtEmail1.setBounds(100, 130, 200, 23);
 
         lblNombre1.setText("Nombre");
         jPanel1.add(lblNombre1);
-        lblNombre1.setBounds(30, 50, 60, 16);
+        lblNombre1.setBounds(30, 50, 60, 17);
 
         lblCelular1.setText("Celular");
         jPanel1.add(lblCelular1);
-        lblCelular1.setBounds(30, 90, 60, 16);
+        lblCelular1.setBounds(30, 90, 60, 17);
 
         lblEmail1.setText("E-mail");
         jPanel1.add(lblEmail1);
-        lblEmail1.setBounds(30, 130, 50, 16);
+        lblEmail1.setBounds(30, 130, 50, 17);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -194,7 +187,7 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
         
         if (datosValidos & !this.modelo.esSoloLetrasYEspacios(nombre)){
             datosValidos = false;
-                    JOptionPane.showMessageDialog(this, "El nombre no puede contener números ni caracteres especiales.", "Error de formato",0);
+            JOptionPane.showMessageDialog(this, "El nombre no puede contener números ni caracteres especiales.", "Error de formato",0);
 
         }
         if(datosValidos){
@@ -219,26 +212,32 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
         
         if(datosValidos){
             if(seleccionado == null){
-                if(this.modelo.clienteYaExiste(nombre)){
-                 JOptionPane.showMessageDialog(this,"Ya existe un cliente registrado con ese nombre","Erorr de formato",0);
+                if(this.modelo.NombreYaExisteEnSistema(nombre)){
+                 JOptionPane.showMessageDialog(this,"Ya existe un usuario registrado con ese nombre","Erorr de formato",0);
                 }else{
                     Cliente nuevo = new Cliente (nombre,celular,email);
                     this.modelo.agregarCliente(nuevo);
+                    this.modelo.serializar();
                     JOptionPane.showMessageDialog(this,"Cliente agregado correctamente");
                     limpiarCampos();
                 }
             } else{
-                if(!seleccionado.getNombre().equalsIgnoreCase(nombre) && this.modelo.clienteYaExiste(nombre)){
+                if(!seleccionado.getNombre().equalsIgnoreCase(nombre) && this.modelo.NombreYaExisteEnSistema(nombre)){
                   JOptionPane.showMessageDialog(this,"El nuevo nombre ya pertenece a otro cliente","Error",0);
                 }else{
-                        Cliente modificado = new Cliente(nombre,celular,email);
-                        this.modelo.agregarCliente(modificado);
-                        JOptionPane.showMessageDialog(this, "Cliente modificado con éxito");
-
-                          limpiarCampos();
-                          }
-  
+                    seleccionado.setNombre(nombre);
+                    seleccionado.setCelular(celular);
+                    seleccionado.setEmail(email); 
+                
+                this.modelo.serializar();
+                this.objetoAPantalla();
+                
+                JOptionPane.showMessageDialog(this,"Cliente modificado con éxito");
+                limpiarCampos();
                 }
+  
+            }
+          
             
         
         }
@@ -257,47 +256,6 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
     private void bnbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnbSalirActionPerformed
         this.dispose();
     }//GEN-LAST:event_bnbSalirActionPerformed
-
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-
-        boolean datosValidos = true;
-        txtMensaje.setText("");
-
-        String nombre = txtNombre1.getText(); //No debe contener número
-        String celular = txtCelular1.getText(); //Deben ser números
-        String email = txtEmail1.getText();// ToDo: Mejorar validación de Email
-
-        //Valido datos contengan texto
-        if(  (this.modelo.textoVacio(nombre)) ||
-            (this.modelo.textoVacio(celular)) ||
-            (this.modelo.textoVacio(email))
-        ){
-            datosValidos = false;
-            txtMensaje.setText("Debe completar todos los campos.");
-
-        }
-        else if(!email.contains("@")){
-            datosValidos = false;
-            txtMensaje.setText("El email no es válido.");
-        }
-        
-        if (datosValidos){
-            Cliente nuevo = new Cliente(nombre,celular,email);
-            
-            modelo.agregarCliente(nuevo);
-            objetoAPantalla();
-            
-            txtNombre1.setText("");
-            txtCelular1.setText("");
-            txtEmail1.setText("");
-            
-            txtMensaje.setText("Cliente agregado correctamente");
-            txtNombre1.requestFocus();
-        }
-        
-   
-
-    }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void txtEmail1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmail1ActionPerformed
         // TODO add your handling code here:
@@ -334,10 +292,8 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bnbSalir;
-    private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnAgregarCliente;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

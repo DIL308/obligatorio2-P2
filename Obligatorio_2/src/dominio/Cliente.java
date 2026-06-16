@@ -33,4 +33,21 @@ public class Cliente extends Persona{ //Ya implementa serializable por Persona
         return getNombre();
     }
     
+    @Override 
+    public boolean equals(Object obj){
+        boolean sonIguales = false;
+        
+        if(this == obj){
+            sonIguales = true;
+        }else{
+            if(obj != null && getClass()==obj.getClass()){
+                Cliente unCliente = (Cliente) obj;
+                if(this.getEmail().equals(unCliente.getEmail())){
+                    sonIguales = true;
+                }
+            }
+        }
+        return sonIguales;
+    }
+    
 }

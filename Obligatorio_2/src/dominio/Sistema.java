@@ -41,7 +41,6 @@ public class Sistema extends Observable  implements Serializable{
         this.tarifas = new ArrayList<Tarifa>();
         
         cargarTarifas();
-        serializar();
         
     }
     
@@ -329,14 +328,20 @@ public class Sistema extends Observable  implements Serializable{
         return todoOk;
     }
     
-    public boolean clienteYaExiste(String nombre){
+    public boolean NombreYaExisteEnSistema(String nombre){
         boolean existe = false;
         for (int i=0; i<this.clientes.size() && !existe;i++){
             if (this.clientes.get(i).getNombre().equalsIgnoreCase(nombre)){
                 existe = true;
             }
             
-        }return existe;
+        }
+        for (int j=0;j<this.funcionarios.size() && !existe;j++){
+            if (this.funcionarios.get(j).getNombre().equalsIgnoreCase(nombre)){
+                existe = true;
+            }
+        }
+        return existe;
     }
     
     public ArrayList<Cliente> getClientesOrdenados(){
@@ -380,5 +385,47 @@ public class Sistema extends Observable  implements Serializable{
         Collections.sort(env);
         return env;
 }
+    public int contarPaquetesPorClienteYEstado(Cliente unCliente, String unEstado){
+        int contador = 0;
+        for (int i=0;i<this.paquetes.size();i++){
+            Paquete p =  this.paquetes.get(i);
+            if(p.getEstado().equals(unEstado) && p.getCliente().getEmail().equals(unCliente.getEmail()))
+                contador++;
+        }
+        return contador;
+    }
+    
+    public Cliente buscarClientePorEmail(String unEmail){
+        Cliente clienteEncontrado = null;
+        int i = 0;
+        
+        while(i<this.clientes.size() && clienteEncontrado == null){
+            if(this.clientes.get(i).getEmail().equalsIgnoreCase(unEmail)){
+                clienteEncontrado = this.clientes.get(i);
+            }
+            i++;
+        }return clienteEncontrado;
+    } 
+    
+    public int contarPaquetesPorZonaYEstado(String zona, String estado){
+        int contador = 0;
+        
+        if(this.paquetes != null){
+            for (int i=0; i<this.paquetes.size();i++){
+                Paquete p = this.paquetes.get(i);
+            
+                if (p != null && p.getZona()!= null && p.getEstado() !=null){
+                    if (p.getZona().equalsIgnoreCase(zona) && p.getEstado().equalsIgnoreCase(estado)){
+                        contador++;
+                
+                    }
+            
+                }
+            }
+            
+            
+        }         
+        return contador;
+    }
 
 }

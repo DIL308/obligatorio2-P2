@@ -89,9 +89,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         MenuReportes.setText("Reportes");
 
         jMenuItem8.setText("Paquetes por estado");
+        jMenuItem8.addActionListener(this::jMenuItem8ActionPerformed);
         MenuReportes.add(jMenuItem8);
 
         jMenuItem9.setText("Consulta por cliente");
+        jMenuItem9.addActionListener(this::jMenuItem9ActionPerformed);
         MenuReportes.add(jMenuItem9);
 
         jMenuItem10.setText("Log de transacciones");
@@ -159,6 +161,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
         modelo.serializar();
         this.dispose();
     }//GEN-LAST:event_MenuSalirSistemaActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+    ReportesConsultaPorCliente ventana = new ReportesConsultaPorCliente(this.modelo);
+    ventana.setVisible(true);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+    ReportesPaquetesPorEstado ventanaReporte = new ReportesPaquetesPorEstado(this.modelo);
+    ventanaReporte.setVisible(true);
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
    
    
