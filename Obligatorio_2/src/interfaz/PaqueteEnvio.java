@@ -260,6 +260,9 @@ public class PaqueteEnvio extends javax.swing.JFrame implements Observer {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         sdf.setLenient(false);
         lstEnvio.getModel();
+        //lstFuncionario.setEditable(false); Habría q bloquear esto también
+        txtFecha.setEditable(false);
+        cmbZona.setEditable(false);
         
         try{   
             Funcionario funcionario = (Funcionario) lstFuncionario.getSelectedValue();

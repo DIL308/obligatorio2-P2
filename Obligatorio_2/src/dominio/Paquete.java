@@ -31,6 +31,7 @@ public class Paquete implements Serializable{
         this.setZona(zona);
         this.setEstado("Pendiente");    
         this.setPrecio(precio);
+        
     }
     
     public Paquete(){ 
@@ -63,18 +64,9 @@ public class Paquete implements Serializable{
         return categoria;
     }
 
-    /*public boolean estaPendiente(){
-        boolean esta = false;
-        if(estado.equalsIgnoreCase("Pendiente")){
-            esta = true;
-        }
-        return esta;
-    }*/
-    
-  
     /*
-        GETTERS & SETTERS
-    */
+    GETTERS & SETTERS
+     */
     public String getId() {
         return id;
     }

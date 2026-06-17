@@ -12,6 +12,8 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.FileInputStream;
 import java.io.Serializable;
+import java.io.FileNotFoundException;
+import javax.swing.JOptionPane;
 
 /*
  * Trabajo realizado por 
@@ -50,7 +52,7 @@ public class Sistema extends Observable  implements Serializable{
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("sistema.ser"));
             out.writeObject(this);
         }catch (IOException e){
-            System.out.println("Error");
+            e.printStackTrace();
         }
         
     }
@@ -62,8 +64,14 @@ public class Sistema extends Observable  implements Serializable{
         try{
             ObjectInputStream in = new ObjectInputStream(new FileInputStream("sistema.ser"));
             sistema = (Sistema) in.readObject();
+            in.close();
+        }catch (FileNotFoundException e) {
+
+            JOptionPane.showMessageDialog(null,"No existe archivo de serialización. Se inicia un sistema nuevo.","Error",JOptionPane.ERROR_MESSAGE);
+            sistema = new Sistema();
+
         }catch (IOException | ClassNotFoundException ex){
-            System.out.println("Error");
+            ex.printStackTrace();
         }
         
         return sistema;
@@ -419,12 +427,9 @@ public class Sistema extends Observable  implements Serializable{
                         contador++;
                 
                     }
-            
                 }
             }
-            
-            
-        }         
+        }      
         return contador;
     }
 

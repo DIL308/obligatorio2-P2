@@ -8,24 +8,23 @@ import dominio.Sistema;
  */
 public class MainSistema {
     public static void main(String[] args) {
-        dominio.Sistema sistema;
+        
+        /*Sistema sistema;
         
         try{
-            sistema = dominio.Sistema.deserializar();
-            
+            sistema = Sistema.deserializar();
             if(sistema == null){
-                sistema = new dominio.Sistema();
+                sistema = new Sistema();
             }
         } catch (Exception e){
             System.out.println("Aviso :Error al cargar archivo de persistencia.");
-            sistema = new dominio.Sistema();
-         }
-        
-        final dominio.Sistema sistemaFinal = sistema;
+            sistema = new Sistema();
+        }
+        final Sistema sistemaFinal = sistema;
         java.awt.EventQueue.invokeLater(() ->{
             new MenuPrincipal(sistemaFinal).setVisible(true);
             });
-        
+        */
         ComenzarCon cc = new ComenzarCon();
         cc.setVisible(true);
         

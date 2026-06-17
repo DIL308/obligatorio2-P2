@@ -17,10 +17,19 @@ public class Envio implements Comparable<Envio>, Serializable{
     private String zona;
     private Funcionario funcionario;
     private ArrayList<Paquete> paquetes;
+    private boolean recepcionRegistrada;
 
     @Override
     public int compareTo(Envio e) {
         return Integer.compare(e.getId(), this.getId());
+    }
+    
+    public boolean getRecepcionRegistrada() {    
+        return recepcionRegistrada;
+    }
+    
+    public void setRecepcionRegistrada(boolean recepcionRegistrada) {
+        this.recepcionRegistrada = recepcionRegistrada;
     }
     
     

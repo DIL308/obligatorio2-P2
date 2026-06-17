@@ -51,6 +51,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de envíos");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setLayout(null);
 
@@ -119,7 +124,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
         );
 
         setBounds(0, 0, 512, 390);
@@ -157,9 +162,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_MenuPaqueteEnvioActionPerformed
 
     private void MenuSalirSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuSalirSistemaActionPerformed
-        // TODO add your handling code here:
-        modelo.serializar();
-        this.dispose();
+        this.guardarCambiosYSalir();
     }//GEN-LAST:event_MenuSalirSistemaActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
@@ -172,7 +175,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
     ventanaReporte.setVisible(true);
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
-   
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+
+        this.guardarCambiosYSalir();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void guardarCambiosYSalir(){
+        modelo.serializar();
+        this.dispose();
+    }
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

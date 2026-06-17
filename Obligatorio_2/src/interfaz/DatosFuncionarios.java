@@ -98,6 +98,11 @@ public class DatosFuncionarios extends javax.swing.JFrame implements Observer{
         jPanel1.add(txtAnioIngresoF);
         txtAnioIngresoF.setBounds(170, 184, 169, 26);
 
+        lstFuncionarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstFuncionariosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(lstFuncionarios);
 
         jPanel1.add(jScrollPane1);
@@ -137,12 +142,12 @@ public class DatosFuncionarios extends javax.swing.JFrame implements Observer{
         if(this.modelo.textoVacio(nombre) ||
            this.modelo.textoVacio(celular) ||
            this.modelo.textoVacio(nroFuncionario) ||
-            this.modelo.textoVacio(anioIngreso) ){
+           this.modelo.textoVacio(anioIngreso) ){
             
             datosValidos = false;
-            JOptionPane.showMessageDialog(this,"Debe completar todos los campos.", "Campos incompletos",0);
-            
+            JOptionPane.showMessageDialog(this,"Debe completar todos los campos.", "Campos incompletos",0);     
         }
+        
         if((datosValidos) && !this.modelo.esSoloLetrasYEspacios(nombre)){
             datosValidos = false;
             JOptionPane.showMessageDialog(this,"El nombre no puede contener números ni caracteres especiales.", "Eror de formato",0);
@@ -153,56 +158,51 @@ public class DatosFuncionarios extends javax.swing.JFrame implements Observer{
                 if (!Character.isDigit(celular.charAt(i))){
                     datosValidos=false;
                     JOptionPane.showMessageDialog(this, "El celular solo puede tener números.", "Error de formato",0);
-
-                    
                 }
-                
-            }
-            
-        }        
+            }   
+        }
         int nro = 0;
         int anio = 0;
             
+        if (datosValidos){
+            try{
+                nro = Integer.parseInt(nroFuncionario);
+                anio = Integer.parseInt(anioIngreso);
 
-            if (datosValidos){
-                try{
-                    nro = Integer.parseInt(nroFuncionario);
-                    anio = Integer.parseInt(anioIngreso);
-                    
-                    if (anio <1900 || anio >2026){
-                        datosValidos = false;
-                         JOptionPane.showMessageDialog(this,"El año de ingreso no es válido","Año incorrecto",0);
-                    }
-                } catch (NumberFormatException e){
+                if (anio <1950 || anio >2026){
                     datosValidos = false;
-                    JOptionPane.showMessageDialog(this,"El numero de funcionario y año deben ser numeros enteros", "Error de formato",0);
+                    JOptionPane.showMessageDialog(this,"El año de ingreso debe estar entre 1950 y 2026","Año incorrecto",0);
                 }
-                     
+            } catch (NumberFormatException e){
+                datosValidos = false;
+                JOptionPane.showMessageDialog(this,"El numero de funcionario y año deben ser numeros enteros", "Error de formato",0);
             }
+        }
             
-            Funcionario seleccionado = (Funcionario) lstFuncionarios.getSelectedValue();
+        Funcionario seleccionado = (Funcionario) lstFuncionarios.getSelectedValue();
             
-            if (datosValidos){
-                if(seleccionado == null){
-                    if(this.modelo.NombreYaExisteEnSistema(nombre)){
-                        JOptionPane.showMessageDialog(this,"Ya existe un usuario en el sistema registrado con el mismo nombre");
-                    }else{
-                        Funcionario nuevo = new Funcionario (nombre, celular, nro, anio);
-                        this.modelo.agregarFuncionario(nuevo);
-                        JOptionPane.showMessageDialog(this,"Funcionario registrado con éxito", "Registro exitoso", 1);
-                        this.limpiarCampos();
-                    }
+        if (datosValidos){
+            if(seleccionado == null){
+                if(this.modelo.NombreYaExisteEnSistema(nombre)){
+                    JOptionPane.showMessageDialog(this,"Ya existe un usuario en el sistema registrado con el mismo nombre");
                 }else{
-                    seleccionado.setNombre(nombre);
-                    seleccionado.setCelular(celular);
-                    seleccionado.setNroFuncionario(nro);
-                    seleccionado.setAnioIngreso(anio);
-                    
-                    this.modelo.agregarFuncionario(null);
-                    JOptionPane.showMessageDialog(this, "Funcionario modificado con éxito.");
+                    Funcionario nuevo = new Funcionario (nombre, celular, nro, anio);
+                    this.modelo.agregarFuncionario(nuevo);
+                    JOptionPane.showMessageDialog(this,"Funcionario registrado con éxito", "Registro exitoso", 1);
                     this.limpiarCampos();
-                } 
             }
+            }else{
+                seleccionado.setNombre(nombre);
+                seleccionado.setCelular(celular);
+                seleccionado.setNroFuncionario(nro);
+                seleccionado.setAnioIngreso(anio);
+
+                //this.modelo.agregarFuncionario(null);
+                JOptionPane.showMessageDialog(this, "Funcionario modificado con éxito.");
+                this.limpiarCampos();
+                lstFuncionarios.clearSelection();
+            } 
+        }
         
     }//GEN-LAST:event_BtnAgregarFuncionarioActionPerformed
 
@@ -215,8 +215,8 @@ public class DatosFuncionarios extends javax.swing.JFrame implements Observer{
                 txtNumeroF.setText(String.valueOf(seleccionado.getNroFuncionario()));
                 txtAnioIngresoF.setText(String.valueOf(seleccionado.getAnioIngreso()));
                 
-                txtNumeroF.setEditable(false);
-                BtnAgregarFuncionario.setText("Guardar Cambios");
+                //txtNumeroF.setEditable(false); La letra no especifica q no se pueda modificar el nro Funcionario
+                BtnAgregarFuncionario.setText("Modificar");
             }
         }
     }
@@ -233,7 +233,11 @@ public class DatosFuncionarios extends javax.swing.JFrame implements Observer{
         
     }
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-this.dispose();    }//GEN-LAST:event_btnSalirActionPerformed
+        this.dispose();    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void lstFuncionariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstFuncionariosMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lstFuncionariosMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAgregarFuncionario;
