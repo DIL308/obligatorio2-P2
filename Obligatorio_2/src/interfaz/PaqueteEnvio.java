@@ -306,12 +306,14 @@ public class PaqueteEnvio extends javax.swing.JFrame implements Observer {
             for (int i = 0; i < paqueteParaEnvio.getSize(); i++) {
                 Paquete p = (Paquete)paqueteParaEnvio.getElementAt(i);
                 p.setEstado("enviado");
-                this.modelo.getPaquetes().remove(p);
+               // this.modelo.getPaquetes().remove(p);
                 paquetes.add(p);
             }
             
-            Envio nuevoEnvio = new Envio(fecha, zona, func, paquetes);
+            Envio nuevoEnvio = new Envio(fecha, zona, func, paquetes); 
             this.modelo.getEnvios().add(nuevoEnvio);
+            this.modelo.marcarCambio();
+            this.modelo.serializar();
             
             paqueteParaEnvio.clear();
             JOptionPane.showMessageDialog(this, "El envío fue creado correctamente.", "Envío creado", JOptionPane.INFORMATION_MESSAGE);   

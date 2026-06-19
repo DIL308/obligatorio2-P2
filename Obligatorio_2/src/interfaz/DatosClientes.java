@@ -276,6 +276,9 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
             
             btnAgregarCliente.setText("Guardar Cambios");
         }
+        else{
+            btnAgregarCliente.setText("Agregar");
+        }
     }
 
     }

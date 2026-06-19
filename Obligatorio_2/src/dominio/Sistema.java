@@ -27,6 +27,7 @@ import javax.swing.JOptionPane;
  */
 public class Sistema extends Observable  implements Serializable{
     
+    private static final long serialVersionUID = 1L;
     private ArrayList<Cliente> clientes;
     private ArrayList<Funcionario> funcionarios;
     private ArrayList<Paquete> paquetes;
@@ -66,7 +67,6 @@ public class Sistema extends Observable  implements Serializable{
             sistema = (Sistema) in.readObject();
             in.close();
         }catch (FileNotFoundException e) {
-
             JOptionPane.showMessageDialog(null,"No existe archivo de serialización. Se inicia un sistema nuevo.","Error",JOptionPane.ERROR_MESSAGE);
             sistema = new Sistema();
 
@@ -102,6 +102,8 @@ public class Sistema extends Observable  implements Serializable{
         this.getClientes().add(cliente);
         this.setChanged();
         this.notifyObservers();
+        this.serializar();
+        ArchivoLog.registrar("Ingreso de cliente" + cliente.getNombre());
     }
     
     public ArrayList<Cliente> getClientes() {
@@ -123,9 +125,13 @@ public class Sistema extends Observable  implements Serializable{
             existente.setNombre(funcionario.getNombre());
             existente.setCelular(funcionario.getCelular());
             existente.setAnioIngreso(funcionario.getAnioIngreso());
+            
+            ArchivoLog.registrar("Modificación de datos del funcionario" + existente.getNombre());                    
         }
         else{
         this.getFuncionarios().add(funcionario);
+            ArchivoLog.registrar("Ingreso de funcionario " + funcionario.getNombre());  
+        
         }
         this.setChanged();
         this.notifyObservers();
@@ -143,16 +149,23 @@ public class Sistema extends Observable  implements Serializable{
         this.getPaquetes().add(paquete);
         this.setChanged();
         this.notifyObservers();
+        this.serializar();
+        
+        ArchivoLog.registrar("Ingreso de paquete de cliente" + paquete.getCliente());
     }
 
     public ArrayList<Envio> getEnvios() {
         return envios;
     }
 
+    
     public void agregarEnvios(Envio envio) {
         this.getEnvios().add(envio);
         this.setChanged();
         this.notifyObservers();
+        this.serializar();
+        
+        ArchivoLog.registrar("Ingreso de un nuevo envío en el sistema");
     }
 
     public ArrayList<Tarifa> getTarifas() {
@@ -431,6 +444,11 @@ public class Sistema extends Observable  implements Serializable{
             }
         }      
         return contador;
+    }
+    
+    public void marcarCambio(){
+        this.setChanged();
+        this.notifyObservers();
     }
 
 }

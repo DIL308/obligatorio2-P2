@@ -77,11 +77,9 @@ public class ReportesConsultaPorCliente extends javax.swing.JFrame implements Ob
         lblPendientes = new javax.swing.JLabel();
         lblEnviados = new javax.swing.JLabel();
         lblRecibidos = new javax.swing.JLabel();
-        lblTotalPendientes = new javax.swing.JLabel();
-        lblTotalEnviados = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jScrollPane1.setViewportView(lstClientes);
@@ -94,11 +92,11 @@ public class ReportesConsultaPorCliente extends javax.swing.JFrame implements Ob
         getContentPane().add(jLabel1);
         jLabel1.setBounds(90, 20, 210, 17);
 
-        lblPendientes.setText("Pendientes:");
+        lblPendientes.setText("Pendientes: 0");
         getContentPane().add(lblPendientes);
         lblPendientes.setBounds(180, 60, 90, 17);
 
-        lblEnviados.setText("Enviados:");
+        lblEnviados.setText("Enviados:  0");
         getContentPane().add(lblEnviados);
         lblEnviados.setBounds(180, 100, 100, 17);
 
@@ -106,15 +104,8 @@ public class ReportesConsultaPorCliente extends javax.swing.JFrame implements Ob
         getContentPane().add(lblRecibidos);
         lblRecibidos.setBounds(180, 140, 120, 17);
 
-        lblTotalPendientes.setText("0");
-        getContentPane().add(lblTotalPendientes);
-        lblTotalPendientes.setBounds(260, 60, 7, 17);
-
-        lblTotalEnviados.setText("0");
-        getContentPane().add(lblTotalEnviados);
-        lblTotalEnviados.setBounds(260, 100, 7, 17);
-
         jButton1.setText("Salir");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jButton1.addActionListener(this::jButton1ActionPerformed);
         getContentPane().add(jButton1);
         jButton1.setBounds(290, 260, 78, 23);
@@ -134,8 +125,6 @@ this.dispose();
     private javax.swing.JLabel lblEnviados;
     private javax.swing.JLabel lblPendientes;
     private javax.swing.JLabel lblRecibidos;
-    private javax.swing.JLabel lblTotalEnviados;
-    private javax.swing.JLabel lblTotalPendientes;
     private javax.swing.JList<Object> lstClientes;
     // End of variables declaration//GEN-END:variables
 }

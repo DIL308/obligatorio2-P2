@@ -1,5 +1,6 @@
 package interfaz;
 import dominio.Sistema;
+import dominio.ArchivoLog;
 
 /*
  * Trabajo realizado por 
@@ -164,7 +165,6 @@ public class DatosTarifas extends javax.swing.JFrame {
             if(ok){
             boolean esAumento = rbtnAumentar.isSelected();
             
-            
             java.util.ArrayList<dominio.Tarifa> listaDeTarifas = this.modelo.getTarifas();
             for(int i =0 ; i<listaDeTarifas.size(); i++){
                 dominio.Tarifa t = listaDeTarifas.get(i);
@@ -172,7 +172,11 @@ public class DatosTarifas extends javax.swing.JFrame {
                t.actualizarTarifa(porcentaje, esAumento);
                 
             }
+            String operacion = esAumento? "Aumento" : "Disminución";
+            ArchivoLog.registrar("Modificación de tarifas:" + operacion +  "del" + porcentaje + "%");
             
+            this.modelo.marcarCambio();
+            this.modelo.serializar();
             cargarTablaTarifas();
             
             txtModTarifa.setText("");

@@ -2,6 +2,7 @@ package interfaz;
 import dominio.Sistema;
 import javax.swing.ImageIcon;
 import java.awt.Image;
+import interfaz.ReportesLogDeTransacciones;
 
 /**
 * Trabajo realizado por 
@@ -31,6 +32,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jMenuItem6 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         MenuDatos = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -58,6 +60,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
 
         jPanel1.setLayout(null);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/portada.png"))); // NOI18N
+        jLabel1.setText("jLabel1");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(0, -20, 810, 390);
 
         MenuDatos.setText("Datos");
 
@@ -102,6 +109,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         MenuReportes.add(jMenuItem9);
 
         jMenuItem10.setText("Log de transacciones");
+        jMenuItem10.addActionListener(this::jMenuItem10ActionPerformed);
         MenuReportes.add(jMenuItem10);
 
         jMenuBar1.add(MenuReportes);
@@ -120,7 +128,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,6 +188,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         this.guardarCambiosYSalir();
     }//GEN-LAST:event_formWindowClosing
 
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+    ReportesLogDeTransacciones ventanaLog = new ReportesLogDeTransacciones(this.modelo);
+    ventanaLog.setVisible(true);
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
     private void guardarCambiosYSalir(){
         modelo.serializar();
         this.dispose();
@@ -195,6 +208,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu MenuReportes;
     private javax.swing.JMenu MenuSalir;
     private javax.swing.JMenuItem MenuSalirSistema;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
