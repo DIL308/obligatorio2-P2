@@ -228,13 +228,13 @@ public class PaqueteIngreso extends javax.swing.JFrame implements Observer{
         String mensaje = "";
         
         try{    
-            String id = txtId.getText();
+            String id = txtId.getText().trim();
             Cliente cliente = (Cliente) lstClientes.getSelectedValue();
-            Date fecha = sdf.parse(txtFecha.getText());
-            String destinatario = txtDestinatario.getText();
-            String direccionDestino = txtDireccionDestino.getText();
+            Date fecha = sdf.parse(txtFecha.getText().trim());
+            String destinatario = txtDestinatario.getText().trim();
+            String direccionDestino = txtDireccionDestino.getText().trim();
             String departamento = (String) cmbDepartamento.getSelectedItem();
-            String peso = txtPeso.getText();
+            String peso = txtPeso.getText().trim();
             int pesoInt = 0;
 
             //validacion Textos vacíos (No estoy validadno cliente)

@@ -266,7 +266,7 @@ public class PaqueteEnvio extends javax.swing.JFrame implements Observer {
         
         try{   
             Funcionario funcionario = (Funcionario) lstFuncionario.getSelectedValue();
-            Date fecha = sdf.parse(txtFecha.getText());
+            Date fecha = sdf.parse(txtFecha.getText().trim());
             String zona = (String) cmbZona.getSelectedItem();
             
             if(funcionario == null) {
@@ -299,7 +299,7 @@ public class PaqueteEnvio extends javax.swing.JFrame implements Observer {
         
         try{
             Funcionario func = (Funcionario) lstFuncionario.getSelectedValue();
-            Date fecha = sdf.parse(txtFecha.getText());
+            Date fecha = sdf.parse(txtFecha.getText().trim());
             String zona = (String) cmbZona.getSelectedItem(); 
             ArrayList<Paquete> paquetes = new ArrayList<>();
             

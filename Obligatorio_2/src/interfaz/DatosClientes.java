@@ -171,9 +171,9 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
         boolean datosValidos = true;
         txtMensaje.setText("");
 
-        String nombre = txtNombre1.getText(); //No debe contener número
-        String celular = txtCelular1.getText(); //Deben ser números
-        String email = txtEmail1.getText();// ToDo: Mejorar validación de Email
+        String nombre = txtNombre1.getText().trim(); //No debe contener número
+        String celular = txtCelular1.getText().trim(); //Deben ser números
+        String email = txtEmail1.getText().trim();// ToDo: Mejorar validación de Email
 
         //Valido datos contengan texto
         if((this.modelo.textoVacio(nombre)) ||
@@ -195,8 +195,6 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
                 if (!Character.isDigit(celular.charAt(i))){
                     datosValidos=false;
                     JOptionPane.showMessageDialog(this, "El celular solo puede tener números.", "Error de formato",0);
-
-                    
                 }
                 
             }

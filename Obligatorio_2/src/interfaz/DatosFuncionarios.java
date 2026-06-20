@@ -131,10 +131,10 @@ public class DatosFuncionarios extends javax.swing.JFrame implements Observer{
     }//GEN-LAST:event_txtNombreFActionPerformed
 
     private void BtnAgregarFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregarFuncionarioActionPerformed
-        String nombre = txtNombreF.getText();
-        String celular = txtCelularF.getText();
-        String nroFuncionario = txtNumeroF.getText();
-        String anioIngreso = txtAnioIngresoF.getText();
+        String nombre = txtNombreF.getText().trim();
+        String celular = txtCelularF.getText().trim();
+        String nroFuncionario = txtNumeroF.getText().trim();
+        String anioIngreso = txtAnioIngresoF.getText().trim();
         
         boolean datosValidos = true;
         txtMensaje.setText("");

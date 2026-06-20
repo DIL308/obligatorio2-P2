@@ -146,7 +146,7 @@ public class DatosTarifas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        String textoPorcentaje = txtModTarifa.getText();
+        String textoPorcentaje = txtModTarifa.getText().trim();
         boolean ok = true;
         
         if(this.modelo.textoVacio(textoPorcentaje)) { 
