@@ -26,6 +26,7 @@ public class PaqueteIngreso extends javax.swing.JFrame implements Observer{
         this.modelo.addObserver(this);
         initComponents();
         this.objetoAPantalla();
+        this.setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -43,6 +44,7 @@ public class PaqueteIngreso extends javax.swing.JFrame implements Observer{
     private void cargarTabla() {
 
         DefaultTableModel modeloTabla = (DefaultTableModel) tblPaquetes.getModel();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         modeloTabla.setRowCount(0);
 
@@ -51,7 +53,7 @@ public class PaqueteIngreso extends javax.swing.JFrame implements Observer{
             modeloTabla.addRow(new Object[]{
                 paquete.getId(), 
                 paquete.getCliente(),
-                paquete.getFecha(),
+                sdf.format(paquete.getFecha()),
                 paquete.getDestinatario(),
                 paquete.getDireccionEnvio(),
                 paquete.getDepartamentoEnvio(),
@@ -92,80 +94,76 @@ public class PaqueteIngreso extends javax.swing.JFrame implements Observer{
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Ingreso de Paquetes");
+        getContentPane().setLayout(null);
 
         jPanel1.setLayout(null);
 
         lblId.setText("Id:");
         jPanel1.add(lblId);
-        lblId.setBounds(50, 40, 90, 16);
+        lblId.setBounds(170, 40, 90, 16);
 
-        lstClientes.setModel(new javax.swing.AbstractListModel<Object>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(lstClientes);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(110, 90, 290, 110);
+        jScrollPane1.setBounds(230, 90, 290, 110);
 
         txtId.addActionListener(this::txtIdActionPerformed);
         jPanel1.add(txtId);
-        txtId.setBounds(110, 40, 290, 26);
+        txtId.setBounds(230, 40, 290, 26);
 
         lblFecha.setText("Fecha (dd/mm/yyyy):");
         jPanel1.add(lblFecha);
-        lblFecha.setBounds(50, 210, 130, 16);
+        lblFecha.setBounds(170, 210, 130, 16);
 
         lblDestinatario.setText("Nombre destinatario:");
         jPanel1.add(lblDestinatario);
-        lblDestinatario.setBounds(50, 240, 140, 16);
+        lblDestinatario.setBounds(170, 240, 140, 16);
 
         lblDepartamento.setText("Departamento:");
         jPanel1.add(lblDepartamento);
-        lblDepartamento.setBounds(50, 310, 100, 16);
+        lblDepartamento.setBounds(170, 310, 100, 16);
 
         lblPeso.setText("Peso (en gramos):");
         jPanel1.add(lblPeso);
-        lblPeso.setBounds(50, 340, 130, 16);
+        lblPeso.setBounds(170, 340, 130, 16);
 
         btnCargar.setText("Cargar Paquete");
         btnCargar.addActionListener(this::btnCargarActionPerformed);
         jPanel1.add(btnCargar);
-        btnCargar.setBounds(130, 390, 140, 27);
+        btnCargar.setBounds(250, 390, 140, 27);
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
         jPanel1.add(btnCancelar);
-        btnCancelar.setBounds(280, 390, 140, 27);
+        btnCancelar.setBounds(400, 390, 140, 27);
 
         txtFecha.addActionListener(this::txtFechaActionPerformed);
         jPanel1.add(txtFecha);
-        txtFecha.setBounds(190, 210, 210, 26);
+        txtFecha.setBounds(310, 210, 210, 26);
         jPanel1.add(txtDestinatario);
-        txtDestinatario.setBounds(190, 240, 210, 26);
+        txtDestinatario.setBounds(310, 240, 210, 26);
         jPanel1.add(txtPeso);
-        txtPeso.setBounds(190, 340, 210, 26);
+        txtPeso.setBounds(310, 340, 210, 26);
 
         jLabel1.setText("Cliente:");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(50, 90, 80, 16);
+        jLabel1.setBounds(170, 90, 80, 16);
 
         cmbDepartamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Artigas", "Canelones", "Cerro Largo", "Colonia", "Durazno", "Flores", "Florida", "Lavalleja", "Maldonado", "Montevideo", "Paysandú", "Río Negro", "Rivera", "Rocha", "Salto", "San José", "Soriano", "Tacuarembó", "Treinta y Tres" }));
         cmbDepartamento.addActionListener(this::cmbDepartamentoActionPerformed);
         jPanel1.add(cmbDepartamento);
-        cmbDepartamento.setBounds(190, 310, 210, 26);
+        cmbDepartamento.setBounds(310, 310, 210, 26);
 
         jLabel2.setText("Dirección destinatario:");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(50, 270, 140, 20);
+        jLabel2.setBounds(170, 270, 140, 20);
         jPanel1.add(txtDireccionDestino);
-        txtDireccionDestino.setBounds(190, 270, 210, 26);
+        txtDireccionDestino.setBounds(310, 270, 210, 26);
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblTitulo.setText("Crear Paquete");
         jPanel1.add(lblTitulo);
-        lblTitulo.setBounds(150, 0, 240, 30);
+        lblTitulo.setBounds(270, 0, 240, 30);
 
         tblPaquetes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -175,7 +173,7 @@ public class PaqueteIngreso extends javax.swing.JFrame implements Observer{
                 {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Id", "Cliente", "Fecha", "Destinatario", "Dirección", "Departamento", "Peso", "Zona", "Precio", "Estado"
+                "Id", "Cliente", "Fecha", "Destinatario", "Dirección", "Dpto", "Peso", "Zona", "Precio", "Estado"
             }
         ) {
             Class[] types = new Class [] {
@@ -189,26 +187,12 @@ public class PaqueteIngreso extends javax.swing.JFrame implements Observer{
         jScrollPane2.setViewportView(tblPaquetes);
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(10, 440, 540, 110);
+        jScrollPane2.setBounds(10, 440, 720, 150);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(8, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(6, 6, 760, 610);
 
-        setBounds(0, 0, 580, 667);
+        setBounds(0, 0, 775, 646);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaActionPerformed
@@ -250,6 +234,11 @@ public class PaqueteIngreso extends javax.swing.JFrame implements Observer{
             else{
                 pesoInt = Integer.parseInt(peso);
             }
+            
+            if (fecha.before(sdf.parse("01/01/2020")) || fecha.after(sdf.parse("31/12/2026"))) {
+                todoOk = false;
+                mensaje = "Rango de fecha permitido entre 01/01/2020 y 31/12/2026";
+            }
 
             if(todoOk && !(this.modelo.esAlfanumerico(id))){
                 todoOk = false;
@@ -264,6 +253,15 @@ public class PaqueteIngreso extends javax.swing.JFrame implements Observer{
             if (todoOk & (!this.modelo.esSoloLetrasYEspacios(destinatario))){
                 todoOk = false;
                 mensaje = "El destinatario no puede contener números ni caracteres especiales";
+            }
+            
+            if (todoOk){
+                for(int i=0; (i<this.modelo.getPaquetes().size()) && todoOk; i++){
+                    if(modelo.getPaquetes().get(i).getId().equalsIgnoreCase(id)){
+                        mensaje = "Ya existe un paquete creado con este Id";
+                        todoOk = false;
+                    }
+                }
             }
 
             if(todoOk){ 

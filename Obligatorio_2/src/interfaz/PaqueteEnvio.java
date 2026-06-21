@@ -33,6 +33,7 @@ public class PaqueteEnvio extends javax.swing.JFrame implements Observer {
         this.modelo.addObserver(this);
         initComponents();
         objetoAPantalla();
+        this.setLocationRelativeTo(null);
     }
     
     private void objetoAPantalla(){
@@ -114,6 +115,7 @@ public class PaqueteEnvio extends javax.swing.JFrame implements Observer {
         btnConfirmar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Crear Envío");
         getContentPane().setLayout(null);
 
         panel.setLayout(null);
@@ -257,14 +259,16 @@ public class PaqueteEnvio extends javax.swing.JFrame implements Observer {
 
     private void btnCargarPendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarPendientesActionPerformed
         
+        paqueteParaEnvio.clear();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         sdf.setLenient(false);
         lstEnvio.getModel();
-        //lstFuncionario.setEditable(false); Habría q bloquear esto también
-        txtFecha.setEditable(false);
-        cmbZona.setEditable(false);
+        String zona = (String) cmbZona.getSelectedItem();
+        //lstFuncionario.setEditable(false);
+        //txtFecha.setEditable(false);
+        //cmbZona.setEditable(false);
         
-        try{   
+        /*try{   
             Funcionario funcionario = (Funcionario) lstFuncionario.getSelectedValue();
             Date fecha = sdf.parse(txtFecha.getText().trim());
             String zona = (String) cmbZona.getSelectedItem();
@@ -285,6 +289,15 @@ public class PaqueteEnvio extends javax.swing.JFrame implements Observer {
             }       
         }catch(ParseException e){
             JOptionPane.showMessageDialog(this, "Fecha inválida.", "Error", JOptionPane.ERROR_MESSAGE);
+        }*/
+        this.paquetesPendientesEnZona = this.modelo.getPaquetesPendientesPorZona(zona);
+        if(paquetesPendientesEnZona.size() == 0){
+                    this.mostrarElementos(false);
+                    JOptionPane.showMessageDialog(this, "No existen paquetes para la zona " + zona, "Información", JOptionPane.INFORMATION_MESSAGE);
+                }
+        else{
+            lstPendientes.setListData(paquetesPendientesEnZona.toArray());     
+            this.mostrarElementos(true);
         }
     }//GEN-LAST:event_btnCargarPendientesActionPerformed
 
@@ -296,30 +309,39 @@ public class PaqueteEnvio extends javax.swing.JFrame implements Observer {
         
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         sdf.setLenient(false);
-        
-        try{
-            Funcionario func = (Funcionario) lstFuncionario.getSelectedValue();
-            Date fecha = sdf.parse(txtFecha.getText().trim());
-            String zona = (String) cmbZona.getSelectedItem(); 
-            ArrayList<Paquete> paquetes = new ArrayList<>();
-            
-            for (int i = 0; i < paqueteParaEnvio.getSize(); i++) {
-                Paquete p = (Paquete)paqueteParaEnvio.getElementAt(i);
-                p.setEstado("enviado");
-               // this.modelo.getPaquetes().remove(p);
-                paquetes.add(p);
+        Funcionario func = (Funcionario) lstFuncionario.getSelectedValue();
+        if(func != null){
+            try{
+                Date fecha = sdf.parse(txtFecha.getText().trim());
+                
+                if (fecha.before(sdf.parse("01/01/2020")) || fecha.after(sdf.parse("31/12/2026"))) {
+                    throw new IllegalArgumentException(); //Consulto a IA cual es la mejor excepción para este caso, en lugar de usar excepción genérica Exception().
+                }
+
+                String zona = (String) cmbZona.getSelectedItem(); 
+                ArrayList<Paquete> paquetes = new ArrayList<>();
+
+                for (int i = 0; i < paqueteParaEnvio.getSize(); i++) {
+                    Paquete p = (Paquete)paqueteParaEnvio.getElementAt(i);
+                    p.setEstado("Enviado");
+                    paquetes.add(p);
+                }
+
+                Envio nuevoEnvio = new Envio(fecha, zona, func, paquetes); 
+                this.modelo.agregarEnvios(nuevoEnvio);
+
+                paqueteParaEnvio.clear();
+                txtFecha.setText("");
+                JOptionPane.showMessageDialog(this, "El envío fue creado correctamente.", "Envío creado", JOptionPane.INFORMATION_MESSAGE);   
+
+            } catch(ParseException e){
+                JOptionPane.showMessageDialog(this, "Fecha inválida.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            
-            Envio nuevoEnvio = new Envio(fecha, zona, func, paquetes); 
-            this.modelo.getEnvios().add(nuevoEnvio);
-            this.modelo.marcarCambio();
-            this.modelo.serializar();
-            
-            paqueteParaEnvio.clear();
-            JOptionPane.showMessageDialog(this, "El envío fue creado correctamente.", "Envío creado", JOptionPane.INFORMATION_MESSAGE);   
-            
-        } catch(ParseException e){
-            JOptionPane.showMessageDialog(this, "Fecha inválida.", "Error", JOptionPane.ERROR_MESSAGE);
+            catch (IllegalArgumentException e){
+                JOptionPane.showMessageDialog(this, "Fecha debe estar comprendida entre 01/01/2020 y 31/12/2026", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Seleccione un funcionario.", "Error", JOptionPane.ERROR_MESSAGE);
         }
         
     }//GEN-LAST:event_btnConfirmarActionPerformed

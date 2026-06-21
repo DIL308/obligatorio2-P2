@@ -1,4 +1,5 @@
 package interfaz;
+import dominio.ArchivoLog;
 import dominio.Sistema;
 import dominio.Envio;
 import dominio.Paquete;
@@ -28,6 +29,7 @@ public class PaqueteRecepcion extends javax.swing.JFrame {
         initComponents();
         btnConfirmar.setEnabled(false);
         objetoAPantalla();
+        this.setLocationRelativeTo(null);
         
         //Método creado utilizando IA, para crear el color de de fondo según el estado del envío.
         lstEnvios.setCellRenderer(new DefaultListCellRenderer() {
@@ -62,17 +64,11 @@ public class PaqueteRecepcion extends javax.swing.JFrame {
         });
         
     }
-    
-    
-    
+     
     public void objetoAPantalla(){
         lstEnvios.setListData(modelo.getEnviosOrdenadosDescendente().toArray());
     }
-
-    
-    
-    
-    
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -89,6 +85,7 @@ public class PaqueteRecepcion extends javax.swing.JFrame {
         btnConfirmar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Confirmar Recepción");
         getContentPane().setLayout(null);
 
         jPanel1.setLayout(null);
@@ -117,9 +114,9 @@ public class PaqueteRecepcion extends javax.swing.JFrame {
         jScrollPane3.setBounds(30, 270, 350, 110);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Paquetes del envío seleccionado");
+        jLabel1.setText("Seleccione paquetes para confirmar recepción");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(80, 250, 240, 16);
+        jLabel1.setBounds(30, 250, 340, 16);
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
@@ -173,23 +170,31 @@ public class PaqueteRecepcion extends javax.swing.JFrame {
         if (lstPaquetes.getSelectedValuesList().isEmpty()) {
             JOptionPane.showMessageDialog(null,"Debe seleccionar al menos un paquete","Error",JOptionPane.ERROR_MESSAGE);
         }
+        else{
+            
+            for (int i = paquetes.size() - 1; i >= 0; i--) {
 
-        for (int i = paquetes.size() - 1; i >= 0; i--) {
+                Paquete paquete = paquetes.get(i);
 
-            Paquete paquete = paquetes.get(i);
+                if (seleccionados.contains(paquete)) {
 
-            if (seleccionados.contains(paquete)) {
+                    paquete.setEstado("Recibido");
 
-                paquete.setEstado("Recibido");
+                } else {
+                    paquete.setEstado("Pendiente");
+                    paquetes.remove(i);
+                }
+            }     
+            envio.setRecepcionRegistrada(true);
+            ArchivoLog.registrar("Recepción de envío " + envio.getId() + " confirmada.");
+            this.modelo.actualizarCambios();
+            lstEnvios.clearSelection();
+            btnConfirmar.setEnabled(false);
+            JOptionPane.showMessageDialog(null,"Recepción confirmada con éxito.","Recepción confirmada",JOptionPane.INFORMATION_MESSAGE); 
+            lstPaquetes.setListData(envio.getPaquetes().toArray());
+        }
 
-            } else {
-                paquete.setEstado("Pendiente");
-                paquetes.remove(i);
-            }
-        }     
-        envio.setRecepcionRegistrada(true);
-        JOptionPane.showMessageDialog(null,"Recepción confirmada con éxito.","Recepción confirmada",JOptionPane.INFORMATION_MESSAGE); 
-        objetoAPantalla();
+   
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

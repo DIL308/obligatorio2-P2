@@ -3,11 +3,14 @@ package interfaz;
 import javax.swing.JOptionPane;
 import dominio.ArchivoLog;
 import dominio.Sistema;
+import java.util.Observer;
+import java.util.Observable;
+
 /**
  *
  * @author lautaromoreno
  */
-public class ReportesLogDeTransacciones extends javax.swing.JFrame {
+public class ReportesLogDeTransacciones extends javax.swing.JFrame implements Observer {
     private Sistema modelo;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ReportesLogDeTransacciones.class.getName());
@@ -15,16 +18,22 @@ public class ReportesLogDeTransacciones extends javax.swing.JFrame {
 
     public ReportesLogDeTransacciones(Sistema modelo) {
         this.modelo = modelo;
+        this.modelo.addObserver(this);
         initComponents();
         this.setSize(450,350);
         this.setLocationRelativeTo(null);
         txtLogs.setEditable(false);
-        cargarTextoLog();
+        objetoAPantalla();
     }
     
-    private void cargarTextoLog(){
+    private void objetoAPantalla(){
         String contenido = ArchivoLog.obtenerContenido();
         txtLogs.setText(contenido);
+    }
+    
+    @Override 
+    public void update(Observable o, Object arg){
+        objetoAPantalla();
     }
 
     /**
@@ -44,6 +53,7 @@ public class ReportesLogDeTransacciones extends javax.swing.JFrame {
         btnCerrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Log de Transacciones");
         getContentPane().setLayout(null);
 
         txtLogs.setEditable(false);
@@ -105,7 +115,7 @@ public class ReportesLogDeTransacciones extends javax.swing.JFrame {
         
         if (seleccion == JOptionPane.YES_OPTION){
             ArchivoLog.borrarContenido();
-            cargarTextoLog();
+            objetoAPantalla();
             JOptionPane.showMessageDialog(this,"El archivo de log fue vaciado con éxito.","Historial Limpio", JOptionPane.INFORMATION_MESSAGE);
                     
         }

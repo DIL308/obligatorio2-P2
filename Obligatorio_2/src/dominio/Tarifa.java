@@ -88,6 +88,15 @@ public class Tarifa implements Serializable{
         this.precioCat4 = precioCat4;
     }
     
+    @Override
+    public String toString(){
+        return zona + "#" +
+           precioCat1 + "," +
+           precioCat2 + "," +
+           precioCat3 + "," +
+           precioCat4;   
+    }
+    
     
     
 }

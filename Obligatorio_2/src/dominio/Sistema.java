@@ -1,6 +1,7 @@
 package dominio;
 import java.util.ArrayList;
 import interfaz.ArchivoLectura;
+import interfaz.ArchivoGrabacion;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultListModel;
@@ -19,10 +20,6 @@ import javax.swing.JOptionPane;
  * Trabajo realizado por 
  * (333503) Daniel López
  * (372277) Lautaro Moreno
-
-    MVC: El sistema debe actuar como Controlador? o se va a hacer en el mismo script que la vista.
-    
-    Arrancar un sistema nuevo, borra toda la información de la persistencia, incluido el TARIFAS.TXT? - Si, pero el tarifas.txt se mantiene tal cual la ultima modificacion
 
  */
 public class Sistema extends Observable  implements Serializable{
@@ -102,42 +99,26 @@ public class Sistema extends Observable  implements Serializable{
         this.getClientes().add(cliente);
         this.setChanged();
         this.notifyObservers();
-        this.serializar();
-        ArchivoLog.registrar("Ingreso de cliente" + cliente.getNombre());
+        ArchivoLog.registrar("Ingreso de cliente " + cliente.getNombre());
+        this.actualizarCambios();
     }
     
     public ArrayList<Cliente> getClientes() {
+        Collections.sort(this.clientes);
         return clientes;
     }
     
     public void agregarFuncionario(Funcionario funcionario) {
-        Funcionario existente = null;
-        int i = 0;
-        
-        while(i<this.getFuncionarios().size() && existente == null){
-            Funcionario f = this.getFuncionarios().get(i);
-            if (f.getNroFuncionario() == funcionario.getNroFuncionario()){
-                existente = f;
-            }
-            i++;
-        }
-        if (existente != null){
-            existente.setNombre(funcionario.getNombre());
-            existente.setCelular(funcionario.getCelular());
-            existente.setAnioIngreso(funcionario.getAnioIngreso());
-            
-            ArchivoLog.registrar("Modificación de datos del funcionario" + existente.getNombre());                    
-        }
-        else{
+
         this.getFuncionarios().add(funcionario);
-            ArchivoLog.registrar("Ingreso de funcionario " + funcionario.getNombre());  
-        
-        }
         this.setChanged();
         this.notifyObservers();
+        ArchivoLog.registrar("Ingreso de nuevo funcionario: " + funcionario.getNombre());
+        this.actualizarCambios();
     }
 
     public ArrayList<Funcionario> getFuncionarios() {
+        Collections.sort(this.funcionarios);
         return funcionarios;
     }
 
@@ -149,23 +130,18 @@ public class Sistema extends Observable  implements Serializable{
         this.getPaquetes().add(paquete);
         this.setChanged();
         this.notifyObservers();
-        this.serializar();
-        
-        ArchivoLog.registrar("Ingreso de paquete de cliente" + paquete.getCliente());
+        ArchivoLog.registrar("Ingreso de paquete de cliente " + paquete.getCliente());
+        this.actualizarCambios();
     }
 
     public ArrayList<Envio> getEnvios() {
         return envios;
     }
-
-    
+  
     public void agregarEnvios(Envio envio) {
         this.getEnvios().add(envio);
-        this.setChanged();
-        this.notifyObservers();
-        this.serializar();
-        
-        ArchivoLog.registrar("Ingreso de un nuevo envío en el sistema");
+        ArchivoLog.registrar("Ingreso de nuevo envío núm " + envio.getId());
+        this.actualizarCambios();
     }
 
     public ArrayList<Tarifa> getTarifas() {
@@ -201,6 +177,18 @@ public class Sistema extends Observable  implements Serializable{
         }
         arch.cerrar();
                
+    }
+    
+    public void sobreescribirTarifas(){
+        ArchivoGrabacion arch = new ArchivoGrabacion("TARIFAS.txt");
+        
+        for(int i=0; i<getTarifas().size(); i++){
+            Tarifa t = getTarifas().get(i);
+            arch.grabarLinea(t.toString());
+            
+        }
+        arch.cerrar();
+        
     }
     
     public int calcularPrecio(String zona, int peso){
@@ -240,7 +228,7 @@ public class Sistema extends Observable  implements Serializable{
             
             Paquete unPaquete = this.getPaquetes().get(i);
             
-            if(unPaquete.getZona().equals(zona)){
+            if((unPaquete.getZona().equals(zona)) && (unPaquete.getEstado().equals("Pendiente"))){
                 paquetesFiltrados.add(unPaquete);
             }
         }
@@ -365,12 +353,18 @@ public class Sistema extends Observable  implements Serializable{
         return existe;
     }
     
-    public ArrayList<Cliente> getClientesOrdenados(){
-        ArrayList<Cliente> listaOrdenada = new ArrayList<Cliente>(this.clientes);
-        listaOrdenada.sort((c1,c2) -> c1.getNombre().compareToIgnoreCase(c2.getNombre()));
-        return listaOrdenada;
+    public boolean nroFuncionarioYaExiste(int nroFuncionario){
+        boolean existe = false;
+
+        for (int i=0; (i<this.funcionarios.size()) && (!existe); i++){
+            if(nroFuncionario == this.getFuncionarios().get(i).getNroFuncionario()){
+                existe = true;                
+            }
+        }
+
+        return existe;
     }
-    
+        
     public double pesoDePaquetes(DefaultListModel<Object> paquetes, boolean enKilos){
         
         double peso = 0.0;
@@ -406,6 +400,7 @@ public class Sistema extends Observable  implements Serializable{
         Collections.sort(env);
         return env;
 }
+    
     public int contarPaquetesPorClienteYEstado(Cliente unCliente, String unEstado){
         int contador = 0;
         for (int i=0;i<this.paquetes.size();i++){
@@ -446,7 +441,7 @@ public class Sistema extends Observable  implements Serializable{
         return contador;
     }
     
-    public void marcarCambio(){
+    public void actualizarCambios(){
         this.setChanged();
         this.notifyObservers();
     }

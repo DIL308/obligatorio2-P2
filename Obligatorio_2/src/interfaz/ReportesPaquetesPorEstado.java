@@ -1,23 +1,31 @@
 package interfaz;
 import dominio.Sistema;
+import dominio.Paquete;
+import dominio.Cliente;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
- *
- * @author lautaromoreno
+* Trabajo realizado por 
+ * (333503) Daniel López
+ * (372277) Lautaro Moreno
  */
-public class ReportesPaquetesPorEstado extends javax.swing.JFrame {
+public class ReportesPaquetesPorEstado extends javax.swing.JFrame implements Observer {
     
 
     private Sistema modelo;
     
     public ReportesPaquetesPorEstado(Sistema unModelo) {
         this.modelo = unModelo;
+        this.modelo.addObserver(this);
         initComponents();
         
         if(this.modelo != null){
-        cargarGrilla();
-        configurarMapaUruguay();
+            cargarGrilla();
+            //configurarMapaUruguay();
         }
         
         this.setSize (800,850);
@@ -33,112 +41,60 @@ public class ReportesPaquetesPorEstado extends javax.swing.JFrame {
         });
     }
     
+    @Override 
+    public void update(Observable o, Object arg){
+        actualizarDatosReporte();
+    }
+    
     private void cargarGrilla(){
         String[] columnas = {"","Pendiente","Enviado","Recibido","Total"};
         
         javax.swing.table.DefaultTableModel TablaReporte = new javax.swing.table.DefaultTableModel(columnas,0){
 
-                @Override
-                public boolean isCellEditable (int row, int column){
-                boolean no = false;
-                    return no;
-                }
-            };
-                
-                String[] zonas = {"Norte", "Oeste", "Sur", "Este"};
-                 
-                for(int i = 0; i<zonas.length;i++){
-                    String zonaActual = zonas[i];
-                
-                int pendientes = this.modelo.contarPaquetesPorZonaYEstado(zonaActual,"Pendiente");
-                int enviados = this.modelo.contarPaquetesPorZonaYEstado(zonaActual,"Enviado");
-                int recibidos = this.modelo.contarPaquetesPorZonaYEstado(zonaActual,"Recibido");
-                int totalZona = pendientes + enviados + recibidos;
-                
-                String nombreZonaOk = zonaActual.substring(0,1) + zonaActual.substring(1).toLowerCase();
-                
-                Object[] fila = {
-                nombreZonaOk,
-                pendientes,
-                enviados,
-                recibidos,
-                totalZona
-                };
-                
-                TablaReporte.addRow(fila);
-                }
-             
-                this.tblReporte.setModel(TablaReporte);
-                
-                this.tblReporte.setBackground(java.awt.Color.BLACK);
-                this.tblReporte.setForeground(java.awt.Color.WHITE);
-                
-                this.tblReporte.setGridColor(new java.awt.Color(60,60,60));
-                this.tblReporte.setShowGrid(true);
-                this.tblReporte.setRowHeight(25);
-                
-        
-    }
-    
-    private void configurarMapaUruguay(){
-        String [] zonas = {"Norte","Oeste","Sur","Este",};
-        JLabel[] etiquetas = {lblNorte,lblOeste,lblSur,lblEste};
-        
-        for(int i =0; i<zonas.length;i++){
-           String zonaActual = zonas[i];
-           JLabel etiquetaActual = etiquetas[i];
-           
-           int pendientes = this.modelo.contarPaquetesPorZonaYEstado(zonaActual,"Pendiente");
-           int enviados = this.modelo.contarPaquetesPorZonaYEstado(zonaActual,"Enviado");
-           int recibidos = this.modelo.contarPaquetesPorZonaYEstado(zonaActual,"Recibido");
-           int totalZona = pendientes + enviados + recibidos;
-                
-           String mensajePopup = "Cantidad de paquetes en cada estado:\n\n"
-                   + " Pendientes:" + pendientes 
-                   + "\n" +" Enviados: " + enviados + "\n" 
-                   + " Recibidos: " +recibidos+ "\n\n" 
-                   + " Total Zona: " + totalZona;
+        @Override
+        public boolean isCellEditable (int row, int column){
+            boolean no = false;
+                return no;
+            }
+        };
 
-                System.out.println("Cargando zona" + zonaActual + "con un total de" + totalZona);
-           
-     
-                etiquetaActual.setToolTipText(mensajePopup);
-                
-                etiquetaActual.setOpaque(true);
-                etiquetaActual.setBackground(java.awt.Color.YELLOW);
-                etiquetaActual.setForeground(java.awt.Color.BLACK);
-                etiquetaActual.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-                
-                etiquetaActual.addMouseListener (new java.awt.event.MouseAdapter() {
-                    @Override
-                    public void mouseEntered(java.awt.event.MouseEvent evt){
-                        etiquetaActual.setBackground(new java.awt.Color(0,255,255));
-                        etiquetaActual.setForeground(java.awt.Color.BLACK);
-                        
-                        javax.swing.JOptionPane.showMessageDialog(ReportesPaquetesPorEstado.this,mensajePopup,"Datos de la zona" + zonaActual, javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                    }
-                    @Override
-                    public void mouseExited(java.awt.event.MouseEvent evt){
-                        etiquetaActual.setBackground(java.awt.Color.YELLOW);
-                        etiquetaActual.setForeground(java.awt.Color.BLACK);
+        String[] zonas = {"Norte", "Oeste", "Sur", "Este"};
 
-                        
-                        
-                    }
-                });
-                
-           
-           
+        for(int i = 0; i<zonas.length;i++){
+            String zonaActual = zonas[i];
+
+        int pendientes = this.modelo.contarPaquetesPorZonaYEstado(zonaActual,"Pendiente");
+        int enviados = this.modelo.contarPaquetesPorZonaYEstado(zonaActual,"Enviado");
+        int recibidos = this.modelo.contarPaquetesPorZonaYEstado(zonaActual,"Recibido");
+        int totalZona = pendientes + enviados + recibidos;
+
+        String nombreZonaOk = zonaActual.substring(0,1) + zonaActual.substring(1).toLowerCase();
+
+        Object[] fila = {
+            nombreZonaOk,
+            pendientes,
+            enviados,
+            recibidos,
+            totalZona
+        };
+
+        TablaReporte.addRow(fila);
         }
-        
-        
+
+        this.tblReporte.setModel(TablaReporte);
+
+        this.tblReporte.setBackground(java.awt.Color.BLACK);
+        this.tblReporte.setForeground(java.awt.Color.WHITE);
+
+        this.tblReporte.setGridColor(new java.awt.Color(60,60,60));
+        this.tblReporte.setShowGrid(true);
+        this.tblReporte.setRowHeight(25);
     }
-    
+       
     public void actualizarDatosReporte(){
         if (this.modelo != null){
             cargarGrilla();
-            configurarMapaUruguay();
-            this.repaint();
+            //this.repaint();
         }
     }
 
@@ -167,72 +123,289 @@ public class ReportesPaquetesPorEstado extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Paquetes por Estado");
         getContentPane().setLayout(null);
 
         jPanel1.setLayout(null);
 
         tblReporte.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Zona", "Pendiente", "Enviado", "Recibido", "Total"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblReporte.getTableHeader().setReorderingAllowed(false);
+        tblReporte.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblReporteMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblReporte);
+        if (tblReporte.getColumnModel().getColumnCount() > 0) {
+            tblReporte.getColumnModel().getColumn(0).setResizable(false);
+            tblReporte.getColumnModel().getColumn(1).setResizable(false);
+            tblReporte.getColumnModel().getColumn(2).setResizable(false);
+            tblReporte.getColumnModel().getColumn(3).setResizable(false);
+            tblReporte.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(42, 45, 452, 168);
+        jScrollPane1.setBounds(80, 60, 456, 168);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel1.setText("Paquetes por Estado");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(100, 16, 179, 23);
+        jLabel1.setBounds(220, 20, 181, 24);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 650, 230);
+        jPanel1.setBounds(60, 0, 650, 230);
 
         panelMapa.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblSur.setBackground(new java.awt.Color(255, 255, 0));
         lblSur.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
+        lblSur.setForeground(new java.awt.Color(0, 0, 0));
         lblSur.setText("Sur");
-        panelMapa.add(lblSur, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 400, -1, -1));
+        lblSur.setOpaque(true);
+        lblSur.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblSurMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblSurMouseExited(evt);
+            }
+        });
+        panelMapa.add(lblSur, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 410, -1, -1));
 
-        lblNorte.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        lblNorte.setBackground(new java.awt.Color(255, 255, 0));
+        lblNorte.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
+        lblNorte.setForeground(new java.awt.Color(0, 0, 0));
         lblNorte.setText("Norte");
-        panelMapa.add(lblNorte, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 140, 50));
+        lblNorte.setOpaque(true);
+        lblNorte.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblNorteMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblNorteMouseExited(evt);
+            }
+        });
+        panelMapa.add(lblNorte, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, 100, 50));
 
-        lblOeste.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        lblOeste.setBackground(new java.awt.Color(255, 255, 0));
+        lblOeste.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
+        lblOeste.setForeground(new java.awt.Color(0, 0, 0));
         lblOeste.setText("Oeste");
-        panelMapa.add(lblOeste, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 310, -1, -1));
+        lblOeste.setOpaque(true);
+        lblOeste.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblOesteMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblOesteMouseExited(evt);
+            }
+        });
+        panelMapa.add(lblOeste, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 320, -1, -1));
 
-        lblEste.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        lblEste.setBackground(new java.awt.Color(255, 255, 0));
+        lblEste.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
+        lblEste.setForeground(new java.awt.Color(0, 0, 0));
         lblEste.setText("Este");
-        panelMapa.add(lblEste, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 270, 80, 40));
+        lblEste.setOpaque(true);
+        lblEste.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblEsteMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblEsteMouseExited(evt);
+            }
+        });
+        panelMapa.add(lblEste, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 270, 80, 40));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/atl_ruteroUY_nuevoG.jpg"))); // NOI18N
-        panelMapa.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 520, 480));
+        panelMapa.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 400, 480));
 
         getContentPane().add(panelMapa);
         panelMapa.setBounds(0, 220, 550, 530);
         getContentPane().add(jSeparator1);
-        jSeparator1.setBounds(610, 450, 50, 10);
+        jSeparator1.setBounds(610, 450, 0, 3);
 
         btnSalir.setText("Salir");
         btnSalir.addActionListener(this::btnSalirActionPerformed);
         getContentPane().add(btnSalir);
-        btnSalir.setBounds(590, 700, 100, 30);
+        btnSalir.setBounds(560, 690, 100, 30);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-this.dispose();       
+        this.dispose();       
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void tblReporteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblReporteMouseClicked
+        // TODO add your handling code here:
+        int fila = tblReporte.getSelectedRow();
+        int columna = tblReporte.getSelectedColumn();
+        ArrayList<Cliente> clientes = new ArrayList<>();
+        ArrayList<String> departamentos = new ArrayList<>();
+        String texto = "";
+        
+        if(columna != 0){ 
+            String zona;
+            String estado;
+
+            if(fila == 0){
+                zona = "NORTE";
+            }else if(fila == 1){
+                zona = "OESTE";
+            }else if(fila == 2){
+                zona = "SUR";
+            }else{
+                zona = "ESTE";
+            }
+
+            if(columna == 1){
+                estado = "Pendiente";
+            }else if(columna == 2){
+                estado = "Enviado";
+            }else if(columna == 3){
+                estado = "Recibido";
+            }else{
+                estado = "Total";
+            }
+            
+            
+            for(int i=0; i<this.modelo.getPaquetes().size(); i++){
+                Paquete p = this.modelo.getPaquetes().get(i);
+                
+                if(estado.equals("Total")){
+                    if(p.getZona().equals(zona)){ 
+                        if (!clientes.contains(p.getCliente())) {
+                            clientes.add(p.getCliente());
+                        }
+                        if (!departamentos.contains(p.getDepartamentoEnvio())) {
+                            departamentos.add(p.getDepartamentoEnvio());
+                        }
+                    }   
+                }else{              
+                    if((p.getZona().equals(zona)) && (p.getEstado().equals(estado))){ 
+                        if (!clientes.contains(p.getCliente())) {
+                            clientes.add(p.getCliente());
+                        }
+                        if (!departamentos.contains(p.getDepartamentoEnvio())) {
+                            departamentos.add(p.getDepartamentoEnvio());
+                        }
+                    }
+                }
+                
+            }
+            
+            for (int i = 0; i < departamentos.size(); i++) {
+                texto += departamentos.get(i);
+
+                if (i < departamentos.size() - 1) {
+                    texto += ", ";
+                }
+            }
+            
+            int cantClientesDistintos = clientes.size();
+            
+            
+           
+            if(cantClientesDistintos==0){
+                JOptionPane.showMessageDialog(this, "No hay paquetes registrados para esta zona y estado.");
+            }else{
+                JOptionPane.showMessageDialog(this, "Total de clientes distintos: " + cantClientesDistintos +"\n Enviado a dptos: " + texto);
+            }
+
+            
+        }
+        else{
+            tblReporte.clearSelection();
+        }
+        
+        
+
+    }//GEN-LAST:event_tblReporteMouseClicked
+
+    private void lblSurMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSurMouseEntered
+        // TODO add your handling code here:
+        lblSur.setBackground(new java.awt.Color(0,255,255));
+        this.calcularValores("Sur");
+    }//GEN-LAST:event_lblSurMouseEntered
+
+    private void lblSurMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSurMouseExited
+        // TODO add your handling code here:
+        lblSur.setBackground(java.awt.Color.YELLOW);
+    }//GEN-LAST:event_lblSurMouseExited
+
+    private void lblEsteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEsteMouseEntered
+        lblEste.setBackground(new java.awt.Color(0,255,255));
+        this.calcularValores("Este");        // TODO add your handling code here:
+    }//GEN-LAST:event_lblEsteMouseEntered
+
+    private void lblOesteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOesteMouseEntered
+        lblOeste.setBackground(new java.awt.Color(0,255,255));
+        this.calcularValores("Oeste");          // TODO add your handling code here:
+    }//GEN-LAST:event_lblOesteMouseEntered
+
+    private void lblNorteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNorteMouseEntered
+        lblNorte.setBackground(new java.awt.Color(0,255,255));
+        this.calcularValores("Norte");          // TODO add your handling code here:
+    }//GEN-LAST:event_lblNorteMouseEntered
+
+    private void lblEsteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEsteMouseExited
+        lblEste.setBackground(java.awt.Color.YELLOW);        // TODO add your handling code here:
+    }//GEN-LAST:event_lblEsteMouseExited
+
+    private void lblOesteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOesteMouseExited
+        lblEste.setBackground(java.awt.Color.YELLOW);        // TODO add your handling code here:
+    }//GEN-LAST:event_lblOesteMouseExited
+
+    private void lblNorteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNorteMouseExited
+        lblNorte.setBackground(java.awt.Color.YELLOW);        // TODO add your handling code here:
+    }//GEN-LAST:event_lblNorteMouseExited
+    
+    private void calcularValores(String zona){
+        
+        int paquetesPendientes = this.modelo.contarPaquetesPorZonaYEstado(zona, "Pendiente");
+        int paquetesEnviados = this.modelo.contarPaquetesPorZonaYEstado(zona, "Enviado");
+        int paquetesRecibidos = this.modelo.contarPaquetesPorZonaYEstado(zona, "Recibido");
+        int totalZona = paquetesPendientes + paquetesEnviados + paquetesRecibidos;
+        
+        String mensajePopup = "Cantidad de paquetes en cada estado:\n\n"
+                   + " Pendientes: " + paquetesPendientes 
+                   + "\n" +" Enviados: " + paquetesEnviados + "\n" 
+                   + " Recibidos: " +paquetesRecibidos+ "\n\n" 
+                   + " Total Zona: " + totalZona;
+
+        if(totalZona == 0){
+            JOptionPane.showMessageDialog(ReportesPaquetesPorEstado.this, "No existen paquetes en esta zona" ,"Datos de la zona " + zona, JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(ReportesPaquetesPorEstado.this,mensajePopup,"Datos de la zona " + zona , JOptionPane.INFORMATION_MESSAGE);  
+        }
+        
+    }
     /**
      * @param args the command line arguments
      */

@@ -6,7 +6,7 @@ package dominio;
  * (333503) Daniel López
  * (372277) Lautaro Moreno
  */
-public class Cliente extends Persona{ //Ya implementa serializable por Persona
+public class Cliente extends Persona implements Comparable<Cliente>{ //Ya implementa serializable por Persona
     
     private String email;
         
@@ -50,4 +50,8 @@ public class Cliente extends Persona{ //Ya implementa serializable por Persona
         return sonIguales;
     }
     
+    @Override
+    public int compareTo(Cliente otroC){
+        return this.getNombre().compareToIgnoreCase(otroC.getNombre());
+    }
 }

@@ -1,6 +1,10 @@
 package interfaz;
 import dominio.Sistema;
 import dominio.ArchivoLog;
+import dominio.Tarifa;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * Trabajo realizado por 
@@ -20,29 +24,27 @@ public class DatosTarifas extends javax.swing.JFrame {
     public DatosTarifas(Sistema modelo) {
         this.modelo = modelo;
         initComponents();
-        
         buttonGroup1.add(rbtnAumentar);
         buttonGroup1.add(rbtnDisminuir);
         rbtnAumentar.setSelected(true);
-        
         cargarTablaTarifas();
-
+        this.setLocationRelativeTo(null);
     }
     
     private void cargarTablaTarifas(){
         String [] columnas = {"Zonas", "Categoria 1", "Categoria 2", "Categoria 3", "Categoria 4"};
         
-        javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel(columnas,0){
+        DefaultTableModel modeloTabla = new DefaultTableModel(columnas,0){
             @Override
             public boolean isCellEditable(int row, int column){
                 return false;
             }
         };
         
-        java.util.ArrayList<dominio.Tarifa> listaDeTarifas = this.modelo.getTarifas();
+        ArrayList<Tarifa> listaDeTarifas = this.modelo.getTarifas();
         
         for(int i=0; i<listaDeTarifas.size(); i++){
-            dominio.Tarifa t = listaDeTarifas.get(i);
+            Tarifa t = listaDeTarifas.get(i);
             Object[] fila = { t.getZona(),t.getPrecioCat1(),t.getPrecioCat2(),t.getPrecioCat3(),t.getPrecioCat4()};
             
             modeloTabla.addRow(fila);
@@ -73,12 +75,13 @@ public class DatosTarifas extends javax.swing.JFrame {
         tblMain = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Menú Tarifas");
 
         jPanel1.setLayout(null);
 
         lblModTarifa.setText("Modificar Tarifa");
         jPanel1.add(lblModTarifa);
-        lblModTarifa.setBounds(23, 434, 84, 16);
+        lblModTarifa.setBounds(23, 434, 110, 20);
 
         jLabel2.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
         jLabel2.setText("Tarifas por zona");
@@ -96,12 +99,12 @@ public class DatosTarifas extends javax.swing.JFrame {
         rbtnAumentar.setText("Aumentar");
         rbtnAumentar.addActionListener(this::rbtnAumentarActionPerformed);
         jPanel1.add(rbtnAumentar);
-        rbtnAumentar.setBounds(303, 432, 78, 21);
+        rbtnAumentar.setBounds(280, 430, 100, 21);
 
         rbtnDisminuir.setText("Disminuir");
         rbtnDisminuir.addActionListener(this::rbtnDisminuirActionPerformed);
         jPanel1.add(rbtnDisminuir);
-        rbtnDisminuir.setBounds(426, 432, 76, 21);
+        rbtnDisminuir.setBounds(410, 430, 110, 21);
 
         btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(this::btnActualizarActionPerformed);
@@ -137,59 +140,63 @@ public class DatosTarifas extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
         );
 
-        setBounds(0, 0, 570, 536);
+        setBounds(0, 0, 570, 563);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         String textoPorcentaje = txtModTarifa.getText().trim();
         boolean ok = true;
+        boolean esAumento = rbtnAumentar.isSelected();
         
         if(this.modelo.textoVacio(textoPorcentaje)) { 
-            javax.swing.JOptionPane.showMessageDialog(this,"Debe ingresar un porcetnaje", "Campo Vacío", 0 );
+            JOptionPane.showMessageDialog(this,"Debe ingresar un porcetnaje", "Campo Vacío", 0 );
             ok = false;
         }
         if (ok){
         
-        try {
-            int porcentaje = Integer.parseInt(textoPorcentaje);
-            
-            if(porcentaje <= 0){
-            javax.swing.JOptionPane.showMessageDialog(this,"El porcentaje debe ser mayor a cero", "Valor inválido", 0 );
-            ok = false;
-            }
-            if(ok){
-            boolean esAumento = rbtnAumentar.isSelected();
-            
-            java.util.ArrayList<dominio.Tarifa> listaDeTarifas = this.modelo.getTarifas();
-            for(int i =0 ; i<listaDeTarifas.size(); i++){
-                dominio.Tarifa t = listaDeTarifas.get(i);
-                
-               t.actualizarTarifa(porcentaje, esAumento);
-                
-            }
-            String operacion = esAumento? "Aumento" : "Disminución";
-            ArchivoLog.registrar("Modificación de tarifas:" + operacion +  "del" + porcentaje + "%");
-            
-            this.modelo.marcarCambio();
-            this.modelo.serializar();
-            cargarTablaTarifas();
-            
-            txtModTarifa.setText("");
-            javax.swing.JOptionPane.showMessageDialog(this,"Tarifas actualizadas con éxito", "Actualización exitosa", 1);
-            }
-        } catch (NumberFormatException e){
-            javax.swing.JOptionPane.showMessageDialog(this,"El porcentaje debe ser un número válido","Error de formato",0);
-            ok = false;
-        }
-        
-            
-    }
+            try {
+                int porcentaje = Integer.parseInt(textoPorcentaje);
 
+                if(porcentaje <= 0){
+                    JOptionPane.showMessageDialog(this,"El porcentaje debe ser mayor a cero", "Valor inválido", 0 );
+                    ok = false;
+                }
+                if((!esAumento) && (porcentaje >= 100)){
+                    JOptionPane.showMessageDialog(this,"No se puede disminuir el precio de las tarifas a $0.", "Valor inválido", 0 );
+                    ok = false;
+                }
+                if(ok){
+                    ArrayList<Tarifa> listaDeTarifas = this.modelo.getTarifas();
+                    for(int i =0 ; i<listaDeTarifas.size(); i++){
+                        Tarifa t = listaDeTarifas.get(i);
+
+                       t.actualizarTarifa(porcentaje, esAumento);
+                    }
+                    this.modelo.sobreescribirTarifas();
+                    
+                    String operacion;
+                    if (esAumento) {
+                        operacion = "Aumento";
+                    } else {
+                        operacion = "Disminución";
+                    }
+                    
+                    ArchivoLog.registrar("Modificación de tarifas: " + operacion +  " del " + porcentaje + "%");
+                    this.modelo.actualizarCambios();
+
+                    this.modelo.actualizarCambios();
+                    cargarTablaTarifas();
+
+                    txtModTarifa.setText("");
+                    JOptionPane.showMessageDialog(this,"Tarifas actualizadas con éxito", "Actualización exitosa", 1);
+                }
+            }catch (NumberFormatException e){
+                JOptionPane.showMessageDialog(this,"El porcentaje debe ser un número válido","Error de formato",0);
+            }   
+        }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void rbtnDisminuirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnDisminuirActionPerformed
@@ -205,12 +212,7 @@ public class DatosTarifas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtModTarifaActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-this.dispose();    }//GEN-LAST:event_btnCancelarActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-
+        this.dispose();    }//GEN-LAST:event_btnCancelarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;

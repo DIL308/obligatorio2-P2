@@ -2,6 +2,7 @@ package dominio;
 import java.util.ArrayList;
 import java.util.Date;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 
 /*
  * Trabajo realizado por 
@@ -102,7 +103,8 @@ public class Envio implements Comparable<Envio>, Serializable{
     
     @Override
     public String toString(){
-        return "Envío: " + this.getId() + " Fecha: " + this.getFechaEnvio();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return "Envío: " + this.getId() + " | Zona: " + this.getZona() + " |  Fecha: " + sdf.format(this.getFechaEnvio());
     }
     
 }

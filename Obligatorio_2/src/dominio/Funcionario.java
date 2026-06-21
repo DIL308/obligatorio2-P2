@@ -5,7 +5,7 @@ package dominio;
  * (333503) Daniel López
  * (372277) Lautaro Moreno
  */
-public class Funcionario extends Persona{ //Ya implementa serializable por Persona
+public class Funcionario extends Persona implements Comparable<Funcionario>{ //Ya implementa serializable por Persona
     
     private int nroFuncionario;
     private int anioIngreso;
@@ -19,6 +19,11 @@ public class Funcionario extends Persona{ //Ya implementa serializable por Perso
     public Funcionario(){
         this.setNroFuncionario(0);
         this.setAnioIngreso(0);
+    }
+    
+    @Override
+    public int compareTo(Funcionario otroF){
+        return Integer.compare(otroF.getAnioIngreso(), this.getAnioIngreso());
     }
     
     public int getNroFuncionario() {
@@ -39,7 +44,7 @@ public class Funcionario extends Persona{ //Ya implementa serializable por Perso
     
     @Override
     public String toString(){
-        return this.getNombre() + " " + nroFuncionario  ; 
+        return "(" + this.getNroFuncionario() + ") " + this.getNombre() + " | Año ingreso: " + this.getAnioIngreso(); 
     }
     
 }

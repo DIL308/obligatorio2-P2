@@ -17,6 +17,7 @@ public class ComenzarCon extends javax.swing.JFrame {
      */
     public ComenzarCon() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
     
     @SuppressWarnings("unchecked")

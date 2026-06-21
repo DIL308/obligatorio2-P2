@@ -1,4 +1,5 @@
 package interfaz;
+import dominio.ArchivoLog;
 import java.util.Observer;
 import java.util.Observable;
 import dominio.Funcionario;
@@ -14,24 +15,25 @@ public class DatosFuncionarios extends javax.swing.JFrame implements Observer{
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DatosFuncionarios.class.getName());
 
-        private Sistema modelo;
+    private Sistema modelo;
         
     public DatosFuncionarios(Sistema modelo) {
         this.modelo = modelo;
         this.modelo.addObserver(this);
         initComponents();
         objetoAPantalla();
+        this.setLocationRelativeTo(null);
         
-        lstFuncionarios.addListSelectionListener(e -> lstFuncionariosValueChanged(e));
+        //lstFuncionarios.addListSelectionListener(e -> lstFuncionariosValueChanged(e)); LAMBDA
     }
     
     private void objetoAPantalla(){
         java.util.ArrayList<Funcionario> lista = this.modelo.getFuncionarios();
-        lista.sort((f1,f2) -> Integer.compare(f2.getNroFuncionario(),f1.getNroFuncionario()));
+        //lista.sort((f1,f2) -> Integer.compare(f2.getNroFuncionario(),f1.getNroFuncionario())); LAMBDA
         lstFuncionarios.setListData(lista.toArray());
     }
     
-    @Override
+   @Override
    public void update (Observable o, Object arg){
        objetoAPantalla();
    }
@@ -63,6 +65,7 @@ public class DatosFuncionarios extends javax.swing.JFrame implements Observer{
         txtMensaje = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Menú de Funcionarios");
         getContentPane().setLayout(null);
 
         jPanel1.setLayout(null);
@@ -103,6 +106,7 @@ public class DatosFuncionarios extends javax.swing.JFrame implements Observer{
                 lstFuncionariosMouseClicked(evt);
             }
         });
+        lstFuncionarios.addListSelectionListener(this::lstFuncionariosValueChanged);
         jScrollPane1.setViewportView(lstFuncionarios);
 
         jPanel1.add(jScrollPane1);
@@ -153,7 +157,7 @@ public class DatosFuncionarios extends javax.swing.JFrame implements Observer{
             JOptionPane.showMessageDialog(this,"El nombre no puede contener números ni caracteres especiales.", "Eror de formato",0);
         }
         
-         if(datosValidos){
+        if(datosValidos){
             for (int i=0; i<celular.length() && datosValidos;i++){
                 if (!Character.isDigit(celular.charAt(i))){
                     datosValidos=false;
@@ -185,12 +189,17 @@ public class DatosFuncionarios extends javax.swing.JFrame implements Observer{
             if(seleccionado == null){
                 if(this.modelo.NombreYaExisteEnSistema(nombre)){
                     JOptionPane.showMessageDialog(this,"Ya existe un usuario en el sistema registrado con el mismo nombre");
-                }else{
+                }
+                else if((this.modelo.nroFuncionarioYaExiste(nro))){
+                    JOptionPane.showMessageDialog(this,"Número de funcionario ya existe en el sistema");
+                }
+                
+                else{
                     Funcionario nuevo = new Funcionario (nombre, celular, nro, anio);
                     this.modelo.agregarFuncionario(nuevo);
                     JOptionPane.showMessageDialog(this,"Funcionario registrado con éxito", "Registro exitoso", 1);
                     this.limpiarCampos();
-            }
+                }
             }else{
                 seleccionado.setNombre(nombre);
                 seleccionado.setCelular(celular);
@@ -198,6 +207,8 @@ public class DatosFuncionarios extends javax.swing.JFrame implements Observer{
                 seleccionado.setAnioIngreso(anio);
 
                 //this.modelo.agregarFuncionario(null);
+                ArchivoLog.registrar("Funcionario actualizado: " + nombre);
+                this.modelo.actualizarCambios();
                 JOptionPane.showMessageDialog(this, "Funcionario modificado con éxito.");
                 this.limpiarCampos();
                 lstFuncionarios.clearSelection();
@@ -206,21 +217,6 @@ public class DatosFuncionarios extends javax.swing.JFrame implements Observer{
         
     }//GEN-LAST:event_BtnAgregarFuncionarioActionPerformed
 
-    private void lstFuncionariosValueChanged(javax.swing.event.ListSelectionEvent evt){
-        if(!evt.getValueIsAdjusting()){
-            Funcionario seleccionado = (Funcionario) lstFuncionarios.getSelectedValue();
-            if (seleccionado != null){
-                txtNombreF.setText(seleccionado.getNombre());
-                txtCelularF.setText(seleccionado.getCelular());
-                txtNumeroF.setText(String.valueOf(seleccionado.getNroFuncionario()));
-                txtAnioIngresoF.setText(String.valueOf(seleccionado.getAnioIngreso()));
-                
-                //txtNumeroF.setEditable(false); La letra no especifica q no se pueda modificar el nro Funcionario
-                BtnAgregarFuncionario.setText("Modificar");
-            }
-        }
-    }
-    
     private void limpiarCampos(){
         txtNombreF.setText("");
         txtCelularF.setText("");
@@ -238,6 +234,22 @@ public class DatosFuncionarios extends javax.swing.JFrame implements Observer{
     private void lstFuncionariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstFuncionariosMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_lstFuncionariosMouseClicked
+
+    private void lstFuncionariosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstFuncionariosValueChanged
+        // TODO add your handling code here:
+        if(!evt.getValueIsAdjusting()){
+            Funcionario seleccionado = (Funcionario) lstFuncionarios.getSelectedValue();
+            if (seleccionado != null){
+                txtNombreF.setText(seleccionado.getNombre());
+                txtCelularF.setText(seleccionado.getCelular());
+                txtNumeroF.setText(String.valueOf(seleccionado.getNroFuncionario()));
+                txtAnioIngresoF.setText(String.valueOf(seleccionado.getAnioIngreso()));
+                
+                //txtNumeroF.setEditable(false);
+                BtnAgregarFuncionario.setText("Modificar");
+            }
+        }
+    }//GEN-LAST:event_lstFuncionariosValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAgregarFuncionario;

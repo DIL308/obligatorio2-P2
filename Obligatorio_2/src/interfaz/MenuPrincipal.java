@@ -24,6 +24,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         javax.swing.JDialog.setDefaultLookAndFeelDecorated(false);
         
         initComponents();
+        this.setLocationRelativeTo(null);
     }
     
     @SuppressWarnings("unchecked")

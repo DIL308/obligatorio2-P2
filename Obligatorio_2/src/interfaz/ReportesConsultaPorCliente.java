@@ -31,7 +31,7 @@ public class ReportesConsultaPorCliente extends javax.swing.JFrame implements Ob
     }
     private void cargarLista(){
         lstClientes.removeListSelectionListener(this::lstClientesValueChanged);
-        lstClientes.setListData(this.modelo.getClientesOrdenados().toArray());
+        lstClientes.setListData(this.modelo.getClientes().toArray());
         lstClientes.addListSelectionListener(this::lstClientesValueChanged);
     }
     @Override
@@ -80,6 +80,7 @@ public class ReportesConsultaPorCliente extends javax.swing.JFrame implements Ob
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Consulta por Cliente");
         getContentPane().setLayout(null);
 
         jScrollPane1.setViewportView(lstClientes);
@@ -94,21 +95,21 @@ public class ReportesConsultaPorCliente extends javax.swing.JFrame implements Ob
 
         lblPendientes.setText("Pendientes: 0");
         getContentPane().add(lblPendientes);
-        lblPendientes.setBounds(180, 60, 90, 17);
+        lblPendientes.setBounds(180, 60, 90, 16);
 
         lblEnviados.setText("Enviados:  0");
         getContentPane().add(lblEnviados);
-        lblEnviados.setBounds(180, 100, 100, 17);
+        lblEnviados.setBounds(180, 100, 100, 16);
 
         lblRecibidos.setText("Recibidos:   0");
         getContentPane().add(lblRecibidos);
-        lblRecibidos.setBounds(180, 140, 120, 17);
+        lblRecibidos.setBounds(180, 140, 120, 16);
 
-        jButton1.setText("Salir");
+        jButton1.setText("Cancelar");
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jButton1.addActionListener(this::jButton1ActionPerformed);
         getContentPane().add(jButton1);
-        jButton1.setBounds(290, 260, 78, 23);
+        jButton1.setBounds(220, 230, 90, 27);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

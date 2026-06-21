@@ -1,5 +1,6 @@
 
 package interfaz;
+import dominio.ArchivoLog;
 import dominio.Cliente;
 import dominio.Sistema;
 import java.util.Observer;
@@ -16,7 +17,7 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DatosClientes.class.getName());
     
 
-    private Sistema modelo; //Esto va a ir en todas las ventanas
+    private Sistema modelo;
     /**
      * Creates new form IngresoClientes
      */
@@ -24,17 +25,15 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
         this.modelo = modelo;
         this.modelo.addObserver(this);
         initComponents();
-        lstClientes.addListSelectionListener(this::lstClientesValueChanged);
         objetoAPantalla();
+        this.setLocationRelativeTo(null);
     }
     
     private void objetoAPantalla(){
-        lstClientes.removeListSelectionListener(this::lstClientesValueChanged);
-        lstClientes.setListData(this.modelo.getClientesOrdenados().toArray());
-        lstClientes.addListSelectionListener(this::lstClientesValueChanged);
+        lstClientes.setListData(this.modelo.getClientes().toArray());
     }
     
-      @Override 
+    @Override 
     public void update(Observable o, Object arg){
         objetoAPantalla();
     }
@@ -80,28 +79,28 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
 
         lblNombre.setText("Nombre:");
         jPanel2.add(lblNombre);
-        lblNombre.setBounds(30, 90, 70, 17);
+        lblNombre.setBounds(30, 90, 70, 16);
         jPanel2.add(txtNombre);
-        txtNombre.setBounds(90, 90, 270, 23);
+        txtNombre.setBounds(90, 90, 270, 26);
 
         lblCelular.setText("Celular:");
         jPanel2.add(lblCelular);
-        lblCelular.setBounds(40, 150, 60, 17);
+        lblCelular.setBounds(40, 150, 60, 16);
 
         lblEmail.setText("Email:");
         jPanel2.add(lblEmail);
-        lblEmail.setBounds(50, 210, 37, 17);
+        lblEmail.setBounds(50, 210, 37, 16);
 
         txtCelular.addActionListener(this::txtCelularActionPerformed);
         jPanel2.add(txtCelular);
-        txtCelular.setBounds(90, 150, 270, 23);
+        txtCelular.setBounds(90, 150, 270, 26);
         jPanel2.add(txtEmail);
-        txtEmail.setBounds(90, 210, 270, 23);
+        txtEmail.setBounds(90, 210, 270, 26);
 
         bnbSalir.setText("Salir");
         bnbSalir.addActionListener(this::bnbSalirActionPerformed);
         jPanel2.add(bnbSalir);
-        bnbSalir.setBounds(290, 290, 72, 23);
+        bnbSalir.setBounds(290, 290, 76, 27);
         jPanel2.add(txtMensaje);
         txtMensaje.setBounds(60, 260, 270, 16);
 
@@ -125,6 +124,12 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
         jPanel1.add(btnSalir);
         btnSalir.setBounds(460, 300, 120, 30);
 
+        lstClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstClientesMouseClicked(evt);
+            }
+        });
+        lstClientes.addListSelectionListener(this::lstClientesValueChanged);
         jScrollPane1.setViewportView(lstClientes);
 
         jPanel1.add(jScrollPane1);
@@ -132,25 +137,25 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
 
         txtNombre1.addActionListener(this::txtNombre1ActionPerformed);
         jPanel1.add(txtNombre1);
-        txtNombre1.setBounds(100, 50, 200, 23);
+        txtNombre1.setBounds(100, 50, 200, 26);
         jPanel1.add(txtCelular1);
-        txtCelular1.setBounds(100, 90, 200, 23);
+        txtCelular1.setBounds(100, 90, 200, 26);
 
         txtEmail1.addActionListener(this::txtEmail1ActionPerformed);
         jPanel1.add(txtEmail1);
-        txtEmail1.setBounds(100, 130, 200, 23);
+        txtEmail1.setBounds(100, 130, 200, 26);
 
         lblNombre1.setText("Nombre");
         jPanel1.add(lblNombre1);
-        lblNombre1.setBounds(30, 50, 60, 17);
+        lblNombre1.setBounds(30, 50, 60, 16);
 
         lblCelular1.setText("Celular");
         jPanel1.add(lblCelular1);
-        lblCelular1.setBounds(30, 90, 60, 17);
+        lblCelular1.setBounds(30, 90, 60, 16);
 
         lblEmail1.setText("E-mail");
         jPanel1.add(lblEmail1);
-        lblEmail1.setBounds(30, 130, 50, 17);
+        lblEmail1.setBounds(30, 130, 50, 16);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -204,6 +209,18 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
         if(datosValidos && !email.contains("@")){
             datosValidos = false;
             JOptionPane.showMessageDialog(this,"El email no es válido.(debe contener '@')", "Erorr de formato",0);
+        }else{
+            int cantidadArrobas = 0;
+            for (int i = 0; i < email.length(); i++) {
+                if (email.charAt(i) == '@') {
+                    cantidadArrobas++;
+                }
+            }
+            
+            if(cantidadArrobas > 1){
+                datosValidos = false;
+                JOptionPane.showMessageDialog(this,"El email no puede contener 2 '@'", "Erorr de formato",0);
+            }
         }
         
         Cliente seleccionado = (Cliente) lstClientes.getSelectedValue();
@@ -215,7 +232,6 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
                 }else{
                     Cliente nuevo = new Cliente (nombre,celular,email);
                     this.modelo.agregarCliente(nuevo);
-                    this.modelo.serializar();
                     JOptionPane.showMessageDialog(this,"Cliente agregado correctamente");
                     limpiarCampos();
                 }
@@ -226,12 +242,14 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
                     seleccionado.setNombre(nombre);
                     seleccionado.setCelular(celular);
                     seleccionado.setEmail(email); 
+                    
+                    ArchivoLog.registrar("Cliente actualizado: " + nombre);
+                    this.modelo.actualizarCambios();
                 
-                this.modelo.serializar();
-                this.objetoAPantalla();
+                    this.objetoAPantalla();
                 
-                JOptionPane.showMessageDialog(this,"Cliente modificado con éxito");
-                limpiarCampos();
+                    JOptionPane.showMessageDialog(this,"Cliente modificado con éxito");
+                    limpiarCampos();
                 }
   
             }
@@ -262,34 +280,55 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
     private void txtNombre1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombre1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombre1ActionPerformed
- private void lstClientesValueChanged(javax.swing.event.ListSelectionEvent evt) {
-    // Evitamos que el evento se dispare doble al hacer clic
-    if (!evt.getValueIsAdjusting()) {
+
+    private void lstClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstClientesMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lstClientesMouseClicked
+
+    private void lstClientesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstClientesValueChanged
+        // TODO add your handling code here:
         Cliente seleccionado = (Cliente) lstClientes.getSelectedValue();
-        if (seleccionado != null) {
-            // Cargamos los datos del objeto en los casilleros de texto
-            txtNombre1.setText(seleccionado.getNombre());
-            txtCelular1.setText(seleccionado.getCelular());
-            txtEmail1.setText(seleccionado.getEmail());
-            
-            btnAgregarCliente.setText("Guardar Cambios");
-        }
-        else{
-            btnAgregarCliente.setText("Agregar");
+            if (seleccionado != null) {
+                // Cargamos los datos del objeto en los casilleros de texto
+                txtNombre1.setText(seleccionado.getNombre());
+                txtCelular1.setText(seleccionado.getCelular());
+                txtEmail1.setText(seleccionado.getEmail());
+
+                btnAgregarCliente.setText("Modificar");
+            }
+            else{
+                btnAgregarCliente.setText("Agregar");
+            }
+    }//GEN-LAST:event_lstClientesValueChanged
+    
+    private void lstClientesValueChangedBORRAR(javax.swing.event.ListSelectionEvent evt) {
+        // Evitamos que el evento se dispare doble al hacer clic
+        if (!evt.getValueIsAdjusting()) {
+            Cliente seleccionado = (Cliente) lstClientes.getSelectedValue();
+            if (seleccionado != null) {
+                // Cargamos los datos del objeto en los casilleros de texto
+                txtNombre1.setText(seleccionado.getNombre());
+                txtCelular1.setText(seleccionado.getCelular());
+                txtEmail1.setText(seleccionado.getEmail());
+
+                btnAgregarCliente.setText("Modificar");
+            }
+            else{
+                btnAgregarCliente.setText("Agregar");
+            }
         }
     }
+    
+    private void limpiarCampos(){
+        lstClientes.clearSelection();
+        txtNombre1.setText("");
+        txtCelular1.setText("");
+        txtEmail1.setText("");
+
+        btnAgregarCliente.setText("Agregar");
+        txtNombre1.requestFocus();
 
     }
- private void limpiarCampos(){
-     lstClientes.clearSelection();
-     txtNombre1.setText("");
-     txtCelular1.setText("");
-     txtEmail1.setText("");
-     
-     btnAgregarCliente.setText("Agregar Cliente");
-     txtNombre1.requestFocus();
-     
- }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bnbSalir;

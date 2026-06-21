@@ -39,7 +39,8 @@ public class Paquete implements Serializable{
     
     @Override
     public String toString(){
-        return id + " " + destinatario + " " + estado + " " + departamentoEnvio + " " + precio;
+        return id + " " + this.getDepartamentoEnvio() + " " + this.getEstado();
+        //return id + " " + destinatario + " " + estado + " " + departamentoEnvio + " " + precio;
     }
         
    
