@@ -237,7 +237,7 @@ public class DatosClientes extends javax.swing.JFrame implements Observer {
                 }
             } else{
                 if(!seleccionado.getNombre().equalsIgnoreCase(nombre) && this.modelo.NombreYaExisteEnSistema(nombre)){
-                  JOptionPane.showMessageDialog(this,"El nuevo nombre ya pertenece a otro cliente","Error",0);
+                  JOptionPane.showMessageDialog(this,"El nuevo nombre ya pertenece a otro usuario","Error",0);
                 }else{
                     seleccionado.setNombre(nombre);
                     seleccionado.setCelular(celular);

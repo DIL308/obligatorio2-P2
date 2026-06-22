@@ -65,7 +65,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/portada.png"))); // NOI18N
         jLabel1.setText("jLabel1");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(0, -20, 810, 390);
+        jLabel1.setBounds(0, -20, 510, 380);
 
         MenuDatos.setText("Datos");
 
@@ -133,7 +133,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
         );
 
         setBounds(0, 0, 512, 390);
@@ -170,10 +170,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         pe.setVisible(true);
     }//GEN-LAST:event_MenuPaqueteEnvioActionPerformed
 
-    private void MenuSalirSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuSalirSistemaActionPerformed
-        this.guardarCambiosYSalir();
-    }//GEN-LAST:event_MenuSalirSistemaActionPerformed
-
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
     ReportesConsultaPorCliente ventana = new ReportesConsultaPorCliente(this.modelo);
     ventana.setVisible(true);
@@ -194,9 +190,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
     ventanaLog.setVisible(true);
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
+    private void MenuSalirSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuSalirSistemaActionPerformed
+
+        this.guardarCambiosYSalir();
+
+    }//GEN-LAST:event_MenuSalirSistemaActionPerformed
+
     private void guardarCambiosYSalir(){
         modelo.serializar();
-        this.dispose();
+        System.exit(0);
+
     }
    
 

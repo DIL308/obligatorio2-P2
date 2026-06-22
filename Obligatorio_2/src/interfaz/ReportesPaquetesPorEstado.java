@@ -28,7 +28,7 @@ public class ReportesPaquetesPorEstado extends javax.swing.JFrame implements Obs
             //configurarMapaUruguay();
         }
         
-        this.setSize (800,850);
+       // this.setSize (800,850);
         this.setPreferredSize(new java.awt.Dimension(800,850));
         this.setLocationRelativeTo(null);
         
@@ -110,23 +110,102 @@ public class ReportesPaquetesPorEstado extends javax.swing.JFrame implements Obs
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jPopupMenu2 = new javax.swing.JPopupMenu();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblReporte = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         panelMapa = new javax.swing.JPanel();
         lblSur = new javax.swing.JLabel();
         lblNorte = new javax.swing.JLabel();
-        lblOeste = new javax.swing.JLabel();
         lblEste = new javax.swing.JLabel();
+        lblOeste = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         btnSalir = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblReporte = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Paquetes por Estado");
         getContentPane().setLayout(null);
 
         jPanel1.setLayout(null);
+
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        jLabel1.setText("Paquetes por Estado");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(240, 20, 179, 23);
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(170, 0, 480, 50);
+
+        panelMapa.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblSur.setBackground(new java.awt.Color(255, 255, 0));
+        lblSur.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
+        lblSur.setText("Sur");
+        lblSur.setOpaque(true);
+        lblSur.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblSurMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblSurMouseExited(evt);
+            }
+        });
+        panelMapa.add(lblSur, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 470, -1, -1));
+
+        lblNorte.setBackground(new java.awt.Color(255, 255, 0));
+        lblNorte.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
+        lblNorte.setText("Norte");
+        lblNorte.setOpaque(true);
+        lblNorte.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblNorteMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblNorteMouseExited(evt);
+            }
+        });
+        panelMapa.add(lblNorte, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, 100, 50));
+
+        lblEste.setBackground(new java.awt.Color(255, 255, 0));
+        lblEste.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
+        lblEste.setText("Este");
+        lblEste.setOpaque(true);
+        lblEste.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblEsteMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblEsteMouseExited(evt);
+            }
+        });
+        panelMapa.add(lblEste, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 320, 80, 40));
+
+        lblOeste.setBackground(new java.awt.Color(255, 255, 0));
+        lblOeste.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
+        lblOeste.setText("Oeste");
+        lblOeste.setOpaque(true);
+        lblOeste.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblOesteMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblOesteMouseExited(evt);
+            }
+        });
+        panelMapa.add(lblOeste, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 350, -1, -1));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/atl_ruteroUY_nuevoG.jpg"))); // NOI18N
+        panelMapa.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, -1, 480));
+
+        getContentPane().add(panelMapa);
+        panelMapa.setBounds(-60, -20, 550, 530);
+        getContentPane().add(jSeparator1);
+        jSeparator1.setBounds(610, 450, 0, 3);
+
+        btnSalir.setText("Cancelar");
+        btnSalir.addActionListener(this::btnSalirActionPerformed);
+        getContentPane().add(btnSalir);
+        btnSalir.setBounds(790, 480, 100, 30);
 
         tblReporte.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -169,93 +248,10 @@ public class ReportesPaquetesPorEstado extends javax.swing.JFrame implements Obs
             tblReporte.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(80, 60, 456, 168);
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(490, 60, 420, 170);
 
-        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        jLabel1.setText("Paquetes por Estado");
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(220, 20, 181, 24);
-
-        getContentPane().add(jPanel1);
-        jPanel1.setBounds(60, 0, 650, 230);
-
-        panelMapa.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lblSur.setBackground(new java.awt.Color(255, 255, 0));
-        lblSur.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
-        lblSur.setForeground(new java.awt.Color(0, 0, 0));
-        lblSur.setText("Sur");
-        lblSur.setOpaque(true);
-        lblSur.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblSurMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblSurMouseExited(evt);
-            }
-        });
-        panelMapa.add(lblSur, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 410, -1, -1));
-
-        lblNorte.setBackground(new java.awt.Color(255, 255, 0));
-        lblNorte.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
-        lblNorte.setForeground(new java.awt.Color(0, 0, 0));
-        lblNorte.setText("Norte");
-        lblNorte.setOpaque(true);
-        lblNorte.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblNorteMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblNorteMouseExited(evt);
-            }
-        });
-        panelMapa.add(lblNorte, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, 100, 50));
-
-        lblOeste.setBackground(new java.awt.Color(255, 255, 0));
-        lblOeste.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
-        lblOeste.setForeground(new java.awt.Color(0, 0, 0));
-        lblOeste.setText("Oeste");
-        lblOeste.setOpaque(true);
-        lblOeste.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblOesteMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblOesteMouseExited(evt);
-            }
-        });
-        panelMapa.add(lblOeste, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 320, -1, -1));
-
-        lblEste.setBackground(new java.awt.Color(255, 255, 0));
-        lblEste.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
-        lblEste.setForeground(new java.awt.Color(0, 0, 0));
-        lblEste.setText("Este");
-        lblEste.setOpaque(true);
-        lblEste.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblEsteMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblEsteMouseExited(evt);
-            }
-        });
-        panelMapa.add(lblEste, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 270, 80, 40));
-
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/atl_ruteroUY_nuevoG.jpg"))); // NOI18N
-        panelMapa.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 400, 480));
-
-        getContentPane().add(panelMapa);
-        panelMapa.setBounds(0, 220, 550, 530);
-        getContentPane().add(jSeparator1);
-        jSeparator1.setBounds(610, 450, 0, 3);
-
-        btnSalir.setText("Salir");
-        btnSalir.addActionListener(this::btnSalirActionPerformed);
-        getContentPane().add(btnSalir);
-        btnSalir.setBounds(560, 690, 100, 30);
-
-        pack();
+        setBounds(0, 0, 934, 571);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed

@@ -56,62 +56,39 @@ public class ReportesLogDeTransacciones extends javax.swing.JFrame implements Ob
         setTitle("Log de Transacciones");
         getContentPane().setLayout(null);
 
+        jPanel1.setLayout(null);
+
         txtLogs.setEditable(false);
         txtLogs.setColumns(20);
         txtLogs.setRows(5);
         jScrollPane1.setViewportView(txtLogs);
 
+        jPanel1.add(jScrollPane1);
+        jScrollPane1.setBounds(36, 47, 339, 169);
+
         jLabel2.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel2.setText("Log de Transacciones");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(98, 12, 190, 23);
 
         btnBorrarTodo.setText("Borrar todo");
         btnBorrarTodo.addActionListener(this::btnBorrarTodoActionPerformed);
+        jPanel1.add(btnBorrarTodo);
+        btnBorrarTodo.setBounds(189, 255, 95, 23);
 
         btnCerrar.setText("Cerrar");
         btnCerrar.addActionListener(this::btnCerrarActionPerformed);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(98, 98, 98)
-                .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(36, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnBorrarTodo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCerrar)
-                        .addGap(32, 32, 32))))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBorrarTodo)
-                    .addComponent(btnCerrar))
-                .addGap(22, 22, 22))
-        );
+        jPanel1.add(btnCerrar);
+        btnCerrar.setBounds(296, 255, 72, 23);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 400, 300);
+        jPanel1.setBounds(0, 0, 390, 290);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBorrarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarTodoActionPerformed
-        int seleccion = JOptionPane.showConfirmDialog(this,"¿Estâ seguro que desea eliminar el historial de transacciones?\nEsta acción no se puede deshacer y se borraran los datos guardados","Confirmar",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+        int seleccion = JOptionPane.showConfirmDialog(this,"¿Está seguro que desea eliminar el historial de transacciones?\nEsta acción no se puede deshacer y se borraran los datos guardados","Confirmar",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
         
         if (seleccion == JOptionPane.YES_OPTION){
             ArchivoLog.borrarContenido();

@@ -26,7 +26,7 @@ public class ReportesConsultaPorCliente extends javax.swing.JFrame implements Ob
         lstClientes.addListSelectionListener(this::lstClientesValueChanged);
         cargarLista();
         
-        this.setSize(400,500);
+        //this.setSize(400,500);
         this.setLocationRelativeTo(null);
     }
     private void cargarLista(){
@@ -89,29 +89,29 @@ public class ReportesConsultaPorCliente extends javax.swing.JFrame implements Ob
         jScrollPane1.setBounds(20, 50, 140, 130);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        jLabel1.setText("Seleccione un cliente");
+        jLabel1.setText("Consulte paquetes de un cliente");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(90, 20, 210, 17);
+        jLabel1.setBounds(40, 20, 310, 20);
 
         lblPendientes.setText("Pendientes: 0");
         getContentPane().add(lblPendientes);
-        lblPendientes.setBounds(180, 60, 90, 16);
+        lblPendientes.setBounds(180, 60, 90, 17);
 
         lblEnviados.setText("Enviados:  0");
         getContentPane().add(lblEnviados);
-        lblEnviados.setBounds(180, 100, 100, 16);
+        lblEnviados.setBounds(180, 100, 100, 17);
 
         lblRecibidos.setText("Recibidos:   0");
         getContentPane().add(lblRecibidos);
-        lblRecibidos.setBounds(180, 140, 120, 16);
+        lblRecibidos.setBounds(180, 140, 120, 17);
 
         jButton1.setText("Cancelar");
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jButton1.addActionListener(this::jButton1ActionPerformed);
         getContentPane().add(jButton1);
-        jButton1.setBounds(220, 230, 90, 27);
+        jButton1.setBounds(240, 220, 90, 23);
 
-        pack();
+        setBounds(0, 0, 361, 288);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
