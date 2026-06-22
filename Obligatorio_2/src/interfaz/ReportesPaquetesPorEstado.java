@@ -379,7 +379,7 @@ public class ReportesPaquetesPorEstado extends javax.swing.JFrame implements Obs
     }//GEN-LAST:event_lblEsteMouseExited
 
     private void lblOesteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOesteMouseExited
-        lblEste.setBackground(java.awt.Color.YELLOW);        // TODO add your handling code here:
+        lblOeste.setBackground(java.awt.Color.YELLOW);        // TODO add your handling code here:
     }//GEN-LAST:event_lblOesteMouseExited
 
     private void lblNorteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNorteMouseExited

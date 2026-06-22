@@ -86,15 +86,15 @@ public class DatosTarifas extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
         jLabel2.setText("Tarifas por zona");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(190, 40, 186, 32);
+        jLabel2.setBounds(190, 40, 340, 30);
 
         txtModTarifa.addActionListener(this::txtModTarifaActionPerformed);
         jPanel1.add(txtModTarifa);
-        txtModTarifa.setBounds(122, 429, 88, 26);
+        txtModTarifa.setBounds(122, 429, 88, 23);
 
         jLabel7.setText("%");
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(210, 430, 10, 16);
+        jLabel7.setBounds(210, 430, 13, 17);
 
         rbtnAumentar.setText("Aumentar");
         rbtnAumentar.addActionListener(this::rbtnAumentarActionPerformed);
@@ -109,12 +109,12 @@ public class DatosTarifas extends javax.swing.JFrame {
         btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(this::btnActualizarActionPerformed);
         jPanel1.add(btnActualizar);
-        btnActualizar.setBounds(290, 470, 100, 27);
+        btnActualizar.setBounds(290, 470, 100, 23);
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
         jPanel1.add(btnCancelar);
-        btnCancelar.setBounds(405, 472, 110, 27);
+        btnCancelar.setBounds(405, 472, 110, 23);
 
         tblMain.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

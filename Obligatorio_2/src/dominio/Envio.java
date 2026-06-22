@@ -57,14 +57,6 @@ public class Envio implements Comparable<Envio>, Serializable{
         return this.paquetes.size();
     }
     
-    public int montoTotal(){
-        return 0;
-    }
-    
-    public double pesoTotal(){
-        return 0.0;
-    }
-    
     public ArrayList<Paquete> getPaquetes() {
         return this.paquetes;
     }

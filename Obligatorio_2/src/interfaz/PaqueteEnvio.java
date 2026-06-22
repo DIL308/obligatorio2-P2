@@ -138,24 +138,24 @@ public class PaqueteEnvio extends javax.swing.JFrame implements Observer {
 
         lblFuncionario.setText("Funcionario:");
         panel.add(lblFuncionario);
-        lblFuncionario.setBounds(30, 80, 80, 16);
+        lblFuncionario.setBounds(30, 80, 80, 17);
 
         lblFecha.setText("Fecha (dd/mm/yyyy):");
         panel.add(lblFecha);
-        lblFecha.setBounds(390, 90, 130, 16);
+        lblFecha.setBounds(390, 90, 310, 17);
 
         txtFecha.addActionListener(this::txtFechaActionPerformed);
         panel.add(txtFecha);
-        txtFecha.setBounds(520, 90, 150, 26);
+        txtFecha.setBounds(520, 90, 150, 23);
 
         lblZona.setText("Zona:");
         panel.add(lblZona);
-        lblZona.setBounds(390, 140, 70, 16);
+        lblZona.setBounds(390, 140, 70, 17);
 
         cmbZona.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NORTE", "SUR", "ESTE", "OESTE" }));
         cmbZona.addActionListener(this::cmbZonaActionPerformed);
         panel.add(cmbZona);
-        cmbZona.setBounds(460, 140, 210, 26);
+        cmbZona.setBounds(460, 140, 210, 23);
 
         btnCargarPendientes.setText("Cargar pendientes");
         btnCargarPendientes.addActionListener(this::btnCargarPendientesActionPerformed);
@@ -197,38 +197,38 @@ public class PaqueteEnvio extends javax.swing.JFrame implements Observer {
         btnAgregar.setText("Agregar →");
         btnAgregar.addActionListener(this::btnAgregarActionPerformed);
         panel.add(btnAgregar);
-        btnAgregar.setBounds(320, 310, 110, 27);
+        btnAgregar.setBounds(320, 310, 110, 23);
 
         btnQuitar.setText("← Quitar");
         btnQuitar.addActionListener(this::btnQuitarActionPerformed);
         panel.add(btnQuitar);
-        btnQuitar.setBounds(320, 360, 110, 27);
+        btnQuitar.setBounds(320, 360, 110, 23);
 
         lblCantPaquetes.setText("Paquetes en Envío:");
         panel.add(lblCantPaquetes);
-        lblCantPaquetes.setBounds(440, 460, 280, 16);
+        lblCantPaquetes.setBounds(440, 460, 280, 17);
 
         lblPesoKgs.setText("Peso total (Kgs):");
         panel.add(lblPesoKgs);
-        lblPesoKgs.setBounds(440, 480, 280, 16);
+        lblPesoKgs.setBounds(440, 480, 280, 17);
 
         lblPesoGrs.setText("Peso total (Grs): ");
         panel.add(lblPesoGrs);
-        lblPesoGrs.setBounds(440, 500, 280, 16);
+        lblPesoGrs.setBounds(440, 500, 280, 17);
 
         lblMonto.setText("Monto Total:  ");
         panel.add(lblMonto);
-        lblMonto.setBounds(440, 520, 280, 16);
+        lblMonto.setBounds(440, 520, 280, 17);
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
         panel.add(btnCancelar);
-        btnCancelar.setBounds(610, 560, 100, 27);
+        btnCancelar.setBounds(610, 560, 100, 23);
 
         btnConfirmar.setText("Confirmar");
         btnConfirmar.addActionListener(this::btnConfirmarActionPerformed);
         panel.add(btnConfirmar);
-        btnConfirmar.setBounds(500, 560, 100, 27);
+        btnConfirmar.setBounds(500, 560, 100, 23);
 
         getContentPane().add(panel);
         panel.setBounds(0, 0, 790, 630);
